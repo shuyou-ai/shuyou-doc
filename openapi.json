@@ -1,0 +1,861 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ShuYou API",
+    "version": "1.0.0",
+    "description": "Interactive API reference for ShuYou-compatible OpenAI, Anthropic, Google Vertex AI, and management endpoints."
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API key"
+      }
+    },
+    "schemas": {
+      "FlexibleObject": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "ChatCompletionRequest": {
+        "type": "object",
+        "required": [
+          "model",
+          "messages"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "openai/gpt-5"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "example": "user"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "Hello from AGIPower"
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          },
+          "temperature": {
+            "type": "number",
+            "example": 0.7
+          },
+          "max_tokens": {
+            "type": "integer",
+            "example": 1024
+          }
+        },
+        "additionalProperties": true
+      },
+      "ResponsesRequest": {
+        "type": "object",
+        "required": [
+          "model",
+          "input"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "openai/gpt-5"
+          },
+          "input": {
+            "type": "string",
+            "example": "Write a short API test."
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "additionalProperties": true
+      },
+      "AnthropicMessagesRequest": {
+        "type": "object",
+        "required": [
+          "model",
+          "messages",
+          "max_tokens"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "example": "anthropic/claude-sonnet-4.6"
+          },
+          "max_tokens": {
+            "type": "integer",
+            "example": 1024
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "example": "user"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "Hello from AGIPower"
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "additionalProperties": true
+      },
+      "GenerateContentRequest": {
+        "type": "object",
+        "required": [
+          "contents"
+        ],
+        "properties": {
+          "contents": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "generationConfig": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "paths": {
+    "/v1/models": {
+      "get": {
+        "summary": "List Models",
+        "operationId": "listModels",
+        "tags": [
+          "Models"
+        ],
+        "responses": {
+          "200": {
+            "description": "Model list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/chat/completions": {
+      "post": {
+        "summary": "Create Chat Completion",
+        "operationId": "createChatCompletion",
+        "tags": [
+          "OpenAI Compatible API"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chat completion response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/responses": {
+      "post": {
+        "summary": "Create a Model Response",
+        "operationId": "createResponse",
+        "tags": [
+          "OpenAI Compatible API"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResponsesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response object or streaming event stream",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/files": {
+      "post": {
+        "summary": "Create a file",
+        "operationId": "createFile",
+        "tags": [
+          "Files API"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file",
+                  "purpose"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "purpose": {
+                    "type": "string",
+                    "example": "assistants"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created file",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List files",
+        "operationId": "listFiles",
+        "tags": [
+          "Files API"
+        ],
+        "responses": {
+          "200": {
+            "description": "File list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/files/{file_id}": {
+      "delete": {
+        "summary": "Delete file",
+        "operationId": "deleteFile",
+        "tags": [
+          "Files API"
+        ],
+        "parameters": [
+          {
+            "name": "file_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "file_abc123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted file",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/images/generations": {
+      "post": {
+        "summary": "Generate an image",
+        "operationId": "generateImage",
+        "tags": [
+          "Images API"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "model",
+                  "prompt"
+                ],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "example": "google/gemini-2.5-flash-image"
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "example": "A clean product shot of a futuristic API dashboard"
+                  },
+                  "size": {
+                    "type": "string",
+                    "example": "1024x1024"
+                  },
+                  "n": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                },
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Generated image response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openrouter/v1/chat/completions": {
+      "post": {
+        "summary": "Create Chat Completion",
+        "operationId": "createOpenRouterChatCompletion",
+        "tags": [
+          "OpenRouter Compatible API"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OpenRouter-compatible chat completion response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openrouter/v1/messages": {
+      "post": {
+        "summary": "Create a Message",
+        "operationId": "createOpenRouterMessage",
+        "tags": [
+          "OpenRouter Compatible API"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnthropicMessagesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OpenRouter-compatible message response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openrouter/v1/responses": {
+      "post": {
+        "summary": "Create a Response",
+        "operationId": "createOpenRouterResponse",
+        "tags": [
+          "OpenRouter Compatible API"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResponsesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OpenRouter-compatible response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/messages": {
+      "post": {
+        "summary": "Create a Message",
+        "operationId": "createAnthropicMessage",
+        "tags": [
+          "Anthropic Compatible API"
+        ],
+        "parameters": [
+          {
+            "name": "anthropic-version",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2023-06-01"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnthropicMessagesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Anthropic message response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/publishers/{provider}/models/{model}:generateContent": {
+      "post": {
+        "summary": "Generate Content",
+        "operationId": "generateContent",
+        "tags": [
+          "Google Vertex AI Compatible API"
+        ],
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "google"
+            }
+          },
+          {
+            "name": "model",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "gemini-2.0-flash"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateContentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Generated content response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/publishers/{provider}/models/{model}:streamGenerateContent": {
+      "post": {
+        "summary": "Stream Generate Content",
+        "operationId": "streamGenerateContent",
+        "tags": [
+          "Google Vertex AI Compatible API"
+        ],
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "google"
+            }
+          },
+          {
+            "name": "model",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "gemini-2.0-flash"
+            }
+          },
+          {
+            "name": "alt",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "sse"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateContentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Streaming generated content response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1beta/models": {
+      "get": {
+        "summary": "List Google Models",
+        "operationId": "listGoogleModels",
+        "tags": [
+          "Google Vertex AI Compatible API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Google model list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/predictions": {
+      "post": {
+        "summary": "Create a prediction",
+        "operationId": "createPrediction",
+        "tags": [
+          "Predictions API"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "model",
+                  "input"
+                ],
+                "properties": {
+                  "model": {
+                    "type": "string",
+                    "example": "replicate/black-forest-labs/flux-schnell"
+                  },
+                  "input": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                },
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created prediction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/predictions/{prediction_id}": {
+      "get": {
+        "summary": "Get a prediction",
+        "operationId": "getPrediction",
+        "tags": [
+          "Predictions API"
+        ],
+        "parameters": [
+          {
+            "name": "prediction_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "pred_abc123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Prediction detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/management/flow_rate": {
+      "get": {
+        "summary": "Get Flow Rate",
+        "operationId": "getFlowRate",
+        "tags": [
+          "Platform API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Current Flow exchange rate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/management/payg/balance": {
+      "get": {
+        "summary": "Get PAYG Balance",
+        "operationId": "getPaygBalance",
+        "tags": [
+          "Platform API"
+        ],
+        "responses": {
+          "200": {
+            "description": "PAYG balance response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/management/subscription/detail": {
+      "get": {
+        "summary": "Get Subscription Detail",
+        "operationId": "getSubscriptionDetail",
+        "tags": [
+          "Platform API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscription detail response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/management/generation": {
+      "get": {
+        "summary": "Get Generation",
+        "operationId": "getGeneration",
+        "tags": [
+          "Platform API"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "gen_01abc123def456"
+            },
+            "description": "Generation ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Generation detail response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

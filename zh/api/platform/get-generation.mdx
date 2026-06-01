@@ -1,0 +1,230 @@
+---
+pageClass: api-page
+title: 接口
+head:
+  - - meta
+    - name: description
+      content: Get generation
+  - - meta
+    - name: keywords
+      content: AGIPower, API, documentation, get, generation
+---
+
+# Get generation
+
+<Tip title="💡 错误排查">
+调用过程中遇到错误？请参阅 [API 错误码参考](/zh/guide/advanced/error-codes) 获取完整的错误类型说明与排查方案。
+</Tip>
+
+```
+GET https://api.agipower.ai/v1/management/generation?id=<generation_id>
+```
+
+<Warning title="⚠️ 旧版地址已废弃">
+旧版接口地址 `GET /v1/generation` 已废弃，请迁移至新版地址 `GET /v1/management/generation`。旧版地址将在后续版本中下线。
+</Warning>
+
+Get generation 接口用于查询生成信息，如用量和费用等。
+
+<Tip>
+本接口支持查询所有 API 协议的生成信息，包括 OpenAI Chat Completions、OpenAI Responses、Anthropic 和 Vertex AI 协议。
+</Tip>
+
+<Warning title="⚠️ 订阅制限制">
+本接口仅支持 **Pay As You Go（按量付费）** 的 API Key 查询计费信息。使用订阅制 API Key（以 `sk-ss-v1-` 开头）调用本接口将无法获取计费相关字段（如 `usage`、`ratingResponses` 等）。
+
+如需获取计费信息，请使用 Pay As You Go API Key。详见：
+- [Pay As You Go 使用指南](../../guide/pay-as-you-go.md)
+- [订阅制使用指南](../../guide/subscription.md)
+</Warning>
+
+## 计量与计费信息说明
+
+### 计量信息（Token Usage）
+
+**计量信息**（如 `nativeTokens` 字段中的 token 使用量）会按照不同通信协议原本的方式**随请求同步返回**：
+
+- **OpenAI Chat Completions 协议**：在响应的 `usage` 字段中返回
+- **OpenAI Responses 协议**：在响应的 `usage` 字段中返回
+- **Anthropic 协议**：在响应的 `usage` 字段中返回
+- **Vertex AI 协议**：在响应的 `usageMetadata` 字段中返回
+
+### 计费信息（Billing & Costs）
+
+**计费信息**（如 `usage`、`ratingResponses` 等费用相关字段）**暂不支持随请求同步返回**，需要在请求完成后 **3-5 分钟**通过本接口查询获取。
+
+<Info title="💡 功能升级中">
+我们正在完善升级计费架构，争取早日实现计费信息随请求同步返回，敬请期待！
+</Info>
+
+## Request params
+
+### Authorization Header **必选**
+
+**请求头参数：**
+
+```http
+Authorization: Bearer <AGIPower_API_KEY>
+```
+
+- **参数名**：`Authorization`
+- **格式**：`Bearer &lt;API_KEY&gt;`
+- **说明**：你的 AGIPower API Key
+  - **Pay As You Go API Key**：支持查询完整的计量和计费信息
+  - **订阅制 API Key**（以 `sk-ss-v1-` 开头）：仅支持查询计量信息，不支持计费信息
+
+<Tip title="💡 获取 API Key">
+- Pay As You Go API Key：登录 [AGIPower 控制台](https://agipower.ai/platform/pay-as-you-go) 创建
+- 订阅制 API Key：登录 [订阅管理页面](https://agipower.ai/platform/subscription) 创建
+</Tip>
+
+### generate_id `string` **必选**
+
+**查询参数：**
+
+AGIPower API 接口返回的 generation id，可以从以下接口获得：
+
+- [Create Chat Completion](../openai/create-chat-completion.md) - OpenAI Chat Completions 协议
+- [Create a Model Response](../openai/openai-responses.md) - OpenAI Responses 协议
+- [Create Messages](../anthropic/create-messages-new.md) - Anthropic 协议
+- [Generate Content](../vertexai/generate-content.md) - Vertex AI 协议
+
+## Returns
+
+### api `string`
+
+API 类型，根据调用的协议不同，取值如下：
+
+- `chat.completions` - OpenAI Chat Completions 协议
+- `responses` - OpenAI Responses 协议
+- `messages` - Anthropic 协议
+- `generateContent` - Vertex AI 协议
+
+### generationId `string`
+
+当前的 generation id。
+
+### model `string`
+
+模型 ID。
+
+### createAt `string`
+
+服务端收到推理调用请求的时间。
+
+### generationTime `integer`
+
+本次推理从首字到结束的持续时长，单位毫秒。
+
+### latency `integer`
+
+首字延时，单位毫秒。
+
+### nativeTokens `object`
+
+本次推理消耗的用量信息，包含以下字段：
+
+- `completion_tokens` `integer` - 完成部分消耗的 token 数
+- `prompt_tokens` `integer` - 提示部分消耗的 token 数
+- `total_tokens` `integer` - 总 token 数
+- `completion_tokens_details` `object` - 完成 token 的详细信息
+  - `reasoning_tokens` `integer` - 推理部分消耗的 token 数
+- `prompt_tokens_details` `object` - 提示 token 的详细信息
+  - `cached_tokens` `integer` - 缓存的 token 数
+
+### streamed `boolean`
+
+是否是流式响应。
+
+### finishReason `string`
+
+模型结束推理的原因。
+
+### usage `number`
+
+本次推理消耗的 credit。
+
+### ratingResponses `object`
+
+计费响应信息，包含以下字段：
+
+- `billAmount` `number` - 账单金额
+- `discountAmount` `number` - 折扣金额
+- `originAmount` `number` - 原始金额
+- `priceVersion` `string` - 价格版本
+- `ratingDetails` `array` - 计费详情数组，每项包含：
+  - `billAmount` `number` - 账单金额
+  - `discountAmount` `number` - 折扣金额
+  - `feeItemCode` `string` - 费用项目代码（如 `completion`, `prompt`）
+  - `originAmount` `number` - 原始金额
+  - `rate` `number` - 费率
+
+### requestRetryTimes `integer`
+
+请求重试次数。
+
+### finalRetry `boolean`
+
+是否为最终重试
+
+<Card title="GET /v1/management/generation">
+
+```cURL
+curl https://api.agipower.ai/v1/management/generation?id=<generation_id> \
+  -H "Authorization: Bearer $AGIPower_API_KEY"
+```
+
+</Card>
+
+<Card title="API Response">
+
+```json
+{
+  "api": "chat.completions",
+  "generationId": "gen_01abc123def456",
+  "model": "openai/gpt-4o",
+  "createAt": "2026-03-26T06:00:00.000Z",
+  "generationTime": 3200,
+  "latency": 500,
+  "nativeTokens": {
+    "completion_tokens": 128,
+    "prompt_tokens": 32,
+    "total_tokens": 160,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "streamed": true,
+  "finishReason": "stop",
+  "usage": 0.0052,
+  "ratingResponses": {
+    "billAmount": 0.0052,
+    "discountAmount": 0,
+    "originAmount": 0.0052,
+    "priceVersion": "v1",
+    "ratingDetails": [
+      {
+        "billAmount": 0.0016,
+        "discountAmount": 0,
+        "feeItemCode": "prompt",
+        "originAmount": 0.0016,
+        "rate": 0.00005
+      },
+      {
+        "billAmount": 0.0036,
+        "discountAmount": 0,
+        "feeItemCode": "completion",
+        "originAmount": 0.0036,
+        "rate": 0.00003
+      }
+    ]
+  },
+  "requestRetryTimes": 0,
+  "finalRetry": false
+}
+```
+
+</Card>

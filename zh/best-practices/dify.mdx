@@ -1,0 +1,80 @@
+---
+head:
+  - - meta
+    - name: description
+      content: Dify 接入指南
+  - - meta
+    - name: keywords
+      content: AGIPower, best practices, integration, dify, OpenAI, API
+---
+
+# Dify 接入指南
+
+Dify 是一款开源的大语言模型（LLM）应用开发平台。它融合了后端即服务（Backend as Service）和 LLMOps 的理念，使开发者可以快速搭建生产级的生成式 AI 应用。通过配置 AGIPower，可以使用更多模型选择，而不仅仅局限于 Dify 提供的基础模型。
+
+## 配置步骤
+
+### 1. 获取 AGIPower API Key
+
+前往 [AGIPower 控制台](https://agipower.ai/settings/keys) 中创建并获取您的 API Key。
+
+### 2. 打开 Dify 官网
+
+1. 打开 [Dify 官网](https://dify.ai)
+2. 点击 Get Started 按钮并登陆
+3. 点击右上角个人头像，选择 Settings -> Model Provider
+
+### 3. 配置 OpenAI-API-compatible 服务
+
+<Tip title="配置说明">
+只需要配置 OpenAI-API-compatible ，即可解锁 AGIPower 的所有模型。
+</Tip>
+
+在 Dify 的设置中：
+
+1. **选择 OpenAI-API-compatible**：搜索并选择 OpenAI-API-compatible
+
+&lt;div style="text-align: center;"&gt;
+  <img src="https://cdn.marmot-cloud.com/storage/agipower/2025/11/05/SLSYOoV/dify2.png" alt="" />
+&lt;/div&gt;
+
+2. **添加模型**：点击 Add Model，添加您想要的模型，并输入相关信息
+
+&lt;div style="text-align: center;"&gt;
+  <img src="https://cdn.marmot-cloud.com/storage/agipower/2025/11/05/QPFcKXA/dify1.png" alt="" />
+&lt;/div&gt;
+
+3. **新建 Chatbot**：新建 Chatbot，并在右上角模型列表选择您需要的模型即可
+&lt;div style="text-align: center;"&gt;
+  <img src="https://cdn.marmot-cloud.com/storage/agipower/2025/11/05/4N1gOdB/dify4.png" alt="" />
+&lt;/div&gt;
+
+#### 4. 支持的模型
+
+AGIPower 为 Dify 提供了丰富的模型选择，通过 [AGIPower 模型列表](https://agipower.ai/models) 查看所有可用模型
+
+## 故障排除
+
+### 常见问题解决
+
+#### API Key 错误
+**问题**：提示 API Key 无效或未授权
+
+**解决方案**：
+
+- 检查您输入的 AGIPower API Key 是否正确
+- 确认 API Key 是否已激活且有足够余额
+- 验证 API Key 格式是否以 `sk-` 开头
+
+
+## 联系我们
+
+如果您在使用过程中遇到任何问题，或有任何建议和反馈，欢迎通过以下方式联系我们：
+
+<Tip title="获取帮助">
+
+- **官方网站**：[https://agipower.ai](https://agipower.ai)
+- **技术支持邮箱**：[support@agipower.ai](mailto:support@agipower.ai)
+
+更多联系方式和详细信息，请访问我们的[联系我们页面](/zh/help/contact)。
+</Tip>
