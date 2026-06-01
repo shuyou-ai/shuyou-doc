@@ -5,15 +5,15 @@ head:
       content: Model Routing
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, model, routing, OpenAI, API
+      content: ShuYou, guide, tutorial, model, routing, OpenAI, API
 ---
 
 # Model Routing
 
-Model routing is an intelligent feature of AGIPower that helps you automatically select the most suitable model from a wide range of large language models. The system intelligently balances performance and cost based on the request content, task characteristics, and your preference settings.
+Model routing is an intelligent feature of ShuYou that helps you automatically select the most suitable model from a wide range of large language models. The system intelligently balances performance and cost based on the request content, task characteristics, and your preference settings.
 
 <Tip title="Intelligent model selection">
-No need to manually compare model performance and pricing—AGIPower automatically matches the most suitable model for each request, so you can focus on building your business logic.
+No need to manually compare model performance and pricing—ShuYou automatically matches the most suitable model for each request, so you can focus on building your business logic.
 </Tip>
 
 ## Why Model Routing
@@ -30,10 +30,10 @@ Model routing solves these problems with automated decisions, intelligently matc
 ## Model List
 
 <Tip title="Quick lookup">
-On the [Models page](https://agipower.ai/models) you can view all supported models and their basic information. Use the filters on the left, the search box at the top, and sorting options to quickly locate the model you need. Model cards also provide quick access to supported input/output modalities, input/output pricing, Context, Max Tokens, and other key details.
+On the [Models page](https://shuyou.ai/models) you can view all supported models and their basic information. Use the filters on the left, the search box at the top, and sorting options to quickly locate the model you need. Model cards also provide quick access to supported input/output modalities, input/output pricing, Context, Max Tokens, and other key details.
 </Tip>
 
-![Model List](https://cdn.marmot-cloud.com/storage/agipower/2025/10/21/b5FlrNU/model-list.png)
+![Model List](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/21/b5FlrNU/model-list.png)
 
 Click any model card to open its details page and view model-specific information across different providers, including performance comparisons, price comparisons, and parameter differences. For details, see the [Provider Routing documentation](/en/guide/advanced/provider-routing#如何查看供应商信息).
 
@@ -51,20 +51,20 @@ Click any model card to open its details page and view model-specific informatio
 
 ### Basic Usage
 
-Model routing is easy to use—simply set the `model` parameter to `agipower/auto` and specify the candidate model pool via `model_routing_config`. If you do not specify `model_routing_config.available_models`, the system will use the platform’s full [model pool](https://agipower.ai/models).
+Model routing is easy to use—simply set the `model` parameter to `ShuYou/auto` and specify the candidate model pool via `model_routing_config`. If you do not specify `model_routing_config.available_models`, the system will use the platform’s full [model pool](https://shuyou.ai/models).
 
 <Info title="How to get model slugs">
-Models on the AGIPower platform have unique slugs. You can get a model’s slug from the [Models list page](https://agipower.ai/models):
-![model-slug](https://cdn.marmot-cloud.com/storage/agipower/2025/10/21/AQG0SIr/model-slug.png)
-Or from the [model detail page for a specific model](https://agipower.ai/anthropic/claude-sonnet-4.5):
-![model-slug](https://cdn.marmot-cloud.com/storage/agipower/2025/10/21/dWYxJnq/model-slug-3.png)
+Models on the ShuYou platform have unique slugs. You can get a model’s slug from the [Models list page](https://shuyou.ai/models):
+![model-slug](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/21/AQG0SIr/model-slug.png)
+Or from the [model detail page for a specific model](https://shuyou.ai/anthropic/claude-sonnet-4.5):
+![model-slug](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/21/dWYxJnq/model-slug-3.png)
 </Info>
 
 
 
 ```json title="cURL Request"
 {
-  "model": "agipower/auto",
+  "model": "ShuYou/auto",
   "model_routing_config": {
     "available_models": [
       "anthropic/claude-4-sonnet", // Provide the model slug
@@ -86,12 +86,12 @@ Or from the [model detail page for a specific model](https://agipower.ai/anthrop
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your AGIPower_API_KEY>"  # [!code highlight]
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your ShuYou_API_KEY>"  # [!code highlight]
 )
 
 response = client.chat.completions.create(
-    model="agipower/auto",  # [!code highlight]
+    model="ShuYou/auto",  # [!code highlight]
     extra_body={  # [!code highlight]
         "model_routing_config": {  # [!code highlight]
             "available_models": [  # [!code highlight]
@@ -119,9 +119,9 @@ The `model` field in the response returns the model selected by intelligent rout
 
 ## How It Works
 
-### `agipower/auto` model
+### `ShuYou/auto` model
 
-`agipower/auto` is a special model identifier in AGIPower. When you specify this model, the system enables intelligent routing.
+`ShuYou/auto` is a special model identifier in ShuYou. When you specify this model, the system enables intelligent routing.
 
 Routing decision process:
 
@@ -267,7 +267,7 @@ A: The routing system considers multiple factors:
 
 ### Q: Can I view detailed routing decision logs?
 
-A: The response returns the actual model used (`response.model`). You can also view call logs in the [AGIPower user console](https://agipower.ai/settings/activity) to see the routing details for each request.
+A: The response returns the actual model used (`response.model`). You can also view call logs in the [ShuYou user console](https://shuyou.ai/settings/activity) to see the routing details for each request.
 
 ### Q: Can I use model routing and provider routing together?
 
@@ -276,10 +276,10 @@ A: Yes. Model routing chooses the most suitable model, while provider routing ch
 <Tip title="Contact Us">
 If you encounter any issues during use or have suggestions and feedback, please contact us via:
 
-- Official website: [https://agipower.ai](https://agipower.ai)
-- Technical support email: [support@agipower.ai](mailto:support@agipower.ai)
-- Business cooperation email: [support@agipower.ai](mailto:support@agipower.ai)
-- Twitter: [@AGIPowerAI](https://twitter.com/AGIPowerAI)
+- Official website: [https://shuyou.ai](https://shuyou.ai)
+- Technical support email: [support@shuyou.ai](mailto:support@shuyou.ai)
+- Business cooperation email: [support@shuyou.ai](mailto:support@shuyou.ai)
+- Twitter: [@ShuYouAI](https://twitter.com/ShuYouAI)
 - Discord community: [http://discord.gg/vHZZzj84Bm](http://discord.gg/vHZZzj84Bm)
 
 For more contact options and details, visit our [Contact Us page](/en/help/contact).

@@ -2,26 +2,26 @@
 head:
   - - meta
     - name: description
-      content: Manage AGIPower integrations with Claude Code / Codex / Gemini CLI / OpenCode via CC-Switch
+      content: Manage ShuYou integrations with Claude Code / Codex / Gemini CLI / OpenCode via CC-Switch
   - - meta
     - name: keywords
-      content: AGIPower, best practices, integration, CC-Switch, cc-switch, Claude Code, Codex, Gemini CLI, OpenCode, model switching, provider
+      content: ShuYou, best practices, integration, CC-Switch, cc-switch, Claude Code, Codex, Gemini CLI, OpenCode, model switching, provider
 ---
 
-# CC-Switch Guide for AGIPower
+# CC-Switch Guide for ShuYou
 
 [CC-Switch](https://github.com/farion1231/cc-switch) is an open-source, cross-platform desktop tool designed to centrally manage configuration for AI coding assistants. It supports managing provider settings for four major coding tools—Claude Code, Codex, Gemini CLI, and OpenCode—so you can switch API providers in one click through a visual interface, without manually editing environment variables or JSON files.
 
 <Info title="Compatibility Notes">
-CC-Switch can manage four coding tools: **Claude Code**, **Codex**, **Gemini CLI**, and **OpenCode**. By configuring AGIPower as a provider in CC-Switch, you can:
+CC-Switch can manage four coding tools: **Claude Code**, **Codex**, **Gemini CLI**, and **OpenCode**. By configuring ShuYou as a provider in CC-Switch, you can:
 
 - **Visual management**: No more manual edits to environment variables and config files—complete everything in a GUI
-- **One-click switching**: Switch instantly between AGIPower and other providers without restarting your terminal
-- **Unified configuration**: Configure AGIPower once and sync it to multiple coding tools
+- **One-click switching**: Switch instantly between ShuYou and other providers without restarting your terminal
+- **Unified configuration**: Configure ShuYou once and sync it to multiple coding tools
 - **Automatic failover**: Automatically switch to a backup provider if the primary provider is unavailable
 - **Request monitoring**: View request logs and usage statistics in real time
 
-CC-Switch supports both the Anthropic protocol and the OpenAI protocol, both of which integrate seamlessly with AGIPower.
+CC-Switch supports both the Anthropic protocol and the OpenAI protocol, both of which integrate seamlessly with ShuYou.
 </Info>
 
 ## Install CC-Switch
@@ -88,9 +88,9 @@ sudo dpkg -i cc-switch_*.deb
 CC-Switch also provides a Web UI version for servers without a GUI or for SSH remote environments. Download the Linux x64 tar.gz package from the Releases page, extract it, and run it. The default port is 17666.
 </Tip>
 
-## Get a AGIPower API Key
+## Get a ShuYou API Key
 
-Before configuring CC-Switch, you’ll need a AGIPower API Key. AGIPower offers two billing options—choose based on your use case:
+Before configuring CC-Switch, you’ll need a ShuYou API Key. ShuYou offers two billing options—choose based on your use case:
 
 
 
@@ -100,12 +100,12 @@ Before configuring CC-Switch, you’ll need a AGIPower API Key. AGIPower offers 
 ✅ API Key format: sk-ss-v1-xxx
 
 How to get it:
-1. Visit the subscription management page: https://agipower.ai/platform/subscription
+1. Visit the subscription management page: https://shuyou.ai/platform/subscription
 2. Choose a plan (Pro $20/month, Max $100/month, Ultra $200/month)
 3. After subscribing, create a subscription API key on the page
 
 For details, see: Subscription Plan Guide
-📚 https://agipower.ai/guide/subscription
+📚 https://shuyou.ai/guide/subscription
 ```
 
 ```text title="Pay-as-you-go API Key"
@@ -114,12 +114,12 @@ For details, see: Subscription Plan Guide
 ✅ API Key format: sk-xxx
 
 How to get it:
-1. Visit the pay-as-you-go page: https://agipower.ai/platform/pay-as-you-go
+1. Visit the pay-as-you-go page: https://shuyou.ai/platform/pay-as-you-go
 2. Top up your account (top-ups automatically include 20% bonus credits)
 3. Create an API key in the "Pay As You Go API Keys" section
 
 For details, see: Pay-as-you-go Guide
-📚 https://agipower.ai/guide/pay-as-you-go
+📚 https://shuyou.ai/guide/pay-as-you-go
 ```
 
 
@@ -132,11 +132,11 @@ For details, see: Pay-as-you-go Guide
 Subscription keys are not allowed for production use. Violations may result in account restrictions.
 </Warning>
 
-## Configure the AGIPower Provider
+## Configure the ShuYou Provider
 
 ### Step 1: Open Provider Management
 
-![cc-switch](https://cdn.marmot-cloud.com/storage/agipower/2026/02/09/uswXpro/20260209164412.jpg)
+![cc-switch](https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/09/uswXpro/20260209164412.jpg)
 
 After launching CC-Switch, select the coding tool you want to configure in the top navigation bar (e.g., **Claude Code**) to open the provider management page.
 
@@ -144,9 +144,9 @@ After launching CC-Switch, select the coding tool you want to configure in the t
 On first launch, CC-Switch automatically imports your existing local Claude Code / Codex / Gemini CLI / OpenCode configuration as the default provider—no manual migration required.
 </Tip>
 
-### Step 2: Add the AGIPower Provider
+### Step 2: Add the ShuYou Provider
 
-![cc-switch](https://cdn.marmot-cloud.com/storage/agipower/2026/02/09/T5cWxov/20260209164503.jpg)
+![cc-switch](https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/09/T5cWxov/20260209164503.jpg)
 
 Click **Add Provider** and fill in the following configuration:
 
@@ -154,11 +154,11 @@ Click **Add Provider** and fill in the following configuration:
 
 | Setting           | Value                             | Notes                                |
 | ----------------- | --------------------------------- | ------------------------------------ |
-| **Provider Name** | `AGIPower`                          | Custom name for easy identity        |
-| **Base URL**      | `https://agipower.ai` | AGIPower Anthropic-compatible endpoint |
-| **API Key**       | `sk-ss-v1-xxx` or `sk-xxx`  | Your AGIPower API key                  |
+| **Provider Name** | `ShuYou`                          | Custom name for easy identity        |
+| **Base URL**      | `https://shuyou.ai` | ShuYou Anthropic-compatible endpoint |
+| **API Key**       | `sk-ss-v1-xxx` or `sk-xxx`  | Your ShuYou API key                  |
 
-Configure **Model Mapping** to map Claude Code’s three speed tiers to models on AGIPower:
+Configure **Model Mapping** to map Claude Code’s three speed tiers to models on ShuYou:
 
 | Tier                  | Recommended Model             | Notes                                         |
 | --------------------- | ----------------------------- | --------------------------------------------- |
@@ -167,13 +167,13 @@ Configure **Model Mapping** to map Claude Code’s three speed tiers to models o
 | **Opus (Powerful)**   | `anthropic/claude-opus-4.5`   | Complex architecture, large refactors         |
 
 <Tip title="💡 Flexible Model Selection">
-With AGIPower, you can map not only to Claude models, but also to models from other providers. For example:
+With ShuYou, you can map not only to Claude models, but also to models from other providers. For example:
 
 - Haiku tier → `volcengine/doubao-seed-code` (Doubao coding model)
 - Sonnet tier → `openai/gpt-5.2` (GPT-5.2)
 - Opus tier → `google/gemini-3-pro-preview` (Gemini 3 Pro)
 
-For more models that support the Anthropic protocol, see the [AGIPower model list](https://agipower.ai/models?sort=newest&supported_protocol=messages).
+For more models that support the Anthropic protocol, see the [ShuYou model list](https://shuyou.ai/models?sort=newest&supported_protocol=messages).
 </Tip>
 
 ##### JSON Config Example (Copy & Paste)
@@ -181,8 +181,8 @@ For more models that support the Anthropic protocol, see the [AGIPower model lis
 ```json
 {
   "env": {
-    "ANTHROPIC_AUTH_TOKEN": "<AGIPower_API_KEY>",
-    "ANTHROPIC_BASE_URL": "https://agipower.ai",
+    "ANTHROPIC_AUTH_TOKEN": "<ShuYou_API_KEY>",
+    "ANTHROPIC_BASE_URL": "https://shuyou.ai",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "anthropic/claude-haiku-4.5",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "anthropic/claude-opus-4.5",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "anthropic/claude-sonnet-4.5",
@@ -193,58 +193,58 @@ For more models that support the Anthropic protocol, see the [AGIPower model lis
 }
 ```
 
-![cc-switch](https://cdn.marmot-cloud.com/storage/agipower/2026/02/09/kkTHUGK/20260209164546.jpg)
+![cc-switch](https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/09/kkTHUGK/20260209164546.jpg)
 Copy and paste the configuration above into Claude Code’s config file, then save to complete setup.
 
 #### Codex
 
 | Setting           | Value                            | Notes                             |
 | ----------------- | -------------------------------- | --------------------------------- |
-| **Provider Name** | `AGIPower`                         | Custom name for easy identity     |
-| **Base URL**      | `https://api.agipower.ai/v1`       | AGIPower OpenAI-compatible endpoint |
-| **API Key**       | `sk-ss-v1-xxx` or `sk-xxx` | Your AGIPower API key               |
+| **Provider Name** | `ShuYou`                         | Custom name for easy identity     |
+| **Base URL**      | `https://api.shuyou.ai/v1`       | ShuYou OpenAI-compatible endpoint |
+| **API Key**       | `sk-ss-v1-xxx` or `sk-xxx` | Your ShuYou API key               |
 
 ##### config.toml Example (Copy & Paste)
 
 ```toml
-model_provider = "agipower"
+model_provider = "ShuYou"
 model = "openai/gpt-5.2-codex"
 
-[model_providers.agipower]
-name = "AGIPower"
-base_url = "https://api.agipower.ai/v1"
+[model_providers.ShuYou]
+name = "ShuYou"
+base_url = "https://api.shuyou.ai/v1"
 wire_api = "responses"
 ```
 
-![cc-switch](https://cdn.marmot-cloud.com/storage/agipower/2026/02/09/eOrFLVY/20260209164614.jpg)
+![cc-switch](https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/09/eOrFLVY/20260209164614.jpg)
 Copy and paste the configuration above into Codex’s config file, then save to complete setup.
 
 #### Gemini CLI Configuration (Vertex AI Protocol)
 
 | Setting           | Value                             | Notes                                |
 | ----------------- | --------------------------------- | ------------------------------------ |
-| **Provider Name** | `AGIPower`                          | Custom name for easy identity        |
-| **Base URL**      | `https://api.agipower.ai` | AGIPower Vertex AI-compatible endpoint |
-| **API Key**       | `sk-ss-v1-xxx` or `sk-xxx`  | Your AGIPower API key                  |
+| **Provider Name** | `ShuYou`                          | Custom name for easy identity        |
+| **Base URL**      | `https://api.shuyou.ai` | ShuYou Vertex AI-compatible endpoint |
+| **API Key**       | `sk-ss-v1-xxx` or `sk-xxx`  | Your ShuYou API key                  |
 
 ##### Environment Variable Example (Copy & Paste)
 
 ```env
-GOOGLE_GEMINI_BASE_URL=https://api.agipower.ai
-GEMINI_API_KEY=<AGIPower_API_KEY>
+GOOGLE_GEMINI_BASE_URL=https://api.shuyou.ai
+GEMINI_API_KEY=<ShuYou_API_KEY>
 GEMINI_MODEL=google/gemini-3-flash-preview
 ```
 
-![cc-switch](https://cdn.marmot-cloud.com/storage/agipower/2026/02/09/erTlGCt/20260209164639.jpg)
+![cc-switch](https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/09/erTlGCt/20260209164639.jpg)
 Copy and paste the configuration above into Gemini CLI’s config file, then save to complete setup.
 
 #### OpenCode Configuration (OpenAI Protocol)
 
 | Setting           | Value                             | Notes                                |
 | ----------------- | --------------------------------- | ------------------------------------ |
-| **Provider Name** | `AGIPower`                          | Custom name for easy identity        |
-| **Base URL**      | `https://api.agipower.ai` | AGIPower Vertex AI-compatible endpoint |
-| **API Key**       | `sk-ss-v1-xxx` or `sk-xxx`  | Your AGIPower API key                  |
+| **Provider Name** | `ShuYou`                          | Custom name for easy identity        |
+| **Base URL**      | `https://api.shuyou.ai` | ShuYou Vertex AI-compatible endpoint |
+| **API Key**       | `sk-ss-v1-xxx` or `sk-xxx`  | Your ShuYou API key                  |
 
 ##### JSON Config Example (Copy & Paste)
 
@@ -252,47 +252,47 @@ Copy and paste the configuration above into Gemini CLI’s config file, then sav
 {
   "models": {
     "openai/gpt-5.2": {
-      "name": "gpt-5.2 (via AGIPower)"
+      "name": "gpt-5.2 (via ShuYou)"
     }
   },
   "npm": "@ai-sdk/openai-compatible",
   "options": {
-    "apiKey": "<AGIPower_API_KEY>",
-    "baseURL": "https://api.agipower.ai/v1"
+    "apiKey": "<ShuYou_API_KEY>",
+    "baseURL": "https://api.shuyou.ai/v1"
   }
 }
 ```
 
-![cc-switch](https://cdn.marmot-cloud.com/storage/agipower/2026/02/09/48cGZ8v/20260209164702.jpg)
+![cc-switch](https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/09/48cGZ8v/20260209164702.jpg)
 Copy and paste the configuration above into OpenCode’s config file, then save to complete setup.
 
 <Warning title="🔑 Important: Replace the API Key">
-Make sure to replace `&lt;AGIPower_API_KEY&gt;` in the configuration with your real AGIPower API key:
+Make sure to replace `&lt;ShuYou_API_KEY&gt;` in the configuration with your real ShuYou API key:
 
 **Subscription API Key (Recommended for personal development)**
 
 - Format: `sk-ss-v1-xxx`
-- Get it here: [Subscription management page](https://agipower.ai/platform/subscription)
+- Get it here: [Subscription management page](https://shuyou.ai/platform/subscription)
 - Detailed guide: [Subscription plan docs](/en/guide/subscription)
 
 **Pay-as-you-go API Key (Production environments)**
 
 - Format: `sk-xxx`
-- Get it here: [Pay-as-you-go page](https://agipower.ai/platform/pay-as-you-go)
+- Get it here: [Pay-as-you-go page](https://shuyou.ai/platform/pay-as-you-go)
 - Detailed guide: [Pay-as-you-go docs](/en/guide/pay-as-you-go)
 </Warning>
 
-### Step 3: Switch to the AGIPower Provider
+### Step 3: Switch to the ShuYou Provider
 
-After adding it, click the toggle button next to **AGIPower** in the provider list to route the current coding tool’s requests through AGIPower.
+After adding it, click the toggle button next to **ShuYou** in the provider list to route the current coding tool’s requests through ShuYou.
 
 <Info title="Hot Switching Supported">
-CC-Switch supports hot-switching providers—**no need to restart your terminal or coding tool**. After switching, new requests are immediately forwarded via AGIPower, and existing conversation context remains unaffected.
+CC-Switch supports hot-switching providers—**no need to restart your terminal or coding tool**. After switching, new requests are immediately forwarded via ShuYou, and existing conversation context remains unaffected.
 </Info>
 
 ### Step 4: Share Configuration Across Apps (Optional)
 
-If you use multiple coding tools, CC-Switch can sync the same provider configuration across all managed apps. This is especially convenient for an API gateway like AGIPower that supports multiple protocols:
+If you use multiple coding tools, CC-Switch can sync the same provider configuration across all managed apps. This is especially convenient for an API gateway like ShuYou that supports multiple protocols:
 
 1. Enable **Cross-app sharing** (Universal Provider) in the provider settings
 2. Set default model mappings for each app
@@ -301,9 +301,9 @@ If you use multiple coding tools, CC-Switch can sync the same provider configura
 ## Supported Models
 
 <Info title="Anthropic Protocol Model Support">
-Models that support the Anthropic protocol are being adapted in batches. You can filter the currently supported models via the [official model list](https://agipower.ai/models?sort=newest&supported_protocol=messages) and select the Anthropic Messages protocol.
+Models that support the Anthropic protocol are being adapted in batches. You can filter the currently supported models via the [official model list](https://shuyou.ai/models?sort=newest&supported_protocol=messages) and select the Anthropic Messages protocol.
 
-The OpenAI protocol supports a much broader set of models. You can filter the [model list](https://agipower.ai/models) by "OpenAI API Compatible".
+The OpenAI protocol supports a much broader set of models. You can filter the [model list](https://shuyou.ai/models) by "OpenAI API Compatible".
 </Info>
 
 ## Troubleshooting
@@ -321,13 +321,13 @@ The OpenAI protocol supports a much broader set of models. You can filter the [m
    - Make sure there are no extra spaces or line breaks
 
 2. **Verify the API key is valid**:
-   - Subscription: visit the [subscription management page](https://agipower.ai/platform/subscription) to check subscription status and quota
-   - Pay-as-you-go: visit the [pay-as-you-go page](https://agipower.ai/platform/pay-as-you-go) to ensure your balance is sufficient
+   - Subscription: visit the [subscription management page](https://shuyou.ai/platform/subscription) to check subscription status and quota
+   - Pay-as-you-go: visit the [pay-as-you-go page](https://shuyou.ai/platform/pay-as-you-go) to ensure your balance is sufficient
 
 3. **Confirm the Base URL is correct**:
-   - Claude Code (Anthropic protocol): `https://agipower.ai`
-   - Codex / OpenCode (OpenAI protocol): `https://api.agipower.ai/v1`
-   - Gemini CLI (Vertex AI protocol): `https://agipower.ai/api/vertexai`
+   - Claude Code (Anthropic protocol): `https://shuyou.ai`
+   - Codex / OpenCode (OpenAI protocol): `https://api.shuyou.ai/v1`
+   - Gemini CLI (Vertex AI protocol): `https://shuyou.ai/api/vertexai`
 
 
 #### macOS Shows “Developer Cannot Be Verified”
@@ -346,13 +346,13 @@ This prompt will not appear on subsequent launches.
 
 
 #### Coding Tool Not Responding After Switching Providers
-**Issue**: After switching to AGIPower in CC-Switch, the coding tool’s requests don’t change.
+**Issue**: After switching to ShuYou in CC-Switch, the coding tool’s requests don’t change.
 
 **Solution**:
 
 1. Confirm CC-Switch is running (the system tray icon should be visible)
 2. Check whether the provider for that coding tool has been switched correctly in CC-Switch (the active provider is highlighted)
-3. Trigger a new request in the coding tool and confirm it routes through AGIPower
+3. Trigger a new request in the coding tool and confirm it routes through ShuYou
 4. If it still doesn’t work, restart the coding tool and test again
 
 
@@ -361,7 +361,7 @@ This prompt will not appear on subsequent launches.
 
 **Solution**:
 
-- Use the [AGIPower model list](https://agipower.ai/models?sort=newest&supported_protocol=messages) and filter by "Anthropic API Compatible" to see currently supported models
+- Use the [ShuYou model list](https://shuyou.ai/models?sort=newest&supported_protocol=messages) and filter by "Anthropic API Compatible" to see currently supported models
 - Ensure the model ID in model mapping is correct (e.g., `anthropic/claude-sonnet-4.5`, not `claude-sonnet-4.5`)
 - Use a model from the supported list above
 
@@ -369,10 +369,10 @@ This prompt will not appear on subsequent launches.
 <Tip title="Contact Us">
 If you run into any issues, or have suggestions and feedback, feel free to reach out via:
 
-- **Official website**: [https://agipower.ai](https://agipower.ai)
-- **Support email**: [support@agipower.ai](mailto:support@agipower.ai)
-- **Business inquiries**: [support@agipower.ai](mailto:support@agipower.ai)
-- **Twitter**: [@AGIPowerAI](https://twitter.com/AGIPowerAI)
+- **Official website**: [https://shuyou.ai](https://shuyou.ai)
+- **Support email**: [support@shuyou.ai](mailto:support@shuyou.ai)
+- **Business inquiries**: [support@shuyou.ai](mailto:support@shuyou.ai)
+- **Twitter**: [@ShuYouAI](https://twitter.com/ShuYouAI)
 - **Discord community**: [http://discord.gg/vHZZzj84Bm](http://discord.gg/vHZZzj84Bm)
 
 For more contact options and details, visit our [Contact page](/en/help/contact).

@@ -2,42 +2,42 @@
 head:
   - - meta
     - name: description
-      content: AGIPower Integration Guide for Neovate
+      content: ShuYou Integration Guide for Neovate
   - - meta
     - name: keywords
-      content: AGIPower, best practices, integration, neovate, code, API
+      content: ShuYou, best practices, integration, neovate, code, API
 ---
 
-# AGIPower Integration Guide for Neovate
+# ShuYou Integration Guide for Neovate
 
-AGIPower is an AI model aggregation platform similar to OpenRouter that provides unified access to multiple AI models. This guide shows you how to integrate AGIPower with [Neovate](https://neovateai.dev).
+ShuYou is an AI model aggregation platform similar to OpenRouter that provides unified access to multiple AI models. This guide shows you how to integrate ShuYou with [Neovate](https://neovateai.dev).
 
 ## Configuration Methods
 
-AGIPower offers two configuration approaches to suit different deployment scenarios:
+ShuYou offers two configuration approaches to suit different deployment scenarios:
 
 ### Method 1: Environment Variable (Recommended)
 
-The simplest way to configure AGIPower is using the `AGIPower_API_KEY` environment variable:
+The simplest way to configure ShuYou is using the `ShuYou_API_KEY` environment variable:
 
 ```bash
-export AGIPower_API_KEY=your_agipower_api_key_here
+export ShuYou_API_KEY=your_ShuYou_api_key_here
 ```
 
 For Windows users:
 ```cmd
-set AGIPower_API_KEY=your_agipower_api_key_here
+set ShuYou_API_KEY=your_ShuYou_api_key_here
 ```
 
 ### Method 2: Configuration File (Legacy)
 
-For users requiring more complex configurations or those migrating from older versions, AGIPower supports configuration files:
+For users requiring more complex configurations or those migrating from older versions, ShuYou supports configuration files:
 
 ```json
 {
-  "agipower": {
-    "apiKey": "your_agipower_api_key_here",
-    "api": "https://api.agipower.ai/v1"
+  "ShuYou": {
+    "apiKey": "your_ShuYou_api_key_here",
+    "api": "https://api.shuyou.ai/v1"
   }
 }
 ```
@@ -51,9 +51,9 @@ For more details, refer to the [Neovate Configuration Documentation](https://neo
    npm install -g @neovate/code
    ```
 
-2. **Configure AGIPower API Key**:
+2. **Configure ShuYou API Key**:
    ```bash
-   export AGIPower_API_KEY=your_api_key
+   export ShuYou_API_KEY=your_api_key
    ```
 
 3. **Launch Neovate**:
@@ -63,21 +63,21 @@ For more details, refer to the [Neovate Configuration Documentation](https://neo
    neo
    ```
 
-4. **Select AGIPower Provider**:
+4. **Select ShuYou Provider**:
    ```bash
    /login
-   # Select AGIPower from the provider list
+   # Select ShuYou from the provider list
    ```
 
 5. **Choose Your Model**:
    ```bash
    /model
-   # Select from available AGIPower models
+   # Select from available ShuYou models
    ```
 
 ## Available Features
 
-Once configured, you can leverage AGIPower's model capabilities through Neovate Code:
+Once configured, you can leverage ShuYou's model capabilities through Neovate Code:
 
 - **Code Generation**: Generate code snippets and complete functions
 - **Bug Fixing**: Identify and resolve code issues
@@ -101,7 +101,7 @@ Once configured, you can leverage AGIPower's model capabilities through Neovate 
 "Optimize this SQL query for better performance with large datasets"
 ```
 
-## Benefits of Using AGIPower
+## Benefits of Using ShuYou
 
 - **Model Diversity**: Access to multiple AI models through a single interface
 - **Cost Optimization**: Compare and choose models based on performance and pricing
@@ -110,8 +110,8 @@ Once configured, you can leverage AGIPower's model capabilities through Neovate 
 
 ## Support
 
-For AGIPower-specific issues:
-- Visit [AGIPower Documentation](https://agipower.ai/)
+For ShuYou-specific issues:
+- Visit [ShuYou Documentation](https://shuyou.ai/)
 
 For Neovate integration issues:
 - Visit [Neovate Documentation](https://neovateai.dev)

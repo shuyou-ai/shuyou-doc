@@ -7,7 +7,7 @@ head:
       content: Get generation
   - - meta
     - name: keywords
-      content: AGIPower, API, documentation, get, generation
+      content: ShuYou, API, documentation, get, generation
 ---
 
 # Get generation
@@ -17,7 +17,7 @@ Encountering errors? See the [API Error Codes Reference](/en/guide/advanced/erro
 </Tip>
 
 ```
-GET https://api.agipower.ai/v1/management/generation?id=<generation_id>
+GET https://api.shuyou.ai/v1/management/generation?id=<generation_id>
 ```
 
 <Warning title="⚠️ Previous URL deprecated">
@@ -65,26 +65,26 @@ We’re improving and upgrading our billing architecture to enable synchronous b
 **Header parameters:**
 
 ```http
-Authorization: Bearer <AGIPower_API_KEY>
+Authorization: Bearer <ShuYou_API_KEY>
 ```
 
 - **Name**: `Authorization`
 - **Format**: `Bearer &lt;API_KEY&gt;`
-- **Description**: Your AGIPower API key
+- **Description**: Your ShuYou API key
   - **Pay As You Go API key**: supports querying full metering and billing information
   - **Subscription API key** (prefixed with `sk-ss-v1-`): supports metering only; billing information is not supported
 
 <Tip title="💡 Get an API key">
 
-- Pay As You Go API key: create one in the [AGIPower Console](https://agipower.ai/platform/pay-as-you-go)
-- Subscription API key: create one in the [Subscription Management](https://agipower.ai/platform/subscription)
+- Pay As You Go API key: create one in the [ShuYou Console](https://shuyou.ai/platform/pay-as-you-go)
+- Subscription API key: create one in the [Subscription Management](https://shuyou.ai/platform/subscription)
 </Tip>
 
 ### generate_id `string` **Required**
 
 **Query parameters:**
 
-The generation id returned by AGIPower API endpoints. You can obtain it from:
+The generation id returned by ShuYou API endpoints. You can obtain it from:
 
 - [Create Chat Completion](../openai/create-chat-completion.md) - OpenAI Chat Completions protocol
 - [Create a Model Response](../openai/openai-responses.md) - OpenAI Responses protocol
@@ -172,8 +172,8 @@ Whether this is the final retry.
 <Card title="GET /v1/management/generation">
 
 ```cURL
-curl https://api.agipower.ai/v1/management/generation?id=<generation_id> \
-  -H "Authorization: Bearer $AGIPower_API_KEY"
+curl https://api.shuyou.ai/v1/management/generation?id=<generation_id> \
+  -H "Authorization: Bearer $ShuYou_API_KEY"
 ```
 
 </Card>

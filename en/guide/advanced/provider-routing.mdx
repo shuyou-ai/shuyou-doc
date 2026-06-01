@@ -5,12 +5,12 @@ head:
       content: Provider Routing
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, provider, routing, OpenAI, Anthropic, Claude, API
+      content: ShuYou, guide, tutorial, provider, routing, OpenAI, Anthropic, Claude, API
 ---
 
 # Provider Routing
 
-AGIPower adopts a multi-provider architecture, integrating multiple providers for the same model and selecting the optimal provider through intelligent routing to ensure the best performance and availability. When calling large models via AGIPower, developers do not need to worry about the underlying provider selection logic—simply specify the model name.
+ShuYou adopts a multi-provider architecture, integrating multiple providers for the same model and selecting the optimal provider through intelligent routing to ensure the best performance and availability. When calling large models via ShuYou, developers do not need to worry about the underlying provider selection logic—simply specify the model name.
 
 ## Why a Multi-Provider Architecture
 
@@ -22,13 +22,13 @@ In enterprise AI applications, a single-provider architecture carries significan
 - Geographic limitations: A single provider may not cover global markets
 - Compliance requirements: Different regions have varying rules on data storage and processing
 
-AGIPower’s multi-provider architecture fundamentally addresses these issues, providing enterprise-grade assurance for your AI applications.
+ShuYou’s multi-provider architecture fundamentally addresses these issues, providing enterprise-grade assurance for your AI applications.
 
 ## Key Benefits
 
 ### High Availability
 
-When a provider experiences service issues or capacity shortfalls, AGIPower automatically switches to other available providers to ensure continuity, without manual intervention.
+When a provider experiences service issues or capacity shortfalls, ShuYou automatically switches to other available providers to ensure continuity, without manual intervention.
 
 Assurance mechanisms:
 
@@ -41,7 +41,7 @@ For detailed failover and model fallback strategies, see the Model Fallback Docu
 
 ### Performance Optimization
 
-Providers perform differently across geographies and time windows. AGIPower uses intelligent routing to select the best provider for each request.
+Providers perform differently across geographies and time windows. ShuYou uses intelligent routing to select the best provider for each request.
 
 Performance advantages:
 
@@ -62,7 +62,7 @@ Cost optimization methods:
 
 ## Default Routing Strategy
 
-AGIPower uses the following default routing strategy:
+ShuYou uses the following default routing strategy:
 
 <Info title="Intelligent Routing Principles">
 
@@ -75,7 +75,7 @@ This approach ensures performance while maximizing service availability.
 
 ## A Simple Way to Specify Providers
 
-AGIPower offers a straightforward provider configuration—model name suffix syntax. You do not need a separate provider field; you can specify the provider directly in the model name.
+ShuYou offers a straightforward provider configuration—model name suffix syntax. You do not need a separate provider field; you can specify the provider directly in the model name.
 
 ### Syntax
 
@@ -86,15 +86,15 @@ model_slug:provider_slug
 ### Examples
 
 <Info title="Model Slug Lookup">
-Each model on AGIPower has a unique slug. You can find the slug on the Model List page (https://agipower.ai/models):
-![model-slug](https://cdn.marmot-cloud.com/storage/agipower/2025/10/21/AQG0SIr/model-slug.png)
-Or on a specific model’s detail page (https://agipower.ai/anthropic/claude-sonnet-4.5):
-![model-slug](https://cdn.marmot-cloud.com/storage/agipower/2025/10/21/dWYxJnq/model-slug-3.png)
+Each model on ShuYou has a unique slug. You can find the slug on the Model List page (https://shuyou.ai/models):
+![model-slug](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/21/AQG0SIr/model-slug.png)
+Or on a specific model’s detail page (https://shuyou.ai/anthropic/claude-sonnet-4.5):
+![model-slug](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/21/dWYxJnq/model-slug-3.png)
 </Info>
 
 <Info title="Provider Slug Lookup">
-Model providers on AGIPower have unique slugs. You can find a model’s provider slug on the model’s detail page (https://agipower.ai/anthropic/claude-sonnet-4.5):
-![provider-slug](https://cdn.marmot-cloud.com/storage/agipower/2025/10/21/98Gc7hL/provider-slug.png)
+Model providers on ShuYou have unique slugs. You can find a model’s provider slug on the model’s detail page (https://shuyou.ai/anthropic/claude-sonnet-4.5):
+![provider-slug](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/21/98Gc7hL/provider-slug.png)
 </Info>
 
 For example, to pin Claude 3.7 Sonnet to the AWS Bedrock provider, use:
@@ -103,7 +103,7 @@ For example, to pin Claude 3.7 Sonnet to the AWS Bedrock provider, use:
 anthropic/claude-3.7-sonnet:amazon-bedrock
 ```
 
-The :amazon-bedrock suffix tells AGIPower to route the request specifically to the designated provider, with no extra configuration.
+The :amazon-bedrock suffix tells ShuYou to route the request specifically to the designated provider, with no extra configuration.
 
 
 
@@ -123,7 +123,7 @@ The :amazon-bedrock suffix tells AGIPower to route the request specifically to t
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
+    base_url="https://api.shuyou.ai/v1",
     api_key="<your_api_key>"
 )
 
@@ -154,7 +154,7 @@ For most scenarios, we recommend using the model name suffix syntax to specify p
 
 ## Advanced Routing Configuration
 
-For finer control, AGIPower provides full provider configuration capabilities.
+For finer control, ShuYou provides full provider configuration capabilities.
 
 ### Route by Performance Metrics
 
@@ -269,7 +269,7 @@ You can explicitly set the provider list and call order to implement custom fall
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
+    base_url="https://api.shuyou.ai/v1",
     api_key="<your_api_key>"
 )
 
@@ -297,11 +297,11 @@ response = client.chat.completions.create(
 
 #### Routing Behavior
 
-When you specify a providers list, AGIPower behaves as follows:
+When you specify a providers list, ShuYou behaves as follows:
 
 - Sequential calls: Attempt providers in listed order
 - Stop on success: Stop once any provider returns successfully
-- Single provider: If only one provider is specified, AGIPower will call only that provider
+- Single provider: If only one provider is specified, ShuYou will call only that provider
 - Error handling: If the specified provider returns an error, return that error directly
 
 <Warning title="⚠️ Cautions">
@@ -329,7 +329,7 @@ import requests
 
 # Example 1: Use model name suffix syntax (recommended)
 response_1 = requests.post(
-    "https://api.agipower.ai/v1/chat/completions",
+    "https://api.shuyou.ai/v1/chat/completions",
     headers={
         "Authorization": "Bearer <your_api_key>",
         "Content-Type": "application/json"
@@ -342,7 +342,7 @@ response_1 = requests.post(
 
 # Example 2: Use advanced routing configuration
 response_2 = requests.post(
-    "https://api.agipower.ai/v1/chat/completions",
+    "https://api.shuyou.ai/v1/chat/completions",
     headers={
         "Authorization": "Bearer <your_api_key>",
         "Content-Type": "application/json"
@@ -385,10 +385,10 @@ Click any model card to open its detail page, where you can view:
 - Provider slug: Identifier used for provider routing configuration
 
 <Info title="Model Details Page Example">
-For example, at the Claude Sonnet 4 detail page (https://agipower.ai/anthropic/claude-sonnet-4), you can see comprehensive comparisons across providers such as Anthropic, Google Vertex, and Amazon Bedrock.
+For example, at the Claude Sonnet 4 detail page (https://shuyou.ai/anthropic/claude-sonnet-4), you can see comprehensive comparisons across providers such as Anthropic, Google Vertex, and Amazon Bedrock.
 </Info>
 
-![Model Details](https://cdn.marmot-cloud.com/storage/agipower/2025/10/21/nYt8yU9/model-details.png)
+![Model Details](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/21/nYt8yU9/model-details.png)
 
 ### Provider Details Page
 
@@ -398,10 +398,10 @@ You can also view all models supported by a provider on the provider details pag
 - Usage statistics: Usage data across all models integrated by that provider
 
 <Info title="Provider Details Page Example">
-For example, visit the Anthropic provider page (https://agipower.ai/providers/anthropic) to see all Claude models provided by that provider and their details.
+For example, visit the Anthropic provider page (https://shuyou.ai/providers/anthropic) to see all Claude models provided by that provider and their details.
 </Info>
 
-![Provider Details](https://cdn.marmot-cloud.com/storage/agipower/2025/10/21/iYwxXFg/provider-analysis.png)
+![Provider Details](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/21/iYwxXFg/provider-analysis.png)
 
 Through the model and provider detail pages, you can comprehensively understand the characteristics of each model and provider and make the best choice for your business needs.
 
@@ -409,9 +409,9 @@ Through the model and provider detail pages, you can comprehensively understand 
 
 ### Q: How can I see which provider was used for a specific call?
 
-A: In the AGIPower Console (https://agipower.ai/settings/activity), the request logs show detailed information for each request, including the model and provider used.
+A: In the ShuYou Console (https://shuyou.ai/settings/activity), the request logs show detailed information for each request, including the model and provider used.
 
-![Call Log Example](https://cdn.marmot-cloud.com/storage/agipower/2025/10/21/EClzQU6/logs-provider-model.png)
+![Call Log Example](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/21/EClzQU6/logs-provider-model.png)
 
 ### Q: Will automatic provider switching affect output consistency?
 
@@ -419,15 +419,15 @@ A: The same model across different providers usually produces consistent outputs
 
 ### Q: Does the multi-provider architecture increase latency?
 
-A: No. AGIPower’s routing decisions are made at millisecond scale, with negligible impact on overall latency. In fact, by intelligently selecting low-latency providers, it can reduce total response time.
+A: No. ShuYou’s routing decisions are made at millisecond scale, with negligible impact on overall latency. In fact, by intelligently selecting low-latency providers, it can reduce total response time.
 
 <Tip title="Contact Us">
 If you encounter any issues during use or have suggestions and feedback, feel free to contact us:
 
-- Official website: [https://agipower.ai](https://agipower.ai)
-- Technical support email: [support@agipower.ai](mailto:support@agipower.ai)
-- Business cooperation email: [support@agipower.ai](mailto:support@agipower.ai)
-- Twitter: [@AGIPowerAI](https://twitter.com/AGIPowerAI)
+- Official website: [https://shuyou.ai](https://shuyou.ai)
+- Technical support email: [support@shuyou.ai](mailto:support@shuyou.ai)
+- Business cooperation email: [support@shuyou.ai](mailto:support@shuyou.ai)
+- Twitter: [@ShuYouAI](https://twitter.com/ShuYouAI)
 - Discord community: [http://discord.gg/vHZZzj84Bm](http://discord.gg/vHZZzj84Bm)
 
 For more contact methods and details, please visit our Contact Us page (/help/contact).

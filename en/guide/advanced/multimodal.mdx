@@ -5,12 +5,12 @@ head:
       content: Multimodal
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, multimodal, API
+      content: ShuYou, guide, tutorial, multimodal, API
 ---
 
 # Multimodal
 
-AGIPower supports multimodal inputs and can be used via multiple API protocols:
+ShuYou supports multimodal inputs and can be used via multiple API protocols:
 
 - **OpenAI Chat Completion API**: Uses the `image_url`, `file` (PDF/video), and `input_audio` (audio) content types
 - **OpenAI Responses API**: Uses the `input_image` and `input_file` (PDF only) content types
@@ -37,8 +37,8 @@ Supported input types:
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1", # [!code highlight]
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    base_url="https://api.shuyou.ai/v1", # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 response = client.chat.completions.create(
@@ -69,8 +69,8 @@ print(response.choices[0].message.content)
 import OpenAI from "openai";
 
 const client = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1", // [!code highlight]
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  baseURL: "https://api.shuyou.ai/v1", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 const response = await client.chat.completions.create({
@@ -113,8 +113,8 @@ def encode_image_to_base64(image_path):
         return base64.b64encode(image_file.read()).decode("utf-8")
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1", # [!code highlight]
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    base_url="https://api.shuyou.ai/v1", # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 image_path = "path/to/your/image.jpg"
@@ -156,8 +156,8 @@ async function encodeImageToBase64(imagePath: string): Promise<string> {
 }
 
 const client = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1", // [!code highlight]
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  baseURL: "https://api.shuyou.ai/v1", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 const imagePath = "path/to/your/image.jpg";
@@ -200,8 +200,8 @@ console.log(response.choices[0].message.content);
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1", # [!code highlight]
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    base_url="https://api.shuyou.ai/v1", # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 response = client.chat.completions.create(
@@ -233,8 +233,8 @@ print(response.choices[0].message.content)
 import OpenAI from "openai";
 
 const client = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1", // [!code highlight]
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  baseURL: "https://api.shuyou.ai/v1", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 const response = await client.chat.completions.create({
@@ -279,8 +279,8 @@ def encode_pdf_to_base64(pdf_path):
         return base64.b64encode(pdf_file.read()).decode("utf-8")
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1", # [!code highlight]
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    base_url="https://api.shuyou.ai/v1", # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 pdf_path = "path/to/your/test.pdf"
@@ -323,8 +323,8 @@ async function encodePDFToBase64(pdfPath: string): Promise<string> {
 }
 
 const client = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1", // [!code highlight]
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  baseURL: "https://api.shuyou.ai/v1", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 const pdfPath = "path/to/your/test.pdf";
@@ -373,8 +373,8 @@ def encode_audio_to_base64(audio_path):
         return base64.b64encode(audio_file.read()).decode("utf-8")
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1", # [!code highlight]
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    base_url="https://api.shuyou.ai/v1", # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 audio_path = "path/to/your/audio.mp3"
@@ -415,8 +415,8 @@ async function encodeAudioToBase64(audioPath: string): Promise<string> {
 }
 
 const client = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1", // [!code highlight]
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  baseURL: "https://api.shuyou.ai/v1", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 const audioPath = "path/to/your/audio.mp3";
@@ -462,8 +462,8 @@ Use the `file` type to pass a video file. Both URL and Base64 encoding are suppo
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1", # [!code highlight]
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    base_url="https://api.shuyou.ai/v1", # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 response = client.chat.completions.create(
@@ -495,8 +495,8 @@ print(response.choices[0].message.content)
 import OpenAI from "openai";
 
 const client = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1", // [!code highlight]
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  baseURL: "https://api.shuyou.ai/v1", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 const response = await client.chat.completions.create({
@@ -540,8 +540,8 @@ def encode_video_to_base64(video_path):
         return base64.b64encode(video_file.read()).decode("utf-8")
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1", # [!code highlight]
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    base_url="https://api.shuyou.ai/v1", # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 video_path = "path/to/your/video.mp4"
@@ -584,8 +584,8 @@ async function encodeVideoToBase64(videoPath: string): Promise<string> {
 }
 
 const client = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1", // [!code highlight]
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  baseURL: "https://api.shuyou.ai/v1", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 const videoPath = "path/to/your/video.mp4";
@@ -635,8 +635,8 @@ The Responses API currently supports image and PDF inputs only, and does not sup
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 response = client.responses.create(
@@ -670,8 +670,8 @@ for item in response.output:
 import OpenAI from "openai";
 
 const client = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1",
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  baseURL: "https://api.shuyou.ai/v1",
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 const response = await client.responses.create({
@@ -707,9 +707,9 @@ for (const item of response.output) {
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/responses \
+curl https://api.shuyou.ai/v1/responses \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -d '{
     "model": "openai/gpt-5",
     "input": [
@@ -768,8 +768,8 @@ response = client.responses.create(
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 response = client.responses.create(
@@ -797,9 +797,9 @@ for item in response.output:
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/responses \
+curl https://api.shuyou.ai/v1/responses \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -d '{
     "model": "openai/gpt-5",
     "input": [
@@ -827,7 +827,7 @@ curl https://api.agipower.ai/v1/responses \
 The Anthropic Messages API supports multimodal inputs using the `image`, `document`, `audio`, and `video` content types, and supports both base64 encoding and URL input.
 
 <Tip title="Tip">
-With AGIPower protocol conversion, the Anthropic protocol can be routed to models that support audio and video (such as Gemini). When using multimodal-capable models, all input types are available.
+With ShuYou protocol conversion, the Anthropic protocol can be routed to models that support audio and video (such as Gemini). When using multimodal-capable models, all input types are available.
 
 **Note**: Audio and video inputs must use Google Cloud Storage `gs://` URLs (for example, `gs://cloud-samples-data/generative-ai/audio/pixel.mp3`) to be processed correctly by Gemini models. If you need to use local files or other URLs, we recommend using the Vertex AI API protocol.
 </Tip>
@@ -849,8 +849,8 @@ With AGIPower protocol conversion, the Anthropic protocol can be routed to model
 import anthropic
 
 client = anthropic.Anthropic(
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
-    base_url="https://agipower.ai" # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
+    base_url="https://shuyou.ai" # [!code highlight]
 )
 
 message = client.messages.create(
@@ -883,8 +883,8 @@ print(message.content[0].text)
 import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic({
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
-  baseURL: "https://agipower.ai", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
+  baseURL: "https://shuyou.ai", // [!code highlight]
 });
 
 const message = await client.messages.create({
@@ -915,8 +915,8 @@ console.log(message.content[0].text);
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/messages \
-  -H "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -958,8 +958,8 @@ def encode_image_to_base64(image_path):
         return base64.b64encode(image_file.read()).decode("utf-8")
 
 client = anthropic.Anthropic(
-    api_key="<your AGIPower_API_KEY>",
-    base_url="https://agipower.ai"
+    api_key="<your ShuYou_API_KEY>",
+    base_url="https://shuyou.ai"
 )
 
 base64_image = encode_image_to_base64("path/to/image.jpg")
@@ -995,8 +995,8 @@ print(message.content[0].text)
 # First, encode the image as base64
 BASE64_IMAGE=$(base64 -i path/to/image.jpg)
 
-curl https://api.agipower.ai/v1/messages \
-  -H "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -1066,8 +1066,8 @@ message = client.messages.create(
 import anthropic
 
 client = anthropic.Anthropic(
-    api_key="<your AGIPower_API_KEY>",
-    base_url="https://agipower.ai"
+    api_key="<your ShuYou_API_KEY>",
+    base_url="https://shuyou.ai"
 )
 
 message = client.messages.create(
@@ -1100,8 +1100,8 @@ print(message.content[0].text)
 import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic({
-  apiKey: "<your AGIPower_API_KEY>",
-  baseURL: "https://agipower.ai",
+  apiKey: "<your ShuYou_API_KEY>",
+  baseURL: "https://shuyou.ai",
 });
 
 const message = await client.messages.create({
@@ -1132,8 +1132,8 @@ console.log(message.content[0].text);
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/messages \
-  -H "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -1175,8 +1175,8 @@ def encode_pdf_to_base64(pdf_path):
         return base64.b64encode(pdf_file.read()).decode("utf-8")
 
 client = anthropic.Anthropic(
-    api_key="<your AGIPower_API_KEY>",
-    base_url="https://agipower.ai"
+    api_key="<your ShuYou_API_KEY>",
+    base_url="https://shuyou.ai"
 )
 
 base64_pdf = encode_pdf_to_base64("path/to/document.pdf")
@@ -1212,8 +1212,8 @@ print(message.content[0].text)
 # First, encode the PDF as base64
 BASE64_PDF=$(base64 -i path/to/document.pdf)
 
-curl https://api.agipower.ai/v1/messages \
-  -H "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -1283,8 +1283,8 @@ Supports multiple audio formats: WAV, MP3, AIFF, AAC, OGG, FLAC
 import anthropic
 
 client = anthropic.Anthropic(
-    api_key="<your AGIPower_API_KEY>",
-    base_url="https://agipower.ai"
+    api_key="<your ShuYou_API_KEY>",
+    base_url="https://shuyou.ai"
 )
 
 message = client.messages.create(
@@ -1317,8 +1317,8 @@ print(message.content[0].text)
 import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic({
-  apiKey: "<your AGIPower_API_KEY>",
-  baseURL: "https://agipower.ai",
+  apiKey: "<your ShuYou_API_KEY>",
+  baseURL: "https://shuyou.ai",
 });
 
 const message = await client.messages.create({
@@ -1349,8 +1349,8 @@ console.log(message.content[0].text);
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/messages \
-  -H "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -1389,8 +1389,8 @@ Supports multiple video formats: MP4, AVI, MOV, MKV, WEBM, etc.
 import anthropic
 
 client = anthropic.Anthropic(
-    api_key="<your AGIPower_API_KEY>",
-    base_url="https://agipower.ai"
+    api_key="<your ShuYou_API_KEY>",
+    base_url="https://shuyou.ai"
 )
 
 message = client.messages.create(
@@ -1423,8 +1423,8 @@ print(message.content[0].text)
 import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic({
-  apiKey: "<your AGIPower_API_KEY>",
-  baseURL: "https://agipower.ai",
+  apiKey: "<your ShuYou_API_KEY>",
+  baseURL: "https://shuyou.ai",
 });
 
 const message = await client.messages.create({
@@ -1455,8 +1455,8 @@ console.log(message.content[0].text);
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/messages \
-  -H "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -1507,11 +1507,11 @@ from google import genai
 from google.genai import types
 
 client = genai.Client(
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai' # [!code highlight]
+        base_url='https://api.shuyou.ai' # [!code highlight]
     ),
 )
 
@@ -1534,10 +1534,10 @@ print(response.text)
 import { GoogleGenAI } from "@google/genai";
 
 const client = new GoogleGenAI({
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
   vertexai: true,
   httpOptions: {
-    baseUrl: "https://api.agipower.ai", // [!code highlight]
+    baseUrl: "https://api.shuyou.ai", // [!code highlight]
     apiVersion: "v1",
   },
 });
@@ -1566,8 +1566,8 @@ console.log(response.text);
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/projects/PROJECT_ID/locations/LOCATION/publishers/google/models/gemini-2.5-pro:generateContent \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/projects/PROJECT_ID/locations/LOCATION/publishers/google/models/gemini-2.5-pro:generateContent \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "contents": [{
@@ -1599,11 +1599,11 @@ def encode_image_to_base64(image_path):
         return base64.b64encode(image_file.read()).decode("utf-8")
 
 client = genai.Client(
-    api_key="<your AGIPower_API_KEY>",
+    api_key="<your ShuYou_API_KEY>",
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai'
+        base_url='https://api.shuyou.ai'
     ),
 )
 
@@ -1671,11 +1671,11 @@ from google import genai
 from google.genai import types
 
 client = genai.Client(
-    api_key="<your AGIPower_API_KEY>",
+    api_key="<your ShuYou_API_KEY>",
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai'
+        base_url='https://api.shuyou.ai'
     ),
 )
 
@@ -1695,8 +1695,8 @@ print(response.text)
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/projects/PROJECT_ID/locations/LOCATION/publishers/google/models/gemini-2.5-pro:generateContent \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/projects/PROJECT_ID/locations/LOCATION/publishers/google/models/gemini-2.5-pro:generateContent \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "contents": [{
@@ -1727,11 +1727,11 @@ from google import genai
 from google.genai import types
 
 client = genai.Client(
-    api_key="<your AGIPower_API_KEY>",
+    api_key="<your ShuYou_API_KEY>",
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai'
+        base_url='https://api.shuyou.ai'
     ),
 )
 
@@ -1751,8 +1751,8 @@ print(response.text)
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/projects/PROJECT_ID/locations/LOCATION/publishers/google/models/gemini-2.5-pro:generateContent \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/projects/PROJECT_ID/locations/LOCATION/publishers/google/models/gemini-2.5-pro:generateContent \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "contents": [{

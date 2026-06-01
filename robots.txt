@@ -1,4 +1,4 @@
-# robots.txt for agipower.ai
+# robots.txt for shuyou.ai
 # Last updated: 2025-10-21
 # Content-signal (non-standard; kept as comment):
 

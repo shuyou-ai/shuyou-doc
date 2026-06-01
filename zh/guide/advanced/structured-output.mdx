@@ -5,15 +5,15 @@ head:
       content: 结构化输出
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, structured, output, OpenAI, GPT, API
+      content: ShuYou, guide, tutorial, structured, output, OpenAI, GPT, API
 ---
 
 # 结构化输出
 
-AGIPower 提供结构化输出功能，确保模型响应严格遵循您定义的[JSON Schema](https://json-schema.org/)格式。
+ShuYou 提供结构化输出功能，确保模型响应严格遵循您定义的[JSON Schema](https://json-schema.org/)格式。
 当您有固定的结构化数据需求时，您可以用到此功能！
 
-AGIPower 支持多种 API 协议的结构化输出：
+ShuYou 支持多种 API 协议的结构化输出：
 
 - **OpenAI Chat Completion API**：使用 `response_format` 参数
 - **OpenAI Responses API**：使用 `text.format` 参数
@@ -129,10 +129,10 @@ from openai import OpenAI
 
 # 1. 初始化 OpenAI 客户端
 client = OpenAI(
-    # 2. 将基础 URL 指向 AGIPower 端点
-    base_url="https://api.agipower.ai/v1", # [!code highlight]
-    # 3. 替换为你从 AGIPower 用户控制台获取的 API Key
-    api_key="<你的 AGIPower_API_KEY>", # [!code highlight]
+    # 2. 将基础 URL 指向 ShuYou 端点
+    base_url="https://api.shuyou.ai/v1", # [!code highlight]
+    # 3. 替换为你从 ShuYou 用户控制台获取的 API Key
+    api_key="<你的 ShuYou_API_KEY>", # [!code highlight]
 )
 
 # 4. 发起请求
@@ -187,10 +187,10 @@ import OpenAI from "openai";
 
 // 1. 初始化 OpenAI 客户端
 const openai = new OpenAI({
-  // 2. 将基础 URL 指向 AGIPower 端点
-  baseURL: "https://api.agipower.ai/v1", // [!code highlight]
-  // 3. 替换为你从 AGIPower 用户控制台获取的 API Key
-  apiKey = "<你的 AGIPower_API_KEY>", // [!code highlight]
+  // 2. 将基础 URL 指向 ShuYou 端点
+  baseURL: "https://api.shuyou.ai/v1", // [!code highlight]
+  // 3. 替换为你从 ShuYou 用户控制台获取的 API Key
+  apiKey = "<你的 ShuYou_API_KEY>", // [!code highlight]
 });
 
 async function main() {
@@ -269,10 +269,10 @@ from openai import OpenAI
 
 # 1. 初始化 OpenAI 客户端
 client = OpenAI(
-    # 2. 将基础 URL 指向 AGIPower 端点
-    base_url="https://api.agipower.ai/v1", # [!code highlight]
-    # 3. 替换为你从 AGIPower 用户控制台获取的 API Key
-    api_key="<你的 AGIPower_API_KEY>", # [!code highlight]
+    # 2. 将基础 URL 指向 ShuYou 端点
+    base_url="https://api.shuyou.ai/v1", # [!code highlight]
+    # 3. 替换为你从 ShuYou 用户控制台获取的 API Key
+    api_key="<你的 ShuYou_API_KEY>", # [!code highlight]
 )
 
 # 4. 使用 Responses API 发起请求
@@ -327,10 +327,10 @@ import OpenAI from "openai";
 
 // 1. 初始化 OpenAI 客户端
 const openai = new OpenAI({
-  // 2. 将基础 URL 指向 AGIPower 端点
-  baseURL: "https://api.agipower.ai/v1", // [!code highlight]
-  // 3. 替换为你从 AGIPower 用户控制台获取的 API Key
-  apiKey: "<你的 AGIPower_API_KEY>", // [!code highlight]
+  // 2. 将基础 URL 指向 ShuYou 端点
+  baseURL: "https://api.shuyou.ai/v1", // [!code highlight]
+  // 3. 替换为你从 ShuYou 用户控制台获取的 API Key
+  apiKey: "<你的 ShuYou_API_KEY>", // [!code highlight]
 });
 
 async function main() {
@@ -391,9 +391,9 @@ main();
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/responses \
+curl https://api.shuyou.ai/v1/responses \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -d '{
     "model": "openai/gpt-5",
     "input": "Hi, who are you? Describe yourself using about 50 words.",
@@ -443,10 +443,10 @@ import anthropic
 
 # 1. 初始化 Anthropic 客户端
 client = anthropic.Anthropic(
-    # 2. 替换为你从 AGIPower 用户控制台获取的 API Key
-    api_key="<你的 AGIPower_API_KEY>", # [!code highlight]
-    # 3. 将基础 URL 指向 AGIPower 端点
-    base_url="https://agipower.ai" # [!code highlight]
+    # 2. 替换为你从 ShuYou 用户控制台获取的 API Key
+    api_key="<你的 ShuYou_API_KEY>", # [!code highlight]
+    # 3. 将基础 URL 指向 ShuYou 端点
+    base_url="https://shuyou.ai" # [!code highlight]
 )
 
 # 4. 发起请求，使用 output_config 指定结构化输出
@@ -496,10 +496,10 @@ import Anthropic from "@anthropic-ai/sdk";
 
 // 1. 初始化 Anthropic 客户端
 const anthropic = new Anthropic({
-  // 2. 替换为你从 AGIPower 用户控制台获取的 API Key
-  apiKey: "<你的 AGIPower_API_KEY>", // [!code highlight]
-  // 3. 将基础 URL 指向 AGIPower 端点
-  baseURL: "https://agipower.ai", // [!code highlight]
+  // 2. 替换为你从 ShuYou 用户控制台获取的 API Key
+  apiKey: "<你的 ShuYou_API_KEY>", // [!code highlight]
+  // 3. 将基础 URL 指向 ShuYou 端点
+  baseURL: "https://shuyou.ai", // [!code highlight]
 });
 
 async function main() {
@@ -550,8 +550,8 @@ main();
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/messages \
-  -H "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -612,10 +612,10 @@ import anthropic
 
 # 1. 初始化 Anthropic 客户端
 client = anthropic.Anthropic(
-    # 2. 替换为你从 AGIPower 用户控制台获取的 API Key
-    api_key="<你的 AGIPower_API_KEY>", # [!code highlight]
-    # 3. 将基础 URL 指向 AGIPower 端点
-    base_url="https://agipower.ai" # [!code highlight]
+    # 2. 替换为你从 ShuYou 用户控制台获取的 API Key
+    api_key="<你的 ShuYou_API_KEY>", # [!code highlight]
+    # 3. 将基础 URL 指向 ShuYou 端点
+    base_url="https://shuyou.ai" # [!code highlight]
 )
 
 # 4. 定义工具来描述期望的输出结构
@@ -671,10 +671,10 @@ import Anthropic from "@anthropic-ai/sdk";
 
 // 1. 初始化 Anthropic 客户端
 const anthropic = new Anthropic({
-  // 2. 替换为你从 AGIPower 用户控制台获取的 API Key
-  apiKey: "<你的 AGIPower_API_KEY>", // [!code highlight]
-  // 3. 将基础 URL 指向 AGIPower 端点
-  baseURL: "https://agipower.ai", // [!code highlight]
+  // 2. 替换为你从 ShuYou 用户控制台获取的 API Key
+  apiKey: "<你的 ShuYou_API_KEY>", // [!code highlight]
+  // 3. 将基础 URL 指向 ShuYou 端点
+  baseURL: "https://shuyou.ai", // [!code highlight]
 });
 
 async function main() {
@@ -733,8 +733,8 @@ main();
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/messages \
-  -H "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -804,11 +804,11 @@ from google.genai import types
 
 # 1. 初始化 GenAI 客户端
 client = genai.Client(
-    api_key="<你的 AGIPower_API_KEY>", # [!code highlight]
+    api_key="<你的 ShuYou_API_KEY>", # [!code highlight]
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai' # [!code highlight]
+        base_url='https://api.shuyou.ai' # [!code highlight]
     ),
 )
 
@@ -850,10 +850,10 @@ import { GoogleGenAI } from "@google/genai";
 
 // 1. 初始化 GenAI 客户端
 const client = new GoogleGenAI({
-  apiKey: "<你的 AGIPower_API_KEY>", // [!code highlight]
+  apiKey: "<你的 ShuYou_API_KEY>", // [!code highlight]
   vertexai: true,
   httpOptions: {
-    baseUrl: "https://api.agipower.ai", // [!code highlight]
+    baseUrl: "https://api.shuyou.ai", // [!code highlight]
     apiVersion: "v1",
   },
 });
@@ -906,11 +906,11 @@ from google import genai
 from google.genai import types
 
 client = genai.Client(
-    api_key="<你的 AGIPower_API_KEY>",
+    api_key="<你的 ShuYou_API_KEY>",
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai'
+        base_url='https://api.shuyou.ai'
     ),
 )
 

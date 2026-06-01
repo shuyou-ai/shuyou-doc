@@ -5,7 +5,7 @@ head:
       content: Prompt Cache
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, prompt, cache, OpenAI, Anthropic, Claude, GPT, API
+      content: ShuYou, guide, tutorial, prompt, cache, OpenAI, Anthropic, Claude, GPT, API
 ---
 
 # Prompt Cache
@@ -21,7 +21,7 @@ Prompt Caching is a powerful performance optimization feature that allows you to
 
 ## Caching Types Overview
 
-Models supported by AGIPower offer two types of prompt caching mechanisms:
+Models supported by ShuYou offer two types of prompt caching mechanisms:
 
 | Caching Type | Usage Method | Representative Models |
 | ------------ | ------------- | --------------------- |
@@ -48,9 +48,9 @@ The following model series provide implicit automatic prompt caching functionali
 <Tip title="💰 View Specific Pricing">
 For each model's cache read pricing (Cache Read), visit the corresponding model detail page, for example:
 
-[GPT-5 Model Detail Page](https://agipower.ai/openai/gpt-5)
+[GPT-5 Model Detail Page](https://shuyou.ai/openai/gpt-5)
 
-![GPT-5 Model Detail Page](https://cdn.marmot-cloud.com/storage/agipower/2025/10/15/gZT4EZo/gpt-5.png)
+![GPT-5 Model Detail Page](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/15/gZT4EZo/gpt-5.png)
 
 Typically, cache read fees are about **10%-25%** of the original input cost, saving up to 90% of input costs.
 </Tip>
@@ -122,8 +122,8 @@ Each request can define a maximum of **4 cache breakpoints**.
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your_AGIPower_API_KEY>",
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your_ShuYou_API_KEY>",
 )
 
 # First request - create cache
@@ -185,8 +185,8 @@ print(response.choices[0].message.content)
 import anthropic
 
 client = anthropic.Anthropic(
-    base_url="https://agipower.ai",
-    api_key="<your_AGIPower_API_KEY>",
+    base_url="https://shuyou.ai",
+    api_key="<your_ShuYou_API_KEY>",
 )
 
 # First request - create cache
@@ -252,8 +252,8 @@ When your application uses many tools, caching tool definitions can significantl
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your_AGIPower_API_KEY>",
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your_ShuYou_API_KEY>",
 )
 
 response = client.chat.completions.create(
@@ -316,8 +316,8 @@ print(response.choices[0].message)
 import anthropic
 
 client = anthropic.Anthropic(
-    base_url="https://agipower.ai",
-    api_key="<your_AGIPower_API_KEY>",
+    base_url="https://shuyou.ai",
+    api_key="<your_ShuYou_API_KEY>",
 )
 
 response = client.messages.create(
@@ -387,8 +387,8 @@ In long conversation scenarios, you can cache the entire conversation history:
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your_AGIPower_API_KEY>",
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your_ShuYou_API_KEY>",
 )
 
 response = client.chat.completions.create(
@@ -437,8 +437,8 @@ print(response.choices[0].message.content)
 import anthropic
 
 client = anthropic.Anthropic(
-    base_url="https://agipower.ai",
-    api_key="<your_AGIPower_API_KEY>",
+    base_url="https://shuyou.ai",
+    api_key="<your_ShuYou_API_KEY>",
 )
 
 response = client.messages.create(
@@ -497,8 +497,8 @@ When you have multiple content segments with different update frequencies, you c
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your_AGIPower_API_KEY>",
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your_ShuYou_API_KEY>",
 )
 
 response = client.chat.completions.create(
@@ -600,8 +600,8 @@ print(response.choices[0].message.content)
 import anthropic
 
 client = anthropic.Anthropic(
-    base_url="https://agipower.ai",
-    api_key="<your_AGIPower_API_KEY>",
+    base_url="https://shuyou.ai",
+    api_key="<your_ShuYou_API_KEY>",
 )
 
 response = client.messages.create(
@@ -772,12 +772,12 @@ These two model series support both implicit and explicit modes. Implicit mode t
 
 ### How to View Cache Data?
 
-You can view the Prompt Token details of requests in the AGIPower Logs interface, as shown below:
+You can view the Prompt Token details of requests in the ShuYou Logs interface, as shown below:
 
-![View Cache Data](https://cdn.marmot-cloud.com/storage/agipower/2025/10/15/5otcsXY/logs.png)
+![View Cache Data](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/15/5otcsXY/logs.png)
 
 <Tip title="Note the Impact of Log Switch">
 Note that you need to enable the switch in the Strategy-API Call Logging interface for related data to be logged.
 
-![Log Switch](https://cdn.marmot-cloud.com/storage/agipower/2025/10/15/NiNFDys/log-strategy.png)
+![Log Switch](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/15/NiNFDys/log-strategy.png)
 </Tip>

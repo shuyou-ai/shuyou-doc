@@ -2,15 +2,15 @@
 head:
   - - meta
     - name: description
-      content: AGIPower API 错误码参考手册
+      content: ShuYou API 错误码参考手册
   - - meta
     - name: keywords
-      content: AGIPower, guide, error codes, API, troubleshooting, 错误码
+      content: ShuYou, guide, error codes, API, troubleshooting, 错误码
 ---
 
 # API 错误码参考
 
-本文档描述 AGIPower 平台接口所有可能返回的错误响应，包括错误原因及排查解决方案。
+本文档描述 ShuYou 平台接口所有可能返回的错误响应，包括错误原因及排查解决方案。
 
 ## 错误响应格式
 所有错误均遵循统一的 JSON 结构：
@@ -75,7 +75,7 @@ head:
 **排查步骤：**
 
 1. 检查是否通过 `Authorization: Bearer &lt;key&gt;`、`x-api-key` 或 `x-goog-api-key` 头部正确传递了 API Key。
-2. 登录 [AGIPower 控制台](https://agipower.ai/platform) 确认 API Key 未被撤销或过期。 
+2. 登录 [ShuYou 控制台](https://shuyou.ai/platform) 确认 API Key 未被撤销或过期。
 3. 确认复制 API Key 时没有多余的空格或换行符。
 
 #### HTTP 403 — `safety_check_failed`
@@ -95,7 +95,7 @@ head:
 | 错误信息 | 原因 | 解决方法 |
 | --- | --- | --- |
 | `Parameter model is required` | 缺少 `model` 字段或值为空 | 在请求体中添加有效的 `model` 值 |
-| `Model \{model\} is not valid` | 指定的模型标识不存在 | 查阅[模型列表](https://agipower.ai/models)获取有效模型名称 |
+| `Model \{model\} is not valid` | 指定的模型标识不存在 | 查阅[模型列表](https://shuyou.ai/models)获取有效模型名称 |
 | `Parameter messages is required` | 缺少 `messages` 字段 | 在请求体中包含 `messages` 数组 |
 | `Parameter messages can not be empty` | `messages` 为空数组 | 至少提供一条消息 |
 | `Parameter messages can not contain null elements` | `messages` 中存在 `null` 元素 | 移除消息数组中的 null 项 |
@@ -154,7 +154,7 @@ head:
 
 **排查步骤：**
 
-1. 前往 [AGIPower 计费页面](https://agipower.ai/platform) 充值。
+1. 前往 [ShuYou 计费页面](https://shuyou.ai/platform) 充值。
 
 #### HTTP 402 — `reject_no_credit`（余额不足）
 ```json
@@ -180,7 +180,7 @@ head:
   "error": {
     "code": "402",
     "type": "quote_exceeded",
-    "message": "You have reached your subscription quota limit. Please wait for automatic quota refresh in the rolling time window, upgrade to a higher plan, or use a Pay-As-You-Go API Key for unlimited access. Learn more: https://agipower.ai/docs/guide/subscription.html"
+    "message": "You have reached your subscription quota limit. Please wait for automatic quota refresh in the rolling time window, upgrade to a higher plan, or use a Pay-As-You-Go API Key for unlimited access. Learn more: https://shuyou.ai/docs/guide/subscription.html"
   }
 }
 ```
@@ -201,7 +201,7 @@ head:
   "error": {
     "code": "404",
     "type": "model_not_available",
-    "message": "The requested model is not included in your subscription plan. Please create a Pay-As-You-Go API Key to access this model, or check available models for your plan at https://agipower.ai/docs/guide/subscription.html"
+    "message": "The requested model is not included in your subscription plan. Please create a Pay-As-You-Go API Key to access this model, or check available models for your plan at https://shuyou.ai/docs/guide/subscription.html"
   }
 }
 ```
@@ -210,7 +210,7 @@ head:
 
 **排查步骤：**
 
-1. 查阅[订阅指南](https://agipower.ai/docs/guide/subscription.html)确认当前计划支持的模型列表。
+1. 查阅[订阅指南](https://shuyou.ai/docs/guide/subscription.html)确认当前计划支持的模型列表。
 2. 升级订阅计划以包含目标模型。
 3. 使用 Pay-As-You-Go API Key 访问计划外的模型。
 
@@ -220,7 +220,7 @@ head:
 **排查步骤：**
 
 1. 检查模型名称是否有拼写错误。
-2. 参考[模型列表](https://agipower.ai/models)获取有效的模型标识。
+2. 参考[模型列表](https://shuyou.ai/models)获取有效的模型标识。
 
 #### HTTP 404 — `model_not_supported`（模型不支持该 API）
 **原因：** 模型存在但不支持当前调用的接口。
@@ -261,7 +261,7 @@ head:
 **排查步骤：**
 
 1. **退避重试** — 大多数 500 错误是瞬时的，使用指数退避重试即可。
-2. 持续复现时提供响应头中的 `X-AGIPower-RequestId` 联系支持。
+2. 持续复现时提供响应头中的 `X-ShuYou-RequestId` 联系支持。
 
 #### HTTP 500 — `provider_error`、`provider_api_error`
 **原因：** 表示请求已经到达上游，大概率是上游供应商出现了问题。
@@ -269,7 +269,7 @@ head:
 **排查步骤：**
 
 1. **退避重试**
-2. 持续复现时提供响应头中的 `X-AGIPower-RequestId` 联系支持。
+2. 持续复现时提供响应头中的 `X-ShuYou-RequestId` 联系支持。
 
 #### HTTP 502 — `no_provider_available` — 上游服务商不可用
 **原因：** 当前没有可用的上游服务商处理请求，可能由以下情况导致：
@@ -300,7 +300,7 @@ head:
 在长时间运行的请求中，您可能会收到如下 SSE 注释：
 
 ```plain
-: AGIPower PROCESSING
+: ShuYou PROCESSING
 ```
 
 这**不是错误** — 这是每 10 秒发送一次的保活信号，用于防止连接超时。根据 SSE 规范，您的客户端解析器应忽略以 `:` 开头的行。
@@ -318,7 +318,7 @@ head:
 不可重试：  400、402、403、404、413、422
 ```
 
-3. **保存响应头中的 `X-AGIPower-RequestId`** — 联系技术支持时附上此 ID 可加速问题定位。
+3. **保存响应头中的 `X-ShuYou-RequestId`** — 联系技术支持时附上此 ID 可加速问题定位。
 4. **妥善处理流式响应** — 使用 `stream: true` 时，始终处理不完整响应和连接中断的情况。
 5. **使用指数退避重试** — 重试时逐步增加间隔（如 1s → 2s → 4s → 8s），并加入随机抖动以避免"惊群效应"。
 
@@ -348,12 +348,12 @@ A：在分布式系统中偶发的 500 错误属于正常现象。建议：
 
 **Q：我的 API Key 有什么样的频率限制？**
 
-A：频率限制取决于您的订阅计划级别。登录 [AGIPower 控制台](https://agipower.ai/platform) 查看当前计划详情。
+A：频率限制取决于您的订阅计划级别。登录 [ShuYou 控制台](https://shuyou.ai/platform) 查看当前计划详情。
 
 **Q：如何知道请求被路由到了哪个上游服务商？**
 
-A：出于安全和抽象层考虑，响应中的服务商信息已被脱敏。如需追踪请求链路，请将响应头中的`X-AGIPower-RequestId` 提供给技术支持团队。
+A：出于安全和抽象层考虑，响应中的服务商信息已被脱敏。如需追踪请求链路，请将响应头中的`X-ShuYou-RequestId` 提供给技术支持团队。
 
-**Q：流式请求中途收到 `AGIPower PROCESSING` 是什么意思？**
+**Q：流式请求中途收到 `ShuYou PROCESSING` 是什么意思？**
 
 A：这是 SSE 保活注释（以 `:` 开头），每 10 秒发送一次，表示请求仍在处理中。这不是错误，您的 SSE 客户端应按规范自动忽略注释行。

@@ -5,18 +5,18 @@ head:
       content: 1M Token Long Context Window
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, context window, 1M token, long context, Claude, Anthropic, API
+      content: ShuYou, guide, tutorial, context window, 1M token, long context, Claude, Anthropic, API
 ---
 
 # 1M Token Long Context Window
 
-Anthropic’s Claude model family supports expanding the context window from the default 200K tokens to **1,000,000 tokens (1M)**—5× the default capacity. With AGIPower, you can enable this capability effortlessly to handle large-scale document analysis, code review, long-running conversations, and more.
+Anthropic’s Claude model family supports expanding the context window from the default 200K tokens to **1,000,000 tokens (1M)**—5× the default capacity. With ShuYou, you can enable this capability effortlessly to handle large-scale document analysis, code review, long-running conversations, and more.
 
 <Tip title="💡 Key Benefits">
 
 - **Massive context**: Process roughly 750,000 English words or thousands of pages in a single request
 - **Deep analysis**: Ideal for large codebase reviews, long-form literature analysis, full conversation history, and more
-- **Seamless integration**: Enable it via AGIPower’s unified interface by adding a single request header
+- **Seamless integration**: Enable it via ShuYou’s unified interface by adding a single request header
 </Tip>
 
 ## Supported Models
@@ -45,8 +45,8 @@ To use the 1M-token context window, add the request header `anthropic-beta: cont
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 response = client.chat.completions.create(
@@ -69,8 +69,8 @@ print(response.choices[0].message.content)
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1",
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  baseURL: "https://api.shuyou.ai/v1",
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 async function main() {
@@ -98,9 +98,9 @@ main();
 ```
 
 ```bash title="Shell (cURL)"
-curl "https://api.agipower.ai/v1/chat/completions" \
+curl "https://api.shuyou.ai/v1/chat/completions" \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -H "anthropic-beta: context-1m-2025-08-07" \
   -d '{
     "model": "anthropic/claude-sonnet-4.5",
@@ -125,8 +125,8 @@ curl "https://api.agipower.ai/v1/chat/completions" \
 import anthropic
 
 client = anthropic.Anthropic(
-    base_url="https://agipower.ai",
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    base_url="https://shuyou.ai",
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 response = client.beta.messages.create(
@@ -148,8 +148,8 @@ print(response.content[0].text)
 import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic({
-  baseURL: "https://agipower.ai",
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  baseURL: "https://shuyou.ai",
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 async function main() {
@@ -172,9 +172,9 @@ main();
 ```
 
 ```bash title="Shell (cURL)"
-curl "https://api.agipower.ai/v1/messages" \
+curl "https://api.shuyou.ai/v1/messages" \
   -H "Content-Type: application/json" \
-  -H "x-api-key: $AGIPower_API_KEY" \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "anthropic-beta: context-1m-2025-08-07" \
   -d '{

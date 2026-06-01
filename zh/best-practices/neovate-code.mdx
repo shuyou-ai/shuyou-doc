@@ -2,43 +2,43 @@
 head:
   - - meta
     - name: description
-      content: AGIPower 与 Neovate 的集成指南
+      content: ShuYou 与 Neovate 的集成指南
   - - meta
     - name: keywords
-      content: AGIPower, best practices, integration, neovate, code, API
+      content: ShuYou, best practices, integration, neovate, code, API
 ---
 
 
-# AGIPower 与 Neovate 的集成指南
+# ShuYou 与 Neovate 的集成指南
 
-[Neovate Code](https://neovateai.dev) 是一个开源的 AI 驱动代码助手，支持多种 AI 模型提供者。通过将 AGIPower 集成到 Neovate Code 中，用户可以访问多个 AI 模型，提升代码生成和辅助编程的能力。
+[Neovate Code](https://neovateai.dev) 是一个开源的 AI 驱动代码助手，支持多种 AI 模型提供者。通过将 ShuYou 集成到 Neovate Code 中，用户可以访问多个 AI 模型，提升代码生成和辅助编程的能力。
 
 ## 配置方式
 
-AGIPower 提供两种配置方式以适应不同的部署场景：
+ShuYou 提供两种配置方式以适应不同的部署场景：
 
 ### 方法一：环境变量（推荐）
 
-最简单的配置方式是使用 `AGIPower_API_KEY` 环境变量：
+最简单的配置方式是使用 `ShuYou_API_KEY` 环境变量：
 
 ```bash
-export AGIPower_API_KEY=your_api_key_here
+export ShuYou_API_KEY=your_api_key_here
 ```
 
 Windows 用户：
 ```cmd
-set AGIPower_API_KEY=your_api_key_here
+set ShuYou_API_KEY=your_api_key_here
 ```
 
 ### 方法二：配置文件（针对旧版）
 
-对于需要更复杂配置或从旧版本迁移的用户，AGIPower 支持使用配置文件：
+对于需要更复杂配置或从旧版本迁移的用户，ShuYou 支持使用配置文件：
 
 ```json
 {
-  "agipower": {
+  "ShuYou": {
     "apiKey": "your_api_key_here",
-    "api": "https://api.agipower.ai/v1"
+    "api": "https://api.shuyou.ai/v1"
   }
 }
 ```
@@ -52,9 +52,9 @@ set AGIPower_API_KEY=your_api_key_here
    npm install -g @neovate/code
    ```
 
-2. **配置 AGIPower API Key**：
+2. **配置 ShuYou API Key**：
    ```bash
-   export AGIPower_API_KEY=your_api_key
+   export ShuYou_API_KEY=your_api_key
    ```
 
 3. **启动 Neovate**：
@@ -64,21 +64,21 @@ set AGIPower_API_KEY=your_api_key_here
    neo
    ```
 
-4. **选择 AGIPower 提供者**：
+4. **选择 ShuYou 提供者**：
    ```bash
    /login
-   # 在提供者列表中选择 AGIPower
+   # 在提供者列表中选择 ShuYou
    ```
 
 5. **选择模型**：
    ```bash
    /model
-   # 从可用的 AGIPower 模型中选择
+   # 从可用的 ShuYou 模型中选择
    ```
 
 ## 可用功能
 
-配置完成后，你可以通过 Neovate Code 使用 AGIPower 的模型能力：
+配置完成后，你可以通过 Neovate Code 使用 ShuYou 的模型能力：
 
 - **代码生成**：生成代码片段和完整函数
 - **修复 Bug**：识别并解决代码问题
@@ -102,7 +102,7 @@ set AGIPower_API_KEY=your_api_key_here
 "Optimize this SQL query for better performance with large datasets"
 ```
 
-## 使用 AGIPower 的好处
+## 使用 ShuYou 的好处
 
 - **模型多样性**：通过单一接口访问多个 AI 模型
 - **成本优化**：可根据性能和价格比较并选择模型
@@ -111,8 +111,8 @@ set AGIPower_API_KEY=your_api_key_here
 
 ## 支持
 
-如果遇到 AGIPower 相关问题：
-- 访问 [AGIPower 文档](https://agipower.ai/)
+如果遇到 ShuYou 相关问题：
+- 访问 [ShuYou 文档](https://shuyou.ai/)
 
 如果遇到 Neovate 集成问题：
 - 访问 [Neovate 文档](https://neovateai.dev)

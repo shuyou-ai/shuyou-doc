@@ -2,20 +2,20 @@
 head:
   - - meta
     - name: description
-      content: Guide to Using Obsidian Copilot via AGIPower
+      content: Guide to Using Obsidian Copilot via ShuYou
   - - meta
     - name: keywords
-      content: AGIPower, best practices, integration, obsidian, OpenAI, API
+      content: ShuYou, best practices, integration, obsidian, OpenAI, API
 ---
 
-# Guide to Using Obsidian Copilot via AGIPower
+# Guide to Using Obsidian Copilot via ShuYou
 
-Obsidian Copilot is a powerful AI assistant plugin. Through its integration with AGIPower, you can use multiple advanced AI models within your Obsidian notes for a smarter writing and thinking experience.
+Obsidian Copilot is a powerful AI assistant plugin. Through its integration with ShuYou, you can use multiple advanced AI models within your Obsidian notes for a smarter writing and thinking experience.
 
 <Info title="Compatibility Note">
-AGIPower fully supports the OpenAI API protocol and can be seamlessly integrated into the Obsidian Copilot plugin. Minimal configuration is required.
+ShuYou fully supports the OpenAI API protocol and can be seamlessly integrated into the Obsidian Copilot plugin. Minimal configuration is required.
 
-Note that the OpenAI protocol base_url="https://api.agipower.ai/v1".
+Note that the OpenAI protocol base_url="https://api.shuyou.ai/v1".
 </Info>
 
 ## Installation and Configuration
@@ -45,12 +45,12 @@ Obsidian supports Windows, macOS, and Linux. Choose the version appropriate for 
 
 1. After installation, click **Enable** to activate the plugin
 
-### 3. Configure AGIPower Models
+### 3. Configure ShuYou Models
 
-#### Get Your AGIPower API Key
+#### Get Your ShuYou API Key
 
 <Warning title="Important Configuration">
-Before configuration, you need to obtain a AGIPower API Key. Visit the [AGIPower Console](https://agipower.ai/settings/keys) to create or view your API Key.
+Before configuration, you need to obtain a ShuYou API Key. Visit the [ShuYou Console](https://shuyou.ai/settings/keys) to create or view your API Key.
 </Warning>
 
 #### Add a Custom Model
@@ -69,9 +69,9 @@ In the pop-up configuration form, fill in the fields as follows:
 ![Model list page](https://github.com/user-attachments/assets/d17f7e8f-c500-4bad-909b-377b4387a551)
 
 - **Provider**: Select `OpenAI`
-- **Base URL**: Enter `https://api.agipower.ai/v1`
-- **API Key**: Enter your AGIPower API Key (starts with `sk-`)
-- **Model ID**: Enter the model slug on AGIPower that supports the OpenAI Chat-Completion protocol
+- **Base URL**: Enter `https://api.shuyou.ai/v1`
+- **API Key**: Enter your ShuYou API Key (starts with `sk-`)
+- **Model ID**: Enter the model slug on ShuYou that supports the OpenAI Chat-Completion protocol
 
 ### 4. Test the Model Connection
 
@@ -87,7 +87,7 @@ After configuration, you can use Copilot in the following way:
 
 1. Click the Copilot icon (robot icon) in the left sidebar
 2. Open the chat interface
-3. Select your configured AGIPower model in the model selector
+3. Select your configured ShuYou model in the model selector
 
 ![Use Copilot chat](https://github.com/user-attachments/assets/a0cec736-e2e7-4b55-8c79-4dd653d7b5f4)
 ![Select model](https://github.com/user-attachments/assets/1da9b79f-c45e-4aae-b116-a9bc8c896aa2)
@@ -104,18 +104,18 @@ After configuration, you can use Copilot in the following way:
 - Check whether the API Key was copied correctly and ensure there are no extra spaces
 - Verify the API Key format starts with `sk-`
 - Confirm the API Key is active and has sufficient balance
-- Check the API Key status in the [AGIPower Console](https://agipower.ai/settings/keys)
+- Check the API Key status in the [ShuYou Console](https://shuyou.ai/settings/keys)
 
 
 #### Connection Failure
-**Issue**: Copilot cannot connect to the AGIPower service
+**Issue**: Copilot cannot connect to the ShuYou service
 
 **Solution**:
 
 - Check if your network connection is working properly
-- Verify the Base URL is configured as `https://api.agipower.ai/v1` (note it is `/v1` and not `/anthropic`)
+- Verify the Base URL is configured as `https://api.shuyou.ai/v1` (note it is `/v1` and not `/anthropic`)
 - Confirm your firewall or proxy settings are not blocking the connection
-- Try accessing [https://agipower.ai](https://agipower.ai) in a browser to confirm the service is reachable
+- Try accessing [https://shuyou.ai](https://shuyou.ai) in a browser to confirm the service is reachable
 
 
 #### Model Unavailable
@@ -125,7 +125,7 @@ After configuration, you can use Copilot in the following way:
 
 - Check that the Model ID is correct, paying attention to case and spelling
 - Common mistake: `anthropic/claude-hiku-4.5-sonnet` should be `anthropic/claude-haiku-4.5` (haiku, not hiku)
-- Visit the [AGIPower Model List](https://agipower.ai/models) and filter by "OpenAI API Compatible" to view available models
+- Visit the [ShuYou Model List](https://shuyou.ai/models) and filter by "OpenAI API Compatible" to view available models
 - Confirm the selected model supports the OpenAI Chat-Completion protocol
 
 
@@ -165,8 +165,8 @@ After configuration, you can use Copilot in the following way:
 <Tip title="Contact Us">
 If you encounter any issues during use, or have suggestions and feedback, feel free to contact us:
 
-- **Official Website**: [https://agipower.ai](https://agipower.ai)
-- **Technical Support Email**: [support@agipower.ai](mailto:support@agipower.ai)
+- **Official Website**: [https://shuyou.ai](https://shuyou.ai)
+- **Technical Support Email**: [support@shuyou.ai](mailto:support@shuyou.ai)
 
 
 For more contact methods and details, please visit our [Contact Us page](/en/help/contact).

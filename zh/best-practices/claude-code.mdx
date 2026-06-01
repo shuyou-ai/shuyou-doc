@@ -2,23 +2,23 @@
 head:
   - - meta
     - name: description
-      content: 通过 AGIPower 使用 Claude Code CLI 指南
+      content: 通过 ShuYou 使用 Claude Code CLI 指南
   - - meta
     - name: keywords
-      content: AGIPower, best practices, integration, claude, code, Anthropic, Claude, GPT, API
+      content: ShuYou, best practices, integration, claude, code, Anthropic, Claude, GPT, API
 ---
 
-# 通过 AGIPower 使用 Claude Code CLI 指南
+# 通过 ShuYou 使用 Claude Code CLI 指南
 
 <Info title="兼容性说明">
 
-Claude Code 是 Anthropic 推出的官方 Coding Agent，通过与 AGIPower 的集成，您可以使用更多模型选择，而不仅仅局限于 Claude 官方模型。
+Claude Code 是 Anthropic 推出的官方 Coding Agent，通过与 ShuYou 的集成，您可以使用更多模型选择，而不仅仅局限于 Claude 官方模型。
 
-例如，您可以通过 AGIPower 在 Claude Code 中使用 GPT-5.2系列、Claude-4.5系列、Gemini-3系列、Grok 4.1系列、Doubao-Seed-Code、Kimi-K2、Minimax-M2、GLM-4.6、DeepSeek-V3.2、Qwen3-Coder-Plus等模型，更多支持的模型请见[官方模型列表](https://agipower.ai/models?sort=newest&supported_protocol=messages)。
+例如，您可以通过 ShuYou 在 Claude Code 中使用 GPT-5.2系列、Claude-4.5系列、Gemini-3系列、Grok 4.1系列、Doubao-Seed-Code、Kimi-K2、Minimax-M2、GLM-4.6、DeepSeek-V3.2、Qwen3-Coder-Plus等模型，更多支持的模型请见[官方模型列表](https://shuyou.ai/models?sort=newest&supported_protocol=messages)。
 
-AGIPower 完全支持 Anthropic API 协议，可以无缝集成到 Claude Code、Cursor 等工具中。只需修改两个参数即可使用。
+ShuYou 完全支持 Anthropic API 协议，可以无缝集成到 Claude Code、Cursor 等工具中。只需修改两个参数即可使用。
 
-注意 Anthropic 协议的 `base_url="https://api.agipower.ai"`。
+注意 Anthropic 协议的 `base_url="https://api.shuyou.ai"`。
 </Info>
 
 ## 配置方案
@@ -92,13 +92,13 @@ winget install Anthropic.ClaudeCode
 
 #### 配置原理说明
 
-Claude Code 默认直接连接到 Anthropic 官方服务，但通过配置环境变量，我们可以将其请求重定向到 AGIPower 服务。这样做的好处是：
+Claude Code 默认直接连接到 Anthropic 官方服务，但通过配置环境变量，我们可以将其请求重定向到 ShuYou 服务。这样做的好处是：
 
 - **无需修改 Claude Code 本身**：仅通过环境变量即可切换服务端点
-- **使用 AGIPower API Key 认证**：替代 Anthropic 官方 API Key
+- **使用 ShuYou API Key 认证**：替代 Anthropic 官方 API Key
 - **访问更多模型选择**：除 Claude 系列外，还可使用 GPT、Gemini、Qwen 等多种模型
 
-配置的核心是设置两个关键环境变量：`ANTHROPIC_BASE_URL`（AGIPower 服务地址）和 `ANTHROPIC_AUTH_TOKEN`（您的 AGIPower API Key），从而让 Claude Code 的所有请求都通过 AGIPower 转发。
+配置的核心是设置两个关键环境变量：`ANTHROPIC_BASE_URL`（ShuYou 服务地址）和 `ANTHROPIC_AUTH_TOKEN`（您的 ShuYou API Key），从而让 Claude Code 的所有请求都通过 ShuYou 转发。
 
 <Warning title="v2.0.7x 版本重要变更">
 由于 Claude Code v2.0.7x 的更新，其**环境变量加载逻辑发生改变**：`~/.claude/settings.json` 中的 `env` 配置在以下场景**无法可靠读取**：
@@ -106,12 +106,12 @@ Claude Code 默认直接连接到 Anthropic 官方服务，但通过配置环境
 - **首次登录** Claude Code 时
 - 执行 **logout** 后再次登录时
 
-因此，连接 AGIPower 时建议统一使用 **shell profile 环境变量** 的方式进行配置，以确保登录与请求都走 AGIPower 的 Anthropic 兼容端点。
+因此，连接 ShuYou 时建议统一使用 **shell profile 环境变量** 的方式进行配置，以确保登录与请求都走 ShuYou 的 Anthropic 兼容端点。
 </Warning>
 
-### 步骤 0：获取 AGIPower API Key
+### 步骤 0：获取 ShuYou API Key
 
-在配置 Claude Code 之前，您需要先获取 AGIPower API Key。AGIPower 提供两种计费方案，请根据使用场景选择：
+在配置 Claude Code 之前，您需要先获取 ShuYou API Key。ShuYou 提供两种计费方案，请根据使用场景选择：
 
 
 
@@ -121,12 +121,12 @@ Claude Code 默认直接连接到 Anthropic 官方服务，但通过配置环境
 ✅ API Key 格式：sk-ss-v1-xxx
 
 获取方式：
-1. 访问订阅管理页面：https://agipower.ai/platform/subscription
+1. 访问订阅管理页面：https://shuyou.ai/platform/subscription
 2. 选择适合的套餐（Pro $20/月、Max $100/月、Ultra $200/月）
 3. 完成订阅后，在页面中创建订阅制 API Key
 
 详细说明请参考：订阅制套餐指南
-📚 https://agipower.ai/zh/guide/subscription
+📚 https://shuyou.ai/zh/guide/subscription
 ```
 
 ```text title="按量付费 API Key"
@@ -135,12 +135,12 @@ Claude Code 默认直接连接到 Anthropic 官方服务，但通过配置环境
 ✅ API Key 格式：sk-xxx
 
 获取方式：
-1. 访问按量付费页面：https://agipower.ai/platform/pay-as-you-go
+1. 访问按量付费页面：https://shuyou.ai/platform/pay-as-you-go
 2. 充值账户（充值自动赠送 20% 额外积分）
 3. 在 "Pay As You Go API Keys" 区域创建 API Key
 
 详细说明请参考：按量付费指南
-📚 https://agipower.ai/zh/guide/pay-as-you-go
+📚 https://shuyou.ai/zh/guide/pay-as-you-go
 ```
 
 
@@ -155,7 +155,7 @@ Claude Code 默认直接连接到 Anthropic 官方服务，但通过配置环境
 
 ### 步骤 1：配置 Shell 环境变量（推荐方式）
 
-本步骤将把 AGIPower 连接配置写入您的 shell 配置文件中，使其在每次打开终端时自动生效。
+本步骤将把 ShuYou 连接配置写入您的 shell 配置文件中，使其在每次打开终端时自动生效。
 
 
 
@@ -169,12 +169,12 @@ Claude Code 默认直接连接到 Anthropic 官方服务，但通过配置环境
 
 # 2. 将以下内容追加到对应的配置文件末尾（注意替换 API Key）
 
-# ============= AGIPower + Claude Code 配置 =============
-# 将 Claude Code 连接到 AGIPower 服务，而非 Anthropic 官方服务
+# ============= ShuYou + Claude Code 配置 =============
+# 将 Claude Code 连接到 ShuYou 服务，而非 Anthropic 官方服务
 
-# 核心配置：AGIPower 服务端点和认证
-export ANTHROPIC_BASE_URL="https://api.agipower.ai"  # AGIPower Anthropic 兼容端点
-export ANTHROPIC_AUTH_TOKEN="sk-ss-v1-xxx"                   # 替换为您的 AGIPower API Key（订阅制 sk-ss-v1-xxx 或按量付费 sk-xxx）
+# 核心配置：ShuYou 服务端点和认证
+export ANTHROPIC_BASE_URL="https://api.shuyou.ai"  # ShuYou Anthropic 兼容端点
+export ANTHROPIC_AUTH_TOKEN="sk-ss-v1-xxx"                   # 替换为您的 ShuYou API Key（订阅制 sk-ss-v1-xxx 或按量付费 sk-xxx）
 export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"          # 禁用非必要流量
 export API_TIMEOUT_MS="30000000"                              # API 超时时间（毫秒）
 
@@ -215,12 +215,12 @@ notepad $PROFILE
 
 # 4. 将以下内容追加到 Profile 文件末尾（注意替换 API Key）
 
-# ============= AGIPower + Claude Code 配置 =============
-# 将 Claude Code 连接到 AGIPower 服务，而非 Anthropic 官方服务
+# ============= ShuYou + Claude Code 配置 =============
+# 将 Claude Code 连接到 ShuYou 服务，而非 Anthropic 官方服务
 
-# 核心配置：AGIPower 服务端点和认证
-$env:ANTHROPIC_BASE_URL = "https://api.agipower.ai"  # AGIPower Anthropic 兼容端点
-$env:ANTHROPIC_AUTH_TOKEN = "sk-ss-v1-xxx"                   # 替换为您的 AGIPower API Key（订阅制 sk-ss-v1-xxx 或按量付费 sk-xxx）
+# 核心配置：ShuYou 服务端点和认证
+$env:ANTHROPIC_BASE_URL = "https://api.shuyou.ai"  # ShuYou Anthropic 兼容端点
+$env:ANTHROPIC_AUTH_TOKEN = "sk-ss-v1-xxx"                   # 替换为您的 ShuYou API Key（订阅制 sk-ss-v1-xxx 或按量付费 sk-xxx）
 $env:CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1"          # 禁用非必要流量
 $env:API_TIMEOUT_MS = "30000000"                              # API 超时时间（毫秒）
 
@@ -244,18 +244,18 @@ Write-Host "ANTHROPIC_AUTH_TOKEN: $env:ANTHROPIC_AUTH_TOKEN"
 
 <Warning title="🔑 重要：替换 API Key">
 
-请确保将配置中的 `sk-ss-v1-xxx` 或 `sk-xxx` 替换为您的真实 AGIPower API Key：
+请确保将配置中的 `sk-ss-v1-xxx` 或 `sk-xxx` 替换为您的真实 ShuYou API Key：
 
 **订阅制 API Key（推荐个人开发）**
 
 - 格式：`sk-ss-v1-xxx`
-- 获取位置：[订阅管理页面](https://agipower.ai/platform/subscription)
+- 获取位置：[订阅管理页面](https://shuyou.ai/platform/subscription)
 - 详细指南：[订阅制套餐文档](/zh/guide/subscription)
 
 **按量付费 API Key（生产环境）**
 
 - 格式：`sk-xxx`
-- 获取位置：[按量付费页面](https://agipower.ai/platform/pay-as-you-go)
+- 获取位置：[按量付费页面](https://shuyou.ai/platform/pay-as-you-go)
 - 详细指南：[按量付费文档](/zh/guide/pay-as-you-go)
 </Warning>
 
@@ -263,8 +263,8 @@ Write-Host "ANTHROPIC_AUTH_TOKEN: $env:ANTHROPIC_AUTH_TOKEN"
 
 | 变量名                                     | 作用         | 说明                                      |
 | ------------------------------------------ | ------------ | ----------------------------------------- |
-| `ANTHROPIC_BASE_URL`                       | 服务端点地址 | 将 Claude Code 的请求重定向到 AGIPower 服务 |
-| `ANTHROPIC_AUTH_TOKEN`                     | 认证密钥     | 您的 AGIPower API Key（订阅制或按量付费）   |
+| `ANTHROPIC_BASE_URL`                       | 服务端点地址 | 将 Claude Code 的请求重定向到 ShuYou 服务 |
+| `ANTHROPIC_AUTH_TOKEN`                     | 认证密钥     | 您的 ShuYou API Key（订阅制或按量付费）   |
 | `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` | 流量控制     | 禁用非必要的数据上报，提升隐私性          |
 | `ANTHROPIC_API_KEY`                        | 冲突避免     | 置空以避免与本机已有 Anthropic 配置冲突   |
 | `API_TIMEOUT_MS`                           | API 超时设置 | 设置 API 请求超时时间（毫秒）             |
@@ -274,7 +274,7 @@ Write-Host "ANTHROPIC_AUTH_TOKEN: $env:ANTHROPIC_AUTH_TOKEN"
 
 ### 步骤 2：启动 Claude Code 并完成认证
 
-配置完环境变量后，就可以启动 Claude Code 了。首次启动时会自动通过 AGIPower 完成认证。
+配置完环境变量后，就可以启动 Claude Code 了。首次启动时会自动通过 ShuYou 完成认证。
 
 **操作步骤：**
 
@@ -293,7 +293,7 @@ Write-Host "ANTHROPIC_AUTH_TOKEN: $env:ANTHROPIC_AUTH_TOKEN"
 
 4. 首次启动时，Claude Code 会：
    - 自动读取环境变量中的 `ANTHROPIC_AUTH_TOKEN`
-   - 通过 `ANTHROPIC_BASE_URL` 指向的 AGIPower 服务完成认证
+   - 通过 `ANTHROPIC_BASE_URL` 指向的 ShuYou 服务完成认证
    - 无需额外登录步骤，即可开始使用
 
 <Tip title="提示">
@@ -302,22 +302,22 @@ Write-Host "ANTHROPIC_AUTH_TOKEN: $env:ANTHROPIC_AUTH_TOKEN"
 
 ### 步骤 3：验证连接状态
 
-启动成功后，建议验证 Claude Code 是否正确连接到 AGIPower 服务。
+启动成功后，建议验证 Claude Code 是否正确连接到 ShuYou 服务。
 
 在 Claude Code 提示符下输入 `/status` 命令，检查配置是否正确：
 
 ```text
 > /status
 Auth token: ANTHROPIC_AUTH_TOKEN  # [!code highlight]
-Anthropic base URL: https://api.agipower.ai  # [!code highlight]
+Anthropic base URL: https://api.shuyou.ai  # [!code highlight]
 ```
 
 **验证要点：**
 
 - ✅ `Auth token` 应显示为 `ANTHROPIC_AUTH_TOKEN`（表示从环境变量读取）
-- ✅ `Anthropic base URL` 应显示为 `https://api.agipower.ai`（AGIPower 服务地址）
+- ✅ `Anthropic base URL` 应显示为 `https://api.shuyou.ai`（ShuYou 服务地址）
 
-如果显示的信息符合上述要求，说明配置成功！您现在可以通过 AGIPower 使用 Claude Code 了。
+如果显示的信息符合上述要求，说明配置成功！您现在可以通过 ShuYou 使用 Claude Code 了。
 
 ## 更换/指定默认模型
 
@@ -334,10 +334,10 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
 ### 支持的模型
 
 <Info title="Anthropic 协议支持模型说明">
-支持 Anthropic 协议的模型正在分批适配中，当前已支持的模型可以通过[官方模型列表](https://agipower.ai/models?sort=newest&supported_protocol=messages)筛选 Anthropic Messages 协议查看:
-![anthropic-support](https://cdn.marmot-cloud.com/storage/agipower/2025/10/16/602FqX9/anthropic-support.png)
-或者也可以通过[模型详情页](https://agipower.ai/anthropic/claude-haiku-4.5)查看:
-![anthropic-support](https://cdn.marmot-cloud.com/storage/agipower/2025/10/16/I9JHS8b/detail-anthropic-support.png)
+支持 Anthropic 协议的模型正在分批适配中，当前已支持的模型可以通过[官方模型列表](https://shuyou.ai/models?sort=newest&supported_protocol=messages)筛选 Anthropic Messages 协议查看:
+![anthropic-support](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/16/602FqX9/anthropic-support.png)
+或者也可以通过[模型详情页](https://shuyou.ai/anthropic/claude-haiku-4.5)查看:
+![anthropic-support](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/16/I9JHS8b/detail-anthropic-support.png)
 </Info>
 
 ## 在 VSCode 中使用 Claude Code 扩展
@@ -349,7 +349,7 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
 在 VSCode 扩展市场中搜索并安装 **Claude Code Extension**：
 
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2026/02/03/S4ThMGS/cc-vs.png" alt="安装 Claude Code Extension" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/03/S4ThMGS/cc-vs.png" alt="安装 Claude Code Extension" />
 &lt;/div&gt;
 
 ### 第 2 步：打开设置
@@ -357,7 +357,7 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
 安装完成后，点击扩展的**设置**图标进入配置界面：
 
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2026/02/03/lDKDS2r/cc-vs2.png" alt="打开 Claude Code 设置" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/03/lDKDS2r/cc-vs2.png" alt="打开 Claude Code 设置" />
 &lt;/div&gt;
 
 ### 第 3 步：配置模型和环境变量
@@ -365,7 +365,7 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
 点击 **Edit in settings.json**，在配置文件中添加或修改以下内容：
 
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2026/02/03/w8EeQzh/cc-vs3.png" alt="配置模型和环境变量" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/03/w8EeQzh/cc-vs3.png" alt="配置模型和环境变量" />
 &lt;/div&gt;
 
 ```json
@@ -374,7 +374,7 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
   "claudeCode.environmentVariables": [
     {
       "name": "ANTHROPIC_BASE_URL",
-      "value": "https://api.agipower.ai"
+      "value": "https://api.shuyou.ai"
     },
     {
       "name": "ANTHROPIC_AUTH_TOKEN",
@@ -406,7 +406,7 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
 
 <Warning title="🔑 重要配置说明">
 
-1. **替换 API Key**：将 `sk-ss-v1-xxx` 替换为您的真实 AGIPower API Key
+1. **替换 API Key**：将 `sk-ss-v1-xxx` 替换为您的真实 ShuYou API Key
    - 订阅制 API Key（`sk-ss-v1-xxx`）：适合个人开发
    - 按量付费 API Key（`sk-xxx`）：适合生产环境
 
@@ -440,16 +440,16 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
 
 ## 使用效果
 
-配置完成后，您就可以在 Claude Code 中使用 AGIPower 的多种模型了：
+配置完成后，您就可以在 Claude Code 中使用 ShuYou 的多种模型了：
 
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2025/10/16/GxOgGlh/claude-code-v2.png" alt="Claude Code" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/16/GxOgGlh/claude-code-v2.png" alt="Claude Code" />
 &lt;/div&gt;
 
 您可以通过'/model'命令来确定当前使用的模型：
 
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2025/10/16/MOGcIN5/claude-code-v2-model.png" alt="Claude Code Model" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/16/MOGcIN5/claude-code-v2-model.png" alt="Claude Code Model" />
 &lt;/div&gt;
 
 ## 故障排除
@@ -467,8 +467,8 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
    - 确认没有多余的空格或换行符
 
 2. **验证 API Key 有效性**：
-   - 订阅制：访问 [订阅管理页面](https://agipower.ai/platform/subscription) 检查订阅状态和配额
-   - 按量付费：访问 [按量付费页面](https://agipower.ai/platform/pay-as-you-go) 检查余额是否充足
+   - 订阅制：访问 [订阅管理页面](https://shuyou.ai/platform/subscription) 检查订阅状态和配额
+   - 按量付费：访问 [按量付费页面](https://shuyou.ai/platform/pay-as-you-go) 检查余额是否充足
 
 3. **确认环境变量已加载**：
 
@@ -491,12 +491,12 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
    - [按量付费 API Key 获取指南](/zh/guide/pay-as-you-go#创建和管理-api-key)
 
 
-#### 从其他平台切换到 AGIPower 时认证失败
-**问题**：之前使用过 Claude Code 官方账号或其他平台（如 MiniMax、GLM 等），切换到 AGIPower 后出现认证失败或配置冲突
+#### 从其他平台切换到 ShuYou 时认证失败
+**问题**：之前使用过 Claude Code 官方账号或其他平台（如 MiniMax、GLM 等），切换到 ShuYou 后出现认证失败或配置冲突
 
 **解决方案**：
 
-这通常是因为旧的配置文件缓存了之前的认证信息，导致与新的 AGIPower 配置冲突。按照以下步骤清理并重新配置：
+这通常是因为旧的配置文件缓存了之前的认证信息，导致与新的 ShuYou 配置冲突。按照以下步骤清理并重新配置：
 
 1. **删除旧的配置文件**：
 
@@ -512,11 +512,11 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
 
 2. **确认 shell 环境变量配置正确**：
 
-   检查您的 shell 配置文件（`~/.zshrc` 或 `~/.bashrc`）中是否包含完整的 AGIPower 配置。参考本文档上方的 [步骤 1：配置 Shell 环境变量](#步骤-1-配置-shell-环境变量-推荐方式) 章节，确保包含以下关键环境变量：
+   检查您的 shell 配置文件（`~/.zshrc` 或 `~/.bashrc`）中是否包含完整的 ShuYou 配置。参考本文档上方的 [步骤 1：配置 Shell 环境变量](#步骤-1-配置-shell-环境变量-推荐方式) 章节，确保包含以下关键环境变量：
 
    ```bash
-   export ANTHROPIC_BASE_URL="https://api.agipower.ai"
-   export ANTHROPIC_AUTH_TOKEN="sk-ss-v1-xxx"  # 替换为您的 AGIPower API Key
+   export ANTHROPIC_BASE_URL="https://api.shuyou.ai"
+   export ANTHROPIC_AUTH_TOKEN="sk-ss-v1-xxx"  # 替换为您的 ShuYou API Key
    export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
    export API_TIMEOUT_MS="30000000"
    export ANTHROPIC_API_KEY=""  # 清空以避免冲突
@@ -542,13 +542,13 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
 4. **验证环境变量已生效**：
 
    ```bash [macOS/Linux]
-   # 检查 AGIPower 服务地址
+   # 检查 ShuYou 服务地址
    echo $ANTHROPIC_BASE_URL
-   # 应输出：https://api.agipower.ai
+   # 应输出：https://api.shuyou.ai
 
    # 检查 API Key 是否已设置
    echo $ANTHROPIC_AUTH_TOKEN
-   # 应输出您的 AGIPower API Key
+   # 应输出您的 ShuYou API Key
 
    # 确认旧的 API Key 已清空
    echo $ANTHROPIC_API_KEY
@@ -556,13 +556,13 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
    ```
 
    ```powershell [Windows PowerShell]
-   # 检查 AGIPower 服务地址
+   # 检查 ShuYou 服务地址
    Write-Host "ANTHROPIC_BASE_URL: $env:ANTHROPIC_BASE_URL"
-   # 应输出：https://api.agipower.ai
+   # 应输出：https://api.shuyou.ai
 
    # 检查 API Key 是否已设置
    Write-Host "ANTHROPIC_AUTH_TOKEN: $env:ANTHROPIC_AUTH_TOKEN"
-   # 应输出您的 AGIPower API Key
+   # 应输出您的 ShuYou API Key
 
    # 确认旧的 API Key 已清空
    Write-Host "ANTHROPIC_API_KEY: $env:ANTHROPIC_API_KEY"
@@ -585,7 +585,7 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
 
    ```text
    Auth token: ANTHROPIC_AUTH_TOKEN
-   Anthropic base URL: https://api.agipower.ai
+   Anthropic base URL: https://api.shuyou.ai
    ```
 
 
@@ -595,18 +595,18 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
 
 **解决方案**：
 
-- 请通过 [AGIPower 模型列表](https://agipower.ai/models) 筛选 "Anthropic API Compatible" 查看当前支持的模型
+- 请通过 [ShuYou 模型列表](https://shuyou.ai/models) 筛选 "Anthropic API Compatible" 查看当前支持的模型
 - 或访问具体模型的详情页确认是否支持 Anthropic 协议
 - 选择上述支持列表中的模型进行使用
 
 
 #### 连接失败问题
-**问题**：Claude Code 无法连接到 AGIPower 服务
+**问题**：Claude Code 无法连接到 ShuYou 服务
 
 **解决方案**：
 
 - 检查网络连接是否正常
-- 验证 `ANTHROPIC_BASE_URL` 是否配置正确为 `https://agipower.ai`
+- 验证 `ANTHROPIC_BASE_URL` 是否配置正确为 `https://shuyou.ai`
 - 确认防火墙设置是否阻止了外部连接
 
 
@@ -624,7 +624,7 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3-pro-preview"
 2. **检查模型配置**：
    - 在设置中搜索 "claude-code.selectedModel"
    - 确认模型名称格式正确（如 `anthropic/claude-sonnet-4.5`）
-   - 确认该模型支持 Anthropic 协议（通过[模型列表](https://agipower.ai/models?sort=newest&supported_protocol=messages)查看）
+   - 确认该模型支持 Anthropic 协议（通过[模型列表](https://shuyou.ai/models?sort=newest&supported_protocol=messages)查看）
 
 3. **解决环境变量冲突**：
    - VSCode 扩展的 `settings.json` 配置优先级高于系统环境变量
@@ -803,14 +803,14 @@ export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-6"  # [!code highlight]
 
 
 <Info title="更多模型">
-查看 [AGIPower 模型列表](https://agipower.ai/models) 了解所有可用模型及其详细信息
+查看 [ShuYou 模型列表](https://shuyou.ai/models) 了解所有可用模型及其详细信息
 </Info>
 
 <Tip title="联系我们">
 如果您在使用过程中遇到任何问题，或有任何建议和反馈，欢迎通过以下方式联系我们：
 
-- **官方网站**：[https://agipower.ai](https://agipower.ai)
-- **技术支持邮箱**：[support@agipower.ai](mailto:support@agipower.ai)
+- **官方网站**：[https://shuyou.ai](https://shuyou.ai)
+- **技术支持邮箱**：[support@shuyou.ai](mailto:support@shuyou.ai)
 
 更多联系方式和详细信息，请访问我们的[联系我们页面](/zh/help/contact)。
 </Tip>

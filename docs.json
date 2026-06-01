@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "AGIPower Docs",
+  "name": "ShuYou Docs",
   "colors": {
     "primary": "#111827",
     "light": "#2563EB",
@@ -24,25 +24,25 @@
     "links": [
       {
         "label": "Home",
-        "href": "https://agipower.ai"
+        "href": "https://shuyou.ai"
       },
       {
         "label": "Models",
-        "href": "https://agipower.ai/models"
+        "href": "https://shuyou.ai/models"
       },
       {
         "label": "Studio",
-        "href": "https://agipower.ai/text-generator"
+        "href": "https://shuyou.ai/text-generator"
       },
       {
         "label": "About Us",
-        "href": "https://agipower.ai/about"
+        "href": "https://shuyou.ai/about"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "AGIPower",
-      "href": "https://agipower.ai"
+      "label": "ShuYou",
+      "href": "https://shuyou.ai"
     }
   },
   "navigation": {
@@ -52,7 +52,7 @@
         "default": true,
         "groups": [
           {
-            "group": "About AGIPower",
+            "group": "About ShuYou",
             "pages": [
               "en/about/intro"
             ]
@@ -155,7 +155,7 @@
         "language": "zh-Hans",
         "groups": [
           {
-            "group": "关于 AGIPower",
+            "group": "关于 ShuYou",
             "pages": [
               "zh/about/intro"
             ]

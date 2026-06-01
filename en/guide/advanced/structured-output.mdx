@@ -5,15 +5,15 @@ head:
       content: Structured Outputs
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, structured, output, OpenAI, GPT, API
+      content: ShuYou, guide, tutorial, structured, output, OpenAI, GPT, API
 ---
 
 # Structured Outputs
 
-AGIPower provides Structured Outputs to ensure model responses strictly follow the [JSON Schema](https://json-schema.org/) format you define.
+ShuYou provides Structured Outputs to ensure model responses strictly follow the [JSON Schema](https://json-schema.org/) format you define.
 When you have a fixed requirement for structured data, this feature is exactly what you need.
 
-AGIPower supports structured outputs across multiple API protocols:
+ShuYou supports structured outputs across multiple API protocols:
 
 - **OpenAI Chat Completion API**: via the `response_format` parameter
 - **OpenAI Responses API**: via the `text.format` parameter
@@ -129,10 +129,10 @@ from openai import OpenAI
 
 # 1. Initialize the OpenAI client
 client = OpenAI(
-    # 2. Point the base URL to the AGIPower endpoint
-    base_url="https://api.agipower.ai/v1", # [!code highlight]
-    # 3. Replace with the API Key from the AGIPower user console
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    # 2. Point the base URL to the ShuYou endpoint
+    base_url="https://api.shuyou.ai/v1", # [!code highlight]
+    # 3. Replace with the API Key from the ShuYou user console
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 # 4. Send the request
@@ -187,10 +187,10 @@ import OpenAI from "openai";
 
 // 1. Initialize the OpenAI client
 const openai = new OpenAI({
-  // 2. Point the base URL to the AGIPower endpoint
-  baseURL: "https://api.agipower.ai/v1", // [!code highlight]
-  // 3. Replace with the API Key from the AGIPower user console
-  apiKey = "<your AGIPower_API_KEY>", // [!code highlight]
+  // 2. Point the base URL to the ShuYou endpoint
+  baseURL: "https://api.shuyou.ai/v1", // [!code highlight]
+  // 3. Replace with the API Key from the ShuYou user console
+  apiKey = "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 async function main() {
@@ -269,10 +269,10 @@ from openai import OpenAI
 
 # 1. Initialize the OpenAI client
 client = OpenAI(
-    # 2. Point the base URL to the AGIPower endpoint
-    base_url="https://api.agipower.ai/v1", # [!code highlight]
-    # 3. Replace with the API Key from the AGIPower user console
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    # 2. Point the base URL to the ShuYou endpoint
+    base_url="https://api.shuyou.ai/v1", # [!code highlight]
+    # 3. Replace with the API Key from the ShuYou user console
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
 # 4. Send the request using the Responses API
@@ -327,10 +327,10 @@ import OpenAI from "openai";
 
 // 1. Initialize the OpenAI client
 const openai = new OpenAI({
-  // 2. Point the base URL to the AGIPower endpoint
-  baseURL: "https://api.agipower.ai/v1", // [!code highlight]
-  // 3. Replace with the API Key from the AGIPower user console
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  // 2. Point the base URL to the ShuYou endpoint
+  baseURL: "https://api.shuyou.ai/v1", // [!code highlight]
+  // 3. Replace with the API Key from the ShuYou user console
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
 async function main() {
@@ -391,9 +391,9 @@ main();
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/responses \
+curl https://api.shuyou.ai/v1/responses \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -d '{
     "model": "openai/gpt-5",
     "input": "Hi, who are you? Describe yourself using about 50 words.",
@@ -443,10 +443,10 @@ import anthropic
 
 # 1. Initialize the Anthropic client
 client = anthropic.Anthropic(
-    # 2. Replace with the API Key from the AGIPower user console
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
-    # 3. Point the base URL to the AGIPower endpoint
-    base_url="https://agipower.ai" # [!code highlight]
+    # 2. Replace with the API Key from the ShuYou user console
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
+    # 3. Point the base URL to the ShuYou endpoint
+    base_url="https://shuyou.ai" # [!code highlight]
 )
 
 # 4. Send the request and specify structured output via output_config
@@ -496,10 +496,10 @@ import Anthropic from "@anthropic-ai/sdk";
 
 // 1. Initialize the Anthropic client
 const anthropic = new Anthropic({
-  // 2. Replace with the API Key from the AGIPower user console
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
-  // 3. Point the base URL to the AGIPower endpoint
-  baseURL: "https://agipower.ai", // [!code highlight]
+  // 2. Replace with the API Key from the ShuYou user console
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
+  // 3. Point the base URL to the ShuYou endpoint
+  baseURL: "https://shuyou.ai", // [!code highlight]
 });
 
 async function main() {
@@ -550,8 +550,8 @@ main();
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/messages \
-  -H "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -612,10 +612,10 @@ import anthropic
 
 # 1. Initialize the Anthropic client
 client = anthropic.Anthropic(
-    # 2. Replace with the API Key from the AGIPower user console
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
-    # 3. Point the base URL to the AGIPower endpoint
-    base_url="https://agipower.ai" # [!code highlight]
+    # 2. Replace with the API Key from the ShuYou user console
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
+    # 3. Point the base URL to the ShuYou endpoint
+    base_url="https://shuyou.ai" # [!code highlight]
 )
 
 # 4. Define a tool to describe the expected output structure
@@ -671,10 +671,10 @@ import Anthropic from "@anthropic-ai/sdk";
 
 // 1. Initialize the Anthropic client
 const anthropic = new Anthropic({
-  // 2. Replace with the API Key from the AGIPower user console
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
-  // 3. Point the base URL to the AGIPower endpoint
-  baseURL: "https://agipower.ai", // [!code highlight]
+  // 2. Replace with the API Key from the ShuYou user console
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
+  // 3. Point the base URL to the ShuYou endpoint
+  baseURL: "https://shuyou.ai", // [!code highlight]
 });
 
 async function main() {
@@ -733,8 +733,8 @@ main();
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/messages \
-  -H "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -804,11 +804,11 @@ from google.genai import types
 
 # 1. Initialize the GenAI client
 client = genai.Client(
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai' # [!code highlight]
+        base_url='https://api.shuyou.ai' # [!code highlight]
     ),
 )
 
@@ -850,10 +850,10 @@ import { GoogleGenAI } from "@google/genai";
 
 // 1. Initialize the GenAI client
 const client = new GoogleGenAI({
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
   vertexai: true,
   httpOptions: {
-    baseUrl: "https://api.agipower.ai", // [!code highlight]
+    baseUrl: "https://api.shuyou.ai", // [!code highlight]
     apiVersion: "v1",
   },
 });
@@ -906,11 +906,11 @@ from google import genai
 from google.genai import types
 
 client = genai.Client(
-    api_key="<你的 AGIPower_API_KEY>",
+    api_key="<你的 ShuYou_API_KEY>",
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai'
+        base_url='https://api.shuyou.ai'
     ),
 )
 

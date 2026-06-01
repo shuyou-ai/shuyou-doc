@@ -2,20 +2,20 @@
 head:
   - - meta
     - name: description
-      content: Guide to Using Gemini CLI with AGIPower
+      content: Guide to Using Gemini CLI with ShuYou
   - - meta
     - name: keywords
-      content: AGIPower, best practices, integration, Gemini CLI, Google, AI, terminal, agent
+      content: ShuYou, best practices, integration, Gemini CLI, Google, AI, terminal, agent
 ---
 
-# Guide to Using Gemini CLI with AGIPower
+# Guide to Using Gemini CLI with ShuYou
 
-Gemini CLI is an open-source AI terminal agent tool released by Google that brings Gemini’s capabilities directly into your terminal. Built on the ReAct (Reason + Act) loop architecture, it can autonomously handle complex tasks such as coding, debugging, file operations, and content generation. Gemini CLI offers a 1M-token context window, a request rate limit of 60 requests/minute, and rich MCP tool integration. With AGIPower, you can configure a custom API endpoint for Gemini CLI, enabling more flexible model selection and a more stable service experience.
+Gemini CLI is an open-source AI terminal agent tool released by Google that brings Gemini’s capabilities directly into your terminal. Built on the ReAct (Reason + Act) loop architecture, it can autonomously handle complex tasks such as coding, debugging, file operations, and content generation. Gemini CLI offers a 1M-token context window, a request rate limit of 60 requests/minute, and rich MCP tool integration. With ShuYou, you can configure a custom API endpoint for Gemini CLI, enabling more flexible model selection and a more stable service experience.
 
 ## Prerequisites
 
 - Node.js 18+
-- AGIPower API Key (see [Get a AGIPower API Key](#get-a-agipower-api-key) below)
+- ShuYou API Key (see [Get a ShuYou API Key](#get-a-ShuYou-api-key) below)
 
 ## Install Gemini CLI
 
@@ -43,7 +43,7 @@ gemini --version
 
 After installation, type `gemini` in your terminal to start it.
 
-## Get a AGIPower API Key
+## Get a ShuYou API Key
 
 
 
@@ -53,7 +53,7 @@ Features: fixed monthly fee, predictable cost
 API Key format: sk-ss-v1-xxx
 
 How to get:
-1. Visit https://agipower.ai/platform/subscription
+1. Visit https://shuyou.ai/platform/subscription
 2. Choose a plan
 3. Create a subscription API Key in the console
 ```
@@ -64,7 +64,7 @@ Features: billed by actual usage, convenient for centralized cost accounting
 API Key format: sk-xxx
 
 How to get:
-1. Visit https://agipower.ai/platform/pay-as-you-go
+1. Visit https://shuyou.ai/platform/pay-as-you-go
 2. Top up your account
 3. Create a pay-as-you-go API Key in the console
 ```
@@ -88,7 +88,7 @@ You can configure environment variables in `~/.gemini/.env`. Gemini CLI will aut
 ```env
 GEMINI_API_KEY=sk-ss-v1-xxx  # [!code highlight]
 GEMINI_MODEL=google/gemini-2.5-pro  # [!code highlight]
-GOOGLE_GEMINI_BASE_URL=https://api.agipower.ai  # [!code highlight]
+GOOGLE_GEMINI_BASE_URL=https://api.shuyou.ai  # [!code highlight]
 ```
 
 Alternatively, set them in your shell profile:
@@ -99,14 +99,14 @@ Alternatively, set them in your shell profile:
 # Edit ~/.zshrc or ~/.bashrc
 export GEMINI_API_KEY="sk-ss-v1-xxx"  # [!code highlight]
 export GEMINI_MODEL="google/gemini-2.5-pro"  # [!code highlight]
-export GOOGLE_GEMINI_BASE_URL="https://api.agipower.ai"  # [!code highlight]
+export GOOGLE_GEMINI_BASE_URL="https://api.shuyou.ai"  # [!code highlight]
 ```
 
 ```powershell title="Windows PowerShell"
 # Edit your PowerShell profile
 $env:GEMINI_API_KEY = "sk-ss-v1-xxx"  # [!code highlight]
 $env:GEMINI_MODEL = "google/gemini-2.5-pro"  # [!code highlight]
-$env:GOOGLE_GEMINI_BASE_URL = "https://api.agipower.ai"  # [!code highlight]
+$env:GOOGLE_GEMINI_BASE_URL = "https://api.shuyou.ai"  # [!code highlight]
 
 # To make it persistent, add it to your PowerShell profile:
 # notepad $PROFILE
@@ -115,7 +115,7 @@ $env:GOOGLE_GEMINI_BASE_URL = "https://api.agipower.ai"  # [!code highlight]
 
 
 <Warning title="Important">
-Be sure to replace `sk-ss-v1-xxx` with your real AGIPower API Key. You can get your API Key in the [AGIPower Console](https://agipower.ai/settings/keys).
+Be sure to replace `sk-ss-v1-xxx` with your real ShuYou API Key. You can get your API Key in the [ShuYou Console](https://shuyou.ai/settings/keys).
 </Warning>
 
 #### Step 3: Configure settings.json
@@ -134,9 +134,9 @@ Set the auth method to Gemini API Key to avoid being prompted to sign in with Go
 
 <Tip title="Configuration Notes">
 
-- `GEMINI_API_KEY`: your AGIPower API Key
-- `GEMINI_MODEL`: the model to use (any AGIPower-supported Google model)
-- `GOOGLE_GEMINI_BASE_URL`: AGIPower Vertex AI–compatible endpoint
+- `GEMINI_API_KEY`: your ShuYou API Key
+- `GEMINI_MODEL`: the model to use (any ShuYou-supported Google model)
+- `GOOGLE_GEMINI_BASE_URL`: ShuYou Vertex AI–compatible endpoint
 - `selectedType`: auth type—set to `gemini-api-key` to skip Google sign-in
 </Tip>
 
@@ -162,7 +162,7 @@ cd my-project
 gemini -p "@README.md Summarize this file in one sentence." --output-format json  # [!code highlight]
 ```
 
-If it can read the file and return a summary, AGIPower + Gemini CLI read-only analysis is working.
+If it can read the file and return a summary, ShuYou + Gemini CLI read-only analysis is working.
 
 ## Authentication
 
@@ -173,7 +173,7 @@ Gemini CLI natively supports multiple authentication methods:
 | Google Account (OAuth)    | Local dev    | Highest free tier: 60 RPM / 1000 RPD   |
 | API Key                   | CI/CD, scripts | Set via the `GEMINI_API_KEY` env var |
 
-**When using AGIPower**, choose the API Key method and set your AGIPower API Key in the `GEMINI_API_KEY` environment variable.
+**When using ShuYou**, choose the API Key method and set your ShuYou API Key in the `GEMINI_API_KEY` environment variable.
 
 To re-authenticate, run:
 
@@ -285,7 +285,7 @@ gemini -p "@src/main.ts What is this file’s entry-point logic?" --output-forma
 
 ## Supported Models
 
-With AGIPower, you can use multiple Gemini models in Gemini CLI. Use the `GEMINI_MODEL` environment variable to specify a model:
+With ShuYou, you can use multiple Gemini models in Gemini CLI. Use the `GEMINI_MODEL` environment variable to specify a model:
 
 ```bash
 # Set in .gemini/.env or your shell profile
@@ -301,13 +301,13 @@ Recommended models for Gemini CLI:
 
 <Info title="Get the model list">
 
-- View available Google AI protocol models via the [AGIPower model list](https://agipower.ai/models?sort=newest&supported_protocol=google)
+- View available Google AI protocol models via the [ShuYou model list](https://shuyou.ai/models?sort=newest&supported_protocol=google)
 - Use the model slug (e.g., `google/gemini-2.5-pro`)
 - To route to a specific provider, see the [Provider Routing docs](/en/guide/advanced/provider-routing)
 </Info>
 
 <Tip title="Switching models">
-Even if a model name switch works, it does not guarantee tool calling will work as well. Current limitations mainly come from AGIPower’s compatibility with the Gemini CLI Agent protocol, not just the model itself.
+Even if a model name switch works, it does not guarantee tool calling will work as well. Current limitations mainly come from ShuYou’s compatibility with the Gemini CLI Agent protocol, not just the model itself.
 </Tip>
 
 ## Known Issue: Tool Calls Error \{#tool-call-error\}
@@ -351,7 +351,7 @@ When the model tries to use built-in tools (such as Google Search), you may see 
 <Tip title="Notes">
 
 - You must re-apply this change after each Gemini CLI update or reinstall
-- Once AGIPower completes function calling compatibility, this will be supported automatically and you won’t need this modification
+- Once ShuYou completes function calling compatibility, this will be supported automatically and you won’t need this modification
 </Tip>
 
 ## Troubleshooting
@@ -374,18 +374,18 @@ When the model tries to use built-in tools (such as Google Search), you may see 
 
 - Check that the API Key is correct (subscription keys start with `sk-ss-v1-`, pay-as-you-go keys start with `sk-`)
 - Ensure the API Key is active and has sufficient balance
-- Verify the key status in the [AGIPower Console](https://agipower.ai/settings/keys)
+- Verify the key status in the [ShuYou Console](https://shuyou.ai/settings/keys)
 
 
 #### Connection failure
-**Issue**: Gemini CLI cannot connect to AGIPower.
+**Issue**: Gemini CLI cannot connect to ShuYou.
 
 **Solution**:
 
 - Check your network connection
-- Verify the Base URL is set to `https://api.agipower.ai`
+- Verify the Base URL is set to `https://api.shuyou.ai`
 - Check whether firewall settings are blocking outbound connections
-- Try `curl https://api.agipower.ai/models` to test connectivity
+- Try `curl https://api.shuyou.ai/models` to test connectivity
 
 
 #### .env file not taking effect
@@ -412,7 +412,7 @@ Invalid JSON payload received. Unknown name "id" at 'contents[3].parts[0].functi
 - This is a known limitation—see the [Tool Calls Error](#tool-call-error) section
 - For now, limit usage to Q&A and read-only analysis
 - Do not rely on Gemini CLI for agent actions such as auto-editing or command execution
-- Once AGIPower completes function calling compatibility, this will be supported automatically
+- Once ShuYou completes function calling compatibility, this will be supported automatically
 
 
 #### Model unavailable
@@ -420,7 +420,7 @@ Invalid JSON payload received. Unknown name "id" at 'contents[3].parts[0].functi
 
 **Solution**:
 
-- Check availability via the [AGIPower model list](https://agipower.ai/models?sort=newest&supported_protocol=google)
+- Check availability via the [ShuYou model list](https://shuyou.ai/models?sort=newest&supported_protocol=google)
 - Verify the spelling of the model name in the `GEMINI_MODEL` environment variable
 - Try a default model such as `google/gemini-2.5-pro`
 - Confirm your account has access to the model
@@ -510,21 +510,21 @@ Session history is stored in `~/.gemini/history/`. Adjust `maxAge` as needed, or
 ```bash title="Daily Development"
 # Balance performance and cost
 export GEMINI_API_KEY="sk-ss-v1-xxx"
-export GOOGLE_GEMINI_BASE_URL="https://api.agipower.ai"
+export GOOGLE_GEMINI_BASE_URL="https://api.shuyou.ai"
 export GEMINI_MODEL="google/gemini-2.5-pro"
 ```
 
 ```bash title="Code Review"
 # Prioritize reasoning capability
 export GEMINI_API_KEY="sk-ss-v1-xxx"
-export GOOGLE_GEMINI_BASE_URL="https://api.agipower.ai"
+export GOOGLE_GEMINI_BASE_URL="https://api.shuyou.ai"
 export GEMINI_MODEL="google/gemini-2.5-pro"
 ```
 
 ```bash title="Rapid Iteration"
 # Prioritize response speed
 export GEMINI_API_KEY="sk-ss-v1-xxx"
-export GOOGLE_GEMINI_BASE_URL="https://api.agipower.ai"
+export GOOGLE_GEMINI_BASE_URL="https://api.shuyou.ai"
 export GEMINI_MODEL="google/gemini-2.5-flash"
 ```
 
@@ -533,10 +533,10 @@ export GEMINI_MODEL="google/gemini-2.5-flash"
 <Tip title="Contact Us">
 If you run into any issues while using the service, or if you have suggestions and feedback, feel free to reach out through:
 
-- **Official website**: [https://agipower.ai](https://agipower.ai)
-- **Support email**: [support@agipower.ai](mailto:support@agipower.ai)
-- **Business inquiries**: [support@agipower.ai](mailto:support@agipower.ai)
-- **Twitter**: [@AGIPowerAI](https://twitter.com/AGIPowerAI)
+- **Official website**: [https://shuyou.ai](https://shuyou.ai)
+- **Support email**: [support@shuyou.ai](mailto:support@shuyou.ai)
+- **Business inquiries**: [support@shuyou.ai](mailto:support@shuyou.ai)
+- **Twitter**: [@ShuYouAI](https://twitter.com/ShuYouAI)
 - **Discord community**: [http://discord.gg/vHZZzj84Bm](http://discord.gg/vHZZzj84Bm)
 
 For more contact channels and details, visit our [Contact Us page](/en/help/contact).

@@ -5,12 +5,12 @@ head:
       content: Fallback Mechanism
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, fallback, OpenAI, Anthropic, API
+      content: ShuYou, guide, tutorial, fallback, OpenAI, Anthropic, API
 ---
 
 # Fallback Mechanism
 
-Model fallback is AGIPower’s fault-tolerance safeguard. When the primary model or routing strategy fails, the system automatically switches to a backup model to continue processing the request. This ensures your application consistently receives responses and minimizes the risk of service interruptions.
+Model fallback is ShuYou’s fault-tolerance safeguard. When the primary model or routing strategy fails, the system automatically switches to a backup model to continue processing the request. This ensures your application consistently receives responses and minimizes the risk of service interruptions.
 
 <Tip title="High Availability Assurance">
 The fallback mechanism acts like a safety net, ensuring your application continues to operate even in abnormal conditions such as model failures, quota limits, or network fluctuations.
@@ -38,16 +38,16 @@ Fallback provides a reliable backup plan to ensure your application remains avai
 
 ## Global Fallback Model Configuration
 
-AGIPower supports configuring a global fallback model in the console. All requests will automatically use this model as a backup when failures occur.
+ShuYou supports configuring a global fallback model in the console. All requests will automatically use this model as a backup when failures occur.
 
 ### How to Configure
 
-1. Visit the [AGIPower Strategy Settings page](https://agipower.ai/settings/strategy)
+1. Visit the [ShuYou Strategy Settings page](https://shuyou.ai/settings/strategy)
 2. Find the Default Fallback Model setting
 3. Select your global fallback model from the dropdown list
 4. Save the settings; they take effect immediately
 
-![Configure Global Fallback Model](https://cdn.marmot-cloud.com/storage/agipower/2025/10/21/r4HTlzi/fall-back.png)
+![Configure Global Fallback Model](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/21/r4HTlzi/fall-back.png)
 
 <Tip title="Advantages of Global Configuration">
 
@@ -88,8 +88,8 @@ Specify the fallback model using the provider.fallback parameter:
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your AGIPower_API_KEY>"
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your ShuYou_API_KEY>"
 )
 
 response = client.chat.completions.create(
@@ -118,7 +118,7 @@ The fallback mechanism can be used with intelligent routing. If all candidate mo
 
 ```json title="cURL Request"
 {
-  "model": "agipower/auto",
+  "model": "ShuYou/auto",
   "model_routing_config": {
     "available_models": ["anthropic/claude-4-sonnet", "openai/gpt-5"],
     "preference": "balanced"
@@ -140,12 +140,12 @@ The fallback mechanism can be used with intelligent routing. If all candidate mo
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your AGIPower_API_KEY>"
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your ShuYou_API_KEY>"
 )
 
 response = client.chat.completions.create(
-    model="agipower/auto",
+    model="ShuYou/auto",
     extra_body={
         "model_routing_config": {
             "available_models": [
@@ -198,8 +198,8 @@ The fallback mechanism can be used with provider routing. If all specified provi
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your AGIPower_API_KEY>"
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your ShuYou_API_KEY>"
 )
 
 response = client.chat.completions.create(
@@ -342,7 +342,7 @@ A: Currently, only one fallback model is supported. If the fallback model itself
 
 ### Q: How can I tell if a request used the fallback model?
 
-A: The model field in the response shows the actual model used. If it differs from the model specified in the request, the fallback mechanism was triggered. You can also review detailed request logs in the [AGIPower Console](https://agipower.ai/settings/activity).
+A: The model field in the response shows the actual model used. If it differs from the model specified in the request, the fallback mechanism was triggered. You can also review detailed request logs in the [ShuYou Console](https://shuyou.ai/settings/activity).
 
 ### Q: Can global fallback and per-request fallback be used together?
 
@@ -351,10 +351,10 @@ A: Yes. Per-request configuration has higher priority and overrides the global s
 <Tip title="Contact Us">
 If you encounter any issues or have suggestions and feedback, feel free to reach us via:
 
-- Official website: [https://agipower.ai](https://agipower.ai)
-- Technical support email: [support@agipower.ai](mailto:support@agipower.ai)
-- Business cooperation email: [support@agipower.ai](mailto:support@agipower.ai)
-- Twitter: [@AGIPowerAI](https://twitter.com/AGIPowerAI)
+- Official website: [https://shuyou.ai](https://shuyou.ai)
+- Technical support email: [support@shuyou.ai](mailto:support@shuyou.ai)
+- Business cooperation email: [support@shuyou.ai](mailto:support@shuyou.ai)
+- Twitter: [@ShuYouAI](https://twitter.com/ShuYouAI)
 - Discord Community: [http://discord.gg/vHZZzj84Bm](http://discord.gg/vHZZzj84Bm)
 
 For more contact methods and details, please visit our [Contact Us page](/en/help/contact).

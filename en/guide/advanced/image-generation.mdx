@@ -5,15 +5,15 @@ head:
       content: Image Generation
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, image, generation, API
+      content: ShuYou, guide, tutorial, image, generation, API
 ---
 
 # Image Generation
 
-AGIPower supports invoking image generation models via the Vertex AI protocol. This guide explains how to use AGIPower to generate images and save them locally.
+ShuYou supports invoking image generation models via the Vertex AI protocol. This guide explains how to use ShuYou to generate images and save them locally.
 
 <Tip title="💡 About Banana Models">
-Banana is a series of image generation models from Google that can produce high-quality images from text prompts. You can use these models in AGIPower through the Vertex AI protocol.
+Banana is a series of image generation models from Google that can produce high-quality images from text prompts. You can use these models in ShuYou through the Vertex AI protocol.
 </Tip>
 
 ## Supported Models
@@ -26,7 +26,7 @@ The currently supported image generation models include (continuously updated):
 - `google/gemini-2.5-flash-image-free`
 
 <Tip title="📚 More Models">
-Visit the [AGIPower model catalog](https://agipower.ai/models) to search and view all available image generation models.
+Visit the [ShuYou model catalog](https://shuyou.ai/models) to search and view all available image generation models.
 </Tip>
 
 ## Reference Documentation
@@ -45,11 +45,11 @@ from google import genai
 from google.genai import types
 
 client = genai.Client(
-    api_key="$AGIPower_API_KEY",  # Replace with your API key
+    api_key="$ShuYou_API_KEY",  # Replace with your API key
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai'
+        base_url='https://api.shuyou.ai'
     ),
 )
 
@@ -80,10 +80,10 @@ for part in response.parts:
 const genai = require("@google/genai");
 
 const client = new genai.GoogleGenAI({
-  apiKey: "$AGIPower_API_KEY",  // Replace with your API key
+  apiKey: "$ShuYou_API_KEY",  // Replace with your API key
   vertexai: true,
   httpOptions: {
-    baseUrl: "https://api.agipower.ai",
+    baseUrl: "https://api.shuyou.ai",
     apiVersion: "v1"
   }
 });
@@ -108,14 +108,14 @@ console.log(response);
 
 ### Required Parameters
 
-- **api_key**: Your AGIPower API key
+- **api_key**: Your ShuYou API key
 - **vertexai**: Must be set to `true` to enable the Vertex AI protocol
-- **base_url**: AGIPower Vertex AI endpoint `https://api.agipower.ai`
+- **base_url**: ShuYou Vertex AI endpoint `https://api.shuyou.ai`
 - **responseModalities**: Response modalities; image generation must include `["TEXT", "IMAGE"]`
 
 ### Invocation Modes
 
-AGIPower supports two invocation modes:
+ShuYou supports two invocation modes:
 
 - **Streaming** (`generate_content_stream` / `generateContentStream`): Ideal for scenarios requiring real-time feedback
 - **Non-streaming** (`generate_content` / `generateContent`): Returns the complete response at once after processing

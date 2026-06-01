@@ -1,15 +1,15 @@
-# 🚀 AGIPower Guide to Integrating with Cursor
+# 🚀 ShuYou Guide to Integrating with Cursor
 
 ## Notes
 
-Please note that as Cursor continues to update its official releases and adjust its policies, **configuring and using Custom Models and third-party APIs (such as AGIPower) in Cursor typically requires an active Cursor Pro subscription.**
+Please note that as Cursor continues to update its official releases and adjust its policies, **configuring and using Custom Models and third-party APIs (such as ShuYou) in Cursor typically requires an active Cursor Pro subscription.**
 
-If, after completing the configuration, you are still repeatedly prompted to upgrade to Pro or can only use `auto`, this does not indicate an issue with your AGIPower configuration—it is an enforced commercialization restriction in the official Cursor client.
+If, after completing the configuration, you are still repeatedly prompted to upgrade to Pro or can only use `auto`, this does not indicate an issue with your ShuYou configuration—it is an enforced commercialization restriction in the official Cursor client.
 
-## Step 1: Prepare Your AGIPower API Key
+## Step 1: Prepare Your ShuYou API Key
 
-1. Sign in to the [AGIPower Console](https://agipower.ai/platform/pay-as-you-go).
-2. Generate and copy your API Key (note: AGIPower keys typically start with `sk-`).
+1. Sign in to the [ShuYou Console](https://shuyou.ai/platform/pay-as-you-go).
+2. Generate and copy your API Key (note: ShuYou keys typically start with `sk-`).
 
 ## Step 2: Configure Cursor Base Settings (Most Important Step)
 
@@ -17,15 +17,15 @@ If, after completing the configuration, you are still repeatedly prompted to upg
 2. In the left menu, click **Models**.
 3. Scroll down to the **OpenAI API Key** section:
    - Turn on the toggle (it turns green).
-   - Paste your AGIPower API Key (`sk-...`) into the input box.
+   - Paste your ShuYou API Key (`sk-...`) into the input box.
 4. Scroll down to the **Override OpenAI Base URL** section:
    - Turn on the toggle (it turns green).
-   - Enter exactly: `https://api.agipower.ai/v1`
+   - Enter exactly: `https://api.shuyou.ai/v1`
 
-## Step 3: Add AGIPower-Specific Model Names
+## Step 3: Add ShuYou-Specific Model Names
 
 1. Still on the **Models** page, find `+ Add Custom Model`.
-2. Based on the recommended model names in the AGIPower documentation, add the models you need.
+2. Based on the recommended model names in the ShuYou documentation, add the models you need.
 3. After adding them, make sure the toggles **to the right of these new models are enabled (green)**.
 
 ## Step 4: Test in the Chat Panel
@@ -40,9 +40,9 @@ If, after completing the configuration, you are still repeatedly prompted to upg
 
 - **Issue 1: Errors after sending a message—API Key invalid or cannot connect?**
   - **Check the Key**: Make sure the key is the complete `sk-...` with no extra spaces.
-  - **Check the URL**: Ensure there is no extra trailing slash. It must be exactly `https://api.agipower.ai/v1`.
+  - **Check the URL**: Ensure there is no extra trailing slash. It must be exactly `https://api.shuyou.ai/v1`.
 - **Issue 2: `Model not found`?**
-  - **Fix**: This indicates the model name is misspelled, or AGIPower has temporarily taken the model offline. Please visit the [AGIPower official model list](https://agipower.ai/models?sort=newest&supported_protocol=responses) and copy the latest available model slug.
+  - **Fix**: This indicates the model name is misspelled, or ShuYou has temporarily taken the model offline. Please visit the [ShuYou official model list](https://shuyou.ai/models?sort=newest&supported_protocol=responses) and copy the latest available model slug.
 - **Issue 3: GPT-series models error with `Parameter messages is required`?**
   - **Symptom**: When calling `openai/gpt-*` models, a `400` error is returned: `\{"error":\{"code":"400","type":"invalid_params","message":"Parameter messages is required"\}\}`.
   - **Cause**: Cursor sends requests in the OpenAI **Responses API** format to the standard **Chat Completion API** endpoint, causing the request body format to be incompatible.
@@ -55,10 +55,10 @@ If, after completing the configuration, you are still repeatedly prompted to upg
 <Tip title="Contact Us">
 If you encounter any issues during use, or have suggestions and feedback, feel free to contact us via:
 
-- **Official Website**: [https://agipower.ai](https://agipower.ai)
-- **Technical Support Email**: [support@agipower.ai](mailto:support@agipower.ai)
-- **Business Inquiries Email**: [support@agipower.ai](mailto:support@agipower.ai)
-- **Twitter**: [@AGIPowerAI](https://twitter.com/AGIPowerAI)
+- **Official Website**: [https://shuyou.ai](https://shuyou.ai)
+- **Technical Support Email**: [support@shuyou.ai](mailto:support@shuyou.ai)
+- **Business Inquiries Email**: [support@shuyou.ai](mailto:support@shuyou.ai)
+- **Twitter**: [@ShuYouAI](https://twitter.com/ShuYouAI)
 - **Discord Community**: [http://discord.gg/vHZZzj84Bm](http://discord.gg/vHZZzj84Bm)
 
 For more contact methods and details, please visit our [Contact Us page](/en/help/contact).

@@ -50,7 +50,7 @@
                 },
                 "content": {
                   "type": "string",
-                  "example": "Hello from AGIPower"
+                  "example": "Hello from ShuYou"
                 }
               },
               "additionalProperties": true
@@ -120,7 +120,7 @@
                 },
                 "content": {
                   "type": "string",
-                  "example": "Hello from AGIPower"
+                  "example": "Hello from ShuYou"
                 }
               },
               "additionalProperties": true

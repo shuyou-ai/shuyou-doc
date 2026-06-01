@@ -5,18 +5,18 @@ head:
       content: Sider Integration Guide
   - - meta
     - name: keywords
-      content: AGIPower, best practices, integration, sider, OpenAI, Anthropic, Claude, API
+      content: ShuYou, best practices, integration, sider, OpenAI, Anthropic, Claude, API
 ---
 
 # Sider Integration Guide
 
-Sider is a powerful browser AI assistant extension that provides convenient AI services in a sidebar. It supports multiple AI capabilities, including writing, reading, chatting about any topic, and even generating content summaries. By configuring AGIPower, you can access a broader selection of models beyond the base models provided by Sider.
+Sider is a powerful browser AI assistant extension that provides convenient AI services in a sidebar. It supports multiple AI capabilities, including writing, reading, chatting about any topic, and even generating content summaries. By configuring ShuYou, you can access a broader selection of models beyond the base models provided by Sider.
 
 ## Configuration Steps
 
-### 1. Get a AGIPower API Key
+### 1. Get a ShuYou API Key
 
-Go to the [AGIPower Console](https://agipower.ai/settings/keys) to create and retrieve your API Key.
+Go to the [ShuYou Console](https://shuyou.ai/settings/keys) to create and retrieve your API Key.
 
 ### 2. Install the Sider Extension
 
@@ -27,7 +27,7 @@ Go to the [AGIPower Console](https://agipower.ai/settings/keys) to create and re
 ### 3. Configure the OpenAI Service
 
 <Tip title="Configuration Notes">
-You only need to configure OpenAI to unlock all AGIPower models.
+You only need to configure OpenAI to unlock all ShuYou models.
 </Tip>
 
 In Sider settings:
@@ -36,22 +36,22 @@ In Sider settings:
 2. Select Service Provider: choose `OpenAI`, then click Settings
 3. Set Key: enter your API Key
 <Warning title="Important">
-Please ensure you select AGIPower as your API provider, rather than other providers.
+Please ensure you select ShuYou as your API provider, rather than other providers.
 </Warning>
-4. Set API Base URL: `https://api.agipower.ai/v1`
+4. Set API Base URL: `https://api.shuyou.ai/v1`
 5. Check Connection: click “Check” After a few seconds, when “Connection successful” appears, the configuration is complete.
 
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2025/11/02/MUzNI3A/sider-openai-setting.png" alt="Sider OpenAI Settings" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2025/11/02/MUzNI3A/sider-openai-setting.png" alt="Sider OpenAI Settings" />
 &lt;/div&gt;
 
 6. Usage: In Sider’s model list, select the model you need.
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2025/11/04/N1bvDth/sider-result.png" alt="Sider OpenAI Settings" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2025/11/04/N1bvDth/sider-result.png" alt="Sider OpenAI Settings" />
 &lt;/div&gt;
 
 #### 4. Supported Models
-AGIPower provides a wide range of models for Sider. Check the [AGIPower Model List](https://agipower.ai/models) to see all available models.
+ShuYou provides a wide range of models for Sider. Check the [ShuYou Model List](https://shuyou.ai/models) to see all available models.
 
 
 ## Troubleshooting
@@ -63,7 +63,7 @@ Problem: Connection failed. Please check your API key and proxy settings.
 
 Solution:
 
-- Check whether the AGIPower API Key in your environment variables is correct
+- Check whether the ShuYou API Key in your environment variables is correct
 - Ensure the API Key is activated and has sufficient balance
 - Verify the API Key format starts with `sk-`
 
@@ -71,11 +71,11 @@ Solution:
 #### Proxy URL Misconfiguration
 Problem: Connection failed. Please check your API key and proxy settings.
 
-Recommendation: We recommend selecting OpenAI. Once configured successfully, you can access all models provided by AGIPower without configuring other models separately in Sider.
+Recommendation: We recommend selecting OpenAI. Once configured successfully, you can access all models provided by ShuYou without configuring other models separately in Sider.
 
 Solution:
 - Confirm that `OpenAI` is selected as the service provider
-- Verify the URL is: `https://api.agipower.ai/v1` 
+- Verify the URL is: `https://api.shuyou.ai/v1`
 
 Other model connections:
 
@@ -83,26 +83,26 @@ We also support connecting to our model service in Sider by configuring certain 
 
 | Model | API Proxy URL | 
 |----------|----------|
-| **DeepSeek** | `https://api.agipower.ai/v1`  |
-| **Groq** | `https://api.agipower.ai/v1` | 
-| **Google (Gemini)** | `https://api.agipower.ai/v1` | 
-| **Anthropic (Claude)** | `https://agipower.ai/api` | 
+| **DeepSeek** | `https://api.shuyou.ai/v1`  |
+| **Groq** | `https://api.shuyou.ai/v1` |
+| **Google (Gemini)** | `https://api.shuyou.ai/v1` |
+| **Anthropic (Claude)** | `https://shuyou.ai/api` |
 
 
 
 #### Model List Missing or Incomplete
-Problem: The complete AGIPower model list is not visible in Sider.
+Problem: The complete ShuYou model list is not visible in Sider.
 
 Solution:
 
 - Re-save the API configuration in Sider settings
 - Click “Update list” on the right side of the model list to refresh
-- Try clicking the “+” button on the right to add models supported by AGIPower
-- Check the AGIPower Console to confirm the API Key’s permissions are valid
-- Contact AGIPower to confirm service status
+- Try clicking the “+” button on the right to add models supported by ShuYou
+- Check the ShuYou Console to confirm the API Key’s permissions are valid
+- Contact ShuYou to confirm service status
 
 <Tip title="Models">
-View all available models via the [AGIPower Model List](https://agipower.ai/models)
+View all available models via the [ShuYou Model List](https://shuyou.ai/models)
 </Tip>
 
 
@@ -114,10 +114,10 @@ If you encounter any issues during use, or have any suggestions or feedback, fee
 
 <Tip title="Get Help">
 
-- Official Website: [https://agipower.ai](https://agipower.ai)
-- Technical Support Email: [support@agipower.ai](mailto:support@agipower.ai)
-- Business Inquiries Email: [support@agipower.ai](mailto:support@agipower.ai)
-- Twitter: [@AGIPowerAI](https://twitter.com/AGIPowerAI)
+- Official Website: [https://shuyou.ai](https://shuyou.ai)
+- Technical Support Email: [support@shuyou.ai](mailto:support@shuyou.ai)
+- Business Inquiries Email: [support@shuyou.ai](mailto:support@shuyou.ai)
+- Twitter: [@ShuYouAI](https://twitter.com/ShuYouAI)
 - Discord Community: [http://discord.gg/vHZZzj84Bm](http://discord.gg/vHZZzj84Bm)
 
 For more contact options and details, please visit our [Contact Us page](/en/help/contact).

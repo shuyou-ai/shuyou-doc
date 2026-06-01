@@ -2,39 +2,39 @@
 head:
   - - meta
     - name: description
-      content: Guide to Using OpenClaw with AGIPower
+      content: Guide to Using OpenClaw with ShuYou
   - - meta
     - name: keywords
-      content: AGIPower, best practices, integration, openclaw, moltbot, OpenAI, API, messaging, gateway
+      content: ShuYou, best practices, integration, openclaw, moltbot, OpenAI, API, messaging, gateway
 ---
 
-# Guide to Using OpenClaw with AGIPower
+# Guide to Using OpenClaw with ShuYou
 
-OpenClaw (formerly Moltbot, originally Clawdbot) is a powerful AI messaging gateway that connects multiple messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, and more) to AI models. By integrating with AGIPower, you can access a wide range of models including GPT-5.2, Claude-4.5, Gemini-3, DeepSeek, and more.
+OpenClaw (formerly Moltbot, originally Clawdbot) is a powerful AI messaging gateway that connects multiple messaging platforms (WhatsApp, Telegram, Discord, Slack, Signal, iMessage, and more) to AI models. By integrating with ShuYou, you can access a wide range of models including GPT-5.2, Claude-4.5, Gemini-3, DeepSeek, and more.
 
 <Info title="Compatibility Note">
-AGIPower fully supports the OpenAI API protocol and can be used with OpenClaw through simple configuration.
+ShuYou fully supports the OpenAI API protocol and can be used with OpenClaw through simple configuration.
 
-Note that the OpenAI protocol base_url is `https://api.agipower.ai/v1`.
+Note that the OpenAI protocol base_url is `https://api.shuyou.ai/v1`.
 </Info>
 
 ## Prerequisites
 
 - Node.js 22 or later
-- A AGIPower API Key (see [Step 0](#step-0-get-a-agipower-api-key) below)
+- A ShuYou API Key (see [Step 0](#step-0-get-a-ShuYou-api-key) below)
 
 ## Integration Methods
 
-There are two ways to use AGIPower with OpenClaw:
+There are two ways to use ShuYou with OpenClaw:
 
 | Method | Best For | Complexity |
 | ------ | -------- | ---------- |
-| [Method 1: Use the AGIPower PR](#method-1-use-the-agipower-pr) | Full AGIPower integration with auto-discovery | Easy |
+| [Method 1: Use the ShuYou PR](#method-1-use-the-ShuYou-pr) | Full ShuYou integration with auto-discovery | Easy |
 | [Method 2: Manual Configuration](#method-2-manual-configuration) | Stable releases, custom setups | Moderate |
 
-## Step 0: Get a AGIPower API Key
+## Step 0: Get a ShuYou API Key
 
-Before configuring OpenClaw, you need a AGIPower API Key. AGIPower offers two billing options:
+Before configuring OpenClaw, you need a ShuYou API Key. ShuYou offers two billing options:
 
 
 
@@ -44,12 +44,12 @@ Features: fixed monthly fee, predictable cost, 5-10x price leverage
 API Key format: sk-ss-v1-xxx
 
 How to get it:
-1. Visit the subscription management page: https://agipower.ai/platform/subscription
+1. Visit the subscription management page: https://shuyou.ai/platform/subscription
 2. Choose a plan (Pro $20/month, Max $100/month, Ultra $200/month)
 3. After subscribing, create a subscription API Key on the page
 
 For details, see: Subscription Plan Guide
-https://agipower.ai/guide/subscription
+https://shuyou.ai/guide/subscription
 ```
 
 ```text title="Pay-as-you-go API Key"
@@ -58,19 +58,19 @@ Features: no rate limits, production-grade stability, billed by actual usage
 API Key format: sk-xxx
 
 How to get it:
-1. Visit the pay-as-you-go page: https://agipower.ai/platform/pay-as-you-go
+1. Visit the pay-as-you-go page: https://shuyou.ai/platform/pay-as-you-go
 2. Top up your account (top-ups automatically include a 20% bonus credit)
 3. Create an API Key in the "Pay As You Go API Keys" section
 
 For details, see: Pay-as-you-go Guide
-https://agipower.ai/guide/pay-as-you-go
+https://shuyou.ai/guide/pay-as-you-go
 ```
 
 
 
-## Method 1: Use the AGIPower PR
+## Method 1: Use the ShuYou PR
 
-The easiest way to use AGIPower with OpenClaw is to use the pending [AGIPower integration PR #3305](https://github.com/openclaw/openclaw/pull/3305), which provides full auto-discovery of AGIPower models.
+The easiest way to use ShuYou with OpenClaw is to use the pending [ShuYou integration PR #3305](https://github.com/openclaw/openclaw/pull/3305), which provides full auto-discovery of ShuYou models.
 
 ### Step 1: Clone and Checkout the PR
 
@@ -79,9 +79,9 @@ The easiest way to use AGIPower with OpenClaw is to use the pending [AGIPower in
 git clone https://github.com/openclaw/openclaw.git
 cd openclaw
 
-# Checkout PR #3305 (AGIPower integration)
-git fetch origin pull/3305/head:agipower-integration
-git checkout agipower-integration
+# Checkout PR #3305 (ShuYou integration)
+git fetch origin pull/3305/head:ShuYou-integration
+git checkout ShuYou-integration
 
 # Install dependencies
 pnpm install
@@ -90,17 +90,17 @@ pnpm install
 pnpm build
 ```
 
-### Step 2: Run Onboarding with AGIPower
+### Step 2: Run Onboarding with ShuYou
 
-Run the onboarding wizard and select AGIPower as your auth provider:
+Run the onboarding wizard and select ShuYou as your auth provider:
 
 ```bash
-pnpm openclaw onboard --auth-choice agipower-api-key
+pnpm openclaw onboard --auth-choice ShuYou-api-key
 ```
 
-Follow the prompts to enter your AGIPower API Key. The wizard will automatically:
-- Configure the AGIPower provider
-- Discover available models from the AGIPower API
+Follow the prompts to enter your ShuYou API Key. The wizard will automatically:
+- Configure the ShuYou provider
+- Discover available models from the ShuYou API
 - Set a default model for you
 
 ### Step 3: Verify the Setup
@@ -111,11 +111,11 @@ List the available models to verify the configuration:
 pnpm openclaw models list
 ```
 
-You should see AGIPower models listed with the `agipower/` prefix, such as:
-- `agipower/deepseek/deepseek-chat`
-- `agipower/openai/gpt-5.2`
-- `agipower/google/gemini-3-pro-preview`
-- `agipower/anthropic/claude-sonnet-4.5`
+You should see ShuYou models listed with the `ShuYou/` prefix, such as:
+- `ShuYou/deepseek/deepseek-chat`
+- `ShuYou/openai/gpt-5.2`
+- `ShuYou/google/gemini-3-pro-preview`
+- `ShuYou/anthropic/claude-sonnet-4.5`
 
 ### Step 4: Test the Integration
 
@@ -127,7 +127,7 @@ pnpm openclaw agent --local --agent main --message "Hello, respond with just 'Hi
 
 ## Method 2: Manual Configuration
 
-If you prefer to use a stable release of OpenClaw or want more control over the configuration, you can manually configure AGIPower as an explicit provider in your `openclaw.json` config file.
+If you prefer to use a stable release of OpenClaw or want more control over the configuration, you can manually configure ShuYou as an explicit provider in your `openclaw.json` config file.
 
 ### Step 1: Install OpenClaw
 
@@ -143,23 +143,23 @@ Or run the onboarding wizard to set up OpenClaw:
 openclaw onboard --install-daemon
 ```
 
-### Step 2: Configure AGIPower Provider
+### Step 2: Configure ShuYou Provider
 
-Add the AGIPower provider configuration to your `~/.openclaw/openclaw.json` file:
+Add the ShuYou provider configuration to your `~/.openclaw/openclaw.json` file:
 
 ```json
 {
   "models": {
     "mode": "merge",
     "providers": {
-      "agipower": {
-        "baseUrl": "https://api.agipower.ai/v1",
+      "ShuYou": {
+        "baseUrl": "https://api.shuyou.ai/v1",
         "apiKey": "sk-ss-v1-your-api-key-here",
         "api": "openai-completions",
         "models": [
           {
             "id": "deepseek/deepseek-chat",
-            "name": "DeepSeek Chat via AGIPower",
+            "name": "DeepSeek Chat via ShuYou",
             "reasoning": false,
             "input": ["text"],
             "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
@@ -168,7 +168,7 @@ Add the AGIPower provider configuration to your `~/.openclaw/openclaw.json` file
           },
           {
             "id": "openai/gpt-5.2",
-            "name": "GPT-5.2 via AGIPower",
+            "name": "GPT-5.2 via ShuYou",
             "reasoning": false,
             "input": ["text", "image"],
             "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
@@ -177,7 +177,7 @@ Add the AGIPower provider configuration to your `~/.openclaw/openclaw.json` file
           },
           {
             "id": "google/gemini-3-pro-preview",
-            "name": "Gemini 3 Pro via AGIPower",
+            "name": "Gemini 3 Pro via ShuYou",
             "reasoning": false,
             "input": ["text", "image"],
             "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
@@ -186,7 +186,7 @@ Add the AGIPower provider configuration to your `~/.openclaw/openclaw.json` file
           },
           {
             "id": "anthropic/claude-sonnet-4.5",
-            "name": "Claude Sonnet 4.5 via AGIPower",
+            "name": "Claude Sonnet 4.5 via ShuYou",
             "reasoning": false,
             "input": ["text", "image"],
             "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
@@ -200,13 +200,13 @@ Add the AGIPower provider configuration to your `~/.openclaw/openclaw.json` file
   "agents": {
     "defaults": {
       "model": {
-        "primary": "agipower/openai/gpt-5.2"
+        "primary": "ShuYou/openai/gpt-5.2"
       },
       "models": {
-        "agipower/deepseek/deepseek-chat": {},
-        "agipower/openai/gpt-5.2": {},
-        "agipower/google/gemini-3-pro-preview": {},
-        "agipower/anthropic/claude-sonnet-4.5": {}
+        "ShuYou/deepseek/deepseek-chat": {},
+        "ShuYou/openai/gpt-5.2": {},
+        "ShuYou/google/gemini-3-pro-preview": {},
+        "ShuYou/anthropic/claude-sonnet-4.5": {}
       }
     }
   }
@@ -214,18 +214,18 @@ Add the AGIPower provider configuration to your `~/.openclaw/openclaw.json` file
 ```
 
 <Warning title="Important">
-Replace `sk-ss-v1-your-api-key-here` with your actual AGIPower API Key.
+Replace `sk-ss-v1-your-api-key-here` with your actual ShuYou API Key.
 </Warning>
 
 ### Step 3: Add More Models (Optional)
 
-You can add more models to the `models` array. Check the [AGIPower model list](https://agipower.ai/models) for available models and their capabilities.
+You can add more models to the `models` array. Check the [ShuYou model list](https://shuyou.ai/models) for available models and their capabilities.
 
 Each model definition requires:
 
 | Field | Description |
 | ----- | ----------- |
-| `id` | The model ID as shown in AGIPower (e.g., `openai/gpt-5.2`) |
+| `id` | The model ID as shown in ShuYou (e.g., `openai/gpt-5.2`) |
 | `name` | A display name for the model |
 | `reasoning` | Whether the model supports reasoning mode |
 | `input` | Input types: `["text"]` or `["text", "image"]` |
@@ -241,14 +241,14 @@ List the available models:
 openclaw models list
 ```
 
-You should see your configured AGIPower models:
+You should see your configured ShuYou models:
 
 ```
 Model                                      Input      Ctx      Local Auth  Tags
-agipower/deepseek/deepseek-chat              text       63k      no    yes   configured
-agipower/openai/gpt-5.2                      text+image 195k     no    yes   default,configured
-agipower/google/gemini-3-pro-preview         text+image 195k     no    yes   configured
-agipower/anthropic/claude-sonnet-4.5         text+image 195k     no    yes   configured
+ShuYou/deepseek/deepseek-chat              text       63k      no    yes   configured
+ShuYou/openai/gpt-5.2                      text+image 195k     no    yes   default,configured
+ShuYou/google/gemini-3-pro-preview         text+image 195k     no    yes   configured
+ShuYou/anthropic/claude-sonnet-4.5         text+image 195k     no    yes   configured
 ```
 
 ### Step 5: Set the Default Model
@@ -256,12 +256,12 @@ agipower/anthropic/claude-sonnet-4.5         text+image 195k     no    yes   con
 Set your preferred default model:
 
 ```bash
-openclaw models set agipower/openai/gpt-5.2
+openclaw models set ShuYou/openai/gpt-5.2
 ```
 
-## Using AGIPower Models
+## Using ShuYou Models
 
-Once configured, you can use AGIPower models in various ways:
+Once configured, you can use ShuYou models in various ways:
 
 ### Via CLI Agent
 
@@ -272,7 +272,7 @@ openclaw agent --local --agent main --message "Explain quantum computing in simp
 
 ### Via Messaging Channels
 
-Configure your messaging channels (WhatsApp, Telegram, Discord, etc.) and the gateway will automatically use your configured AGIPower model:
+Configure your messaging channels (WhatsApp, Telegram, Discord, etc.) and the gateway will automatically use your configured ShuYou model:
 
 ```bash
 # Start the gateway
@@ -288,10 +288,10 @@ You can switch models at any time:
 
 ```bash
 # Set a different default model
-openclaw models set agipower/anthropic/claude-sonnet-4.5
+openclaw models set ShuYou/anthropic/claude-sonnet-4.5
 
 # Or specify a model inline (Method 1 only)
-openclaw agent --local --agent main --model agipower/deepseek/deepseek-chat --message "Hello"
+openclaw agent --local --agent main --model ShuYou/deepseek/deepseek-chat --message "Hello"
 ```
 
 ## Troubleshooting
@@ -309,8 +309,8 @@ openclaw agent --local --agent main --model agipower/deepseek/deepseek-chat --me
    - Make sure there are no extra spaces or newlines
 
 2. **Validate the API Key**:
-   - Subscription: visit the [Subscription management page](https://agipower.ai/platform/subscription) to check subscription status and quotas
-   - Pay-as-you-go: visit the [Pay-as-you-go page](https://agipower.ai/platform/pay-as-you-go) to ensure you have sufficient balance
+   - Subscription: visit the [Subscription management page](https://shuyou.ai/platform/subscription) to check subscription status and quotas
+   - Pay-as-you-go: visit the [Pay-as-you-go page](https://shuyou.ai/platform/pay-as-you-go) to ensure you have sufficient balance
 
 3. **Check config file syntax**:
    - Ensure the JSON is valid (no trailing commas, proper quoting)
@@ -323,24 +323,24 @@ openclaw agent --local --agent main --model agipower/deepseek/deepseek-chat --me
 **Solutions**:
 
 1. **For Method 1 (PR branch)**:
-   - Ensure you're on the `agipower-integration` branch (checked out from PR #3305)
+   - Ensure you're on the `ShuYou-integration` branch (checked out from PR #3305)
    - Run `pnpm build` after pulling the latest changes
 
 2. **For Method 2 (Manual config)**:
-   - Verify the model is defined in `models.providers.agipower.models`
+   - Verify the model is defined in `models.providers.ShuYou.models`
    - Check that the model ID matches exactly (case-sensitive)
    - Add the model to `agents.defaults.models` as well
 
 
 #### Connection Failure
-**Issue**: OpenClaw cannot connect to AGIPower
+**Issue**: OpenClaw cannot connect to ShuYou
 
 **Solutions**:
 
 - Check that your network connection is working
-- Verify `baseUrl` is set to `https://api.agipower.ai/v1`
+- Verify `baseUrl` is set to `https://api.shuyou.ai/v1`
 - Ensure your firewall is not blocking outbound HTTPS connections
-- Try running `curl https://api.agipower.ai/v1/models` to test connectivity
+- Try running `curl https://api.shuyou.ai/v1/models` to test connectivity
 
 
 #### Cached Models Showing
@@ -366,7 +366,7 @@ openclaw agent --local --agent main --model agipower/deepseek/deepseek-chat --me
 
 ## Supported Models
 
-AGIPower provides access to a wide range of models. Here are some popular options for OpenClaw:
+ShuYou provides access to a wide range of models. Here are some popular options for OpenClaw:
 
 | Model | ID | Best For |
 | ----- | -- | -------- |
@@ -377,7 +377,7 @@ AGIPower provides access to a wide range of models. Here are some popular option
 | DeepSeek Chat | `deepseek/deepseek-chat` | Cost-effective coding |
 | Qwen3 Coder | `alibaba/qwen3-coder-plus` | Code generation |
 
-For the full list of supported models, visit the [AGIPower model list](https://agipower.ai/models).
+For the full list of supported models, visit the [ShuYou model list](https://shuyou.ai/models).
 
 ## Contact Us
 
@@ -385,8 +385,8 @@ If you encounter any issues during use, or have suggestions and feedback, please
 
 <Tip title="Get Help">
 
-- **Official Website**: [https://agipower.ai](https://agipower.ai)
-- **Technical Support Email**: [support@agipower.ai](mailto:support@agipower.ai)
+- **Official Website**: [https://shuyou.ai](https://shuyou.ai)
+- **Technical Support Email**: [support@shuyou.ai](mailto:support@shuyou.ai)
 
 
 For more contacts and details, visit our [Contact Us page](/en/help/contact).

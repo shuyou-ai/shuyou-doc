@@ -5,12 +5,12 @@ head:
       content: Pay As You Go
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, pay, you, OpenAI, API
+      content: ShuYou, guide, tutorial, pay, you, OpenAI, API
 ---
 
 # Pay As You Go
 
-Welcome to the **AGIPower Pay As You Go** plan! This guide will help you understand the key benefits of Pay As You Go, and how to top up, manage your balance, and create production-grade API keys.
+Welcome to the **ShuYou Pay As You Go** plan! This guide will help you understand the key benefits of Pay As You Go, and how to top up, manage your balance, and create production-grade API keys.
 
 <Tip title="💡 Best for production">
 Pay As You Go is a usage-based billing plan built specifically for production. It offers **no rate limits**, **no concurrency limits**, **production-grade stability**, and **transparent, precise billing**.
@@ -20,7 +20,7 @@ Pay As You Go is a usage-based billing plan built specifically for production. I
 
 ## What is Pay As You Go?
 
-**Pay As You Go** is AGIPower’s billing plan tailored for enterprise customers and production use. Unlike subscription plans, Pay As You Go uses a **prepaid balance + pay-as-you-consume** model, so you only pay for the API usage you actually consume.
+**Pay As You Go** is ShuYou’s billing plan tailored for enterprise customers and production use. Unlike subscription plans, Pay As You Go uses a **prepaid balance + pay-as-you-consume** model, so you only pay for the API usage you actually consume.
 
 ### Key features
 
@@ -65,9 +65,9 @@ If your project is already live or about to be commercialized, you **must use Pa
 
 ### Step 1: Sign in to the console
 
-Go to the **[AGIPower Console](https://agipower.ai/plantform/pay-as-you-go)** and navigate to **Manage > Pay As You Go**.
+Go to the **[ShuYou Console](https://shuyou.ai/plantform/pay-as-you-go)** and navigate to **Manage > Pay As You Go**.
 
-![Pay As You Go page](https://cdn.marmot-cloud.com/storage/agipower/2026/01/19/rsGoojf/pay-as-you-go.png)
+![Pay As You Go page](https://cdn.marmot-cloud.com/storage/ShuYou/2026/01/19/rsGoojf/pay-as-you-go.png)
 
 ### Step 2: Check your balance
 
@@ -121,7 +121,7 @@ Pay As You Go API keys are completely separate from subscription keys and are de
 2. Enter a name for the API key (e.g., `production-app`)
 3. Click **Create** to finish
 
-![Create API key](https://cdn.marmot-cloud.com/storage/agipower/2026/01/19/BNdWYST/pay-as-you-go-details.png)
+![Create API key](https://cdn.marmot-cloud.com/storage/ShuYou/2026/01/19/BNdWYST/pay-as-you-go-details.png)
 
 ### API key management
 
@@ -146,7 +146,7 @@ In the API Keys list, you can view and manage all Pay As You Go API keys:
 
 ### Call the API with a Pay As You Go API key
 
-After creating an API key, you can use it in code to call the AGIPower API. The usage is exactly the same as in the quickstart guide—just replace it with your Pay As You Go API key:
+After creating an API key, you can use it in code to call the ShuYou API. The usage is exactly the same as in the quickstart guide—just replace it with your Pay As You Go API key:
 
 
 
@@ -154,7 +154,7 @@ After creating an API key, you can use it in code to call the AGIPower API. The 
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
+    base_url="https://api.shuyou.ai/v1",
     api_key="<YOUR PAY_AS_YOU_GO_API_KEY>",  # [!code highlight]
 )
 
@@ -175,7 +175,7 @@ print(completion.choices[0].message.content)
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1",
+  baseURL: "https://api.shuyou.ai/v1",
   apiKey: "<YOUR PAY_AS_YOU_GO_API_KEY>",  // [!code highlight]
 });
 
@@ -210,7 +210,7 @@ For complete API usage examples, see the [Quickstart Guide](/en/guide/quickstart
 
 Click the info icon next to **Total Balance** to view the **Credits Breakdown**:
 
-![Credits breakdown](https://cdn.marmot-cloud.com/storage/agipower/2026/01/19/YqxRLvm/pay-as-you-go-keys.png)
+![Credits breakdown](https://cdn.marmot-cloud.com/storage/ShuYou/2026/01/19/YqxRLvm/pay-as-you-go-keys.png)
 
 The breakdown includes:
 
@@ -269,16 +269,16 @@ Now that you understand how Pay As You Go works, you can:
 
 - Read the [Advanced Calling Guide](/en/guide/advanced/streaming) to learn streaming, multimodal, and other advanced features
 - Review the [AI Insurance Docs](/en/guide/insurance) to learn how to file claims
-- Visit the [Cost Analytics page](https://agipower.ai/settings/cost) for detailed cost attribution and usage trends
+- Visit the [Cost Analytics page](https://shuyou.ai/settings/cost) for detailed cost attribution and usage trends
 - Join the [Discord community](http://discord.gg/vHZZzj84Bm) to connect with other developers
 
 <Tip title="Contact us">
 If you run into any issues or have suggestions/feedback, feel free to reach us via:
 
-- **Website**: [https://agipower.ai](https://agipower.ai)
-- **Support email**: [support@agipower.ai](mailto:support@agipower.ai)
-- **Business email**: [support@agipower.ai](mailto:support@agipower.ai)
-- **Twitter**: [@AGIPowerAI](https://twitter.com/AGIPowerAI)
+- **Website**: [https://shuyou.ai](https://shuyou.ai)
+- **Support email**: [support@shuyou.ai](mailto:support@shuyou.ai)
+- **Business email**: [support@shuyou.ai](mailto:support@shuyou.ai)
+- **Twitter**: [@ShuYouAI](https://twitter.com/ShuYouAI)
 - **Discord**: [http://discord.gg/vHZZzj84Bm](http://discord.gg/vHZZzj84Bm)
 
 For more contact options and details, visit our [Contact page](/en/help/contact).

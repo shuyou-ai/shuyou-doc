@@ -1,4 +1,4 @@
-# AGIPower Mintlify Docs
+# ShuYou Mintlify Docs
 
 This directory is generated from the existing VitePress source in `docs_source/`.
 

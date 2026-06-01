@@ -7,7 +7,7 @@ head:
       content: Create a Message
   - - meta
     - name: keywords
-      content: AGIPower, API, documentation, create, messages, new, Anthropic, Claude
+      content: ShuYou, API, documentation, create, messages, new, Anthropic, Claude
 ---
 
 # Create a Message
@@ -17,10 +17,10 @@ Encountering errors? See the [API Error Codes Reference](/en/guide/advanced/erro
 </Tip>
 
 ```
-POST https://api.agipower.ai/v1/messages
+POST https://api.shuyou.ai/v1/messages
 ```
 
-AGIPower supports the Anthropic API. See the API call examples for how to use it.
+ShuYou supports the Anthropic API. See the API call examples for how to use it.
 
 > This article is based on the official “Create a Message” documentation. Parameter descriptions and nested structures remain consistent with the official docs.
 
@@ -691,7 +691,7 @@ Field details:
 
 The model ID used for this call.
 
-- This is a AGIPower-defined model name, for example:
+- This is a ShuYou-defined model name, for example:
   - `"anthropic/claude-sonnet-4.5"`
 
 > Note: This differs from the Anthropic API-style `&lt;model&gt;` string.
@@ -1398,10 +1398,10 @@ import Anthropic from '@anthropic-ai/sdk';
 
 // 1. Initialize the Anthropic client
 const anthropic = new Anthropic({
-  // 2. Replace with the API Key you obtained from the AGIPower user console
-  apiKey: '<YOUR AGIPower_API_KEY>', // [!code highlight]
-  // 3. Point the base URL to the AGIPower endpoint
-  baseURL: "https://agipower.ai", // [!code highlight]
+  // 2. Replace with the API Key you obtained from the ShuYou user console
+  apiKey: '<YOUR ShuYou_API_KEY>', // [!code highlight]
+  // 3. Point the base URL to the ShuYou endpoint
+  baseURL: "https://shuyou.ai", // [!code highlight]
 });
 
 async function main () {
@@ -1421,10 +1421,10 @@ import anthropic
 
 ## 1. Initialize the Anthropic client
 client = anthropic.Anthropic(
-    # Replace with the API Key you obtained from the AGIPower user console
-    api_key="<YOUR AGIPower_API_KEY>", # [!code highlight]
-    # 3. Point the base URL to the AGIPower endpoint
-    base_url="https://agipower.ai"  # [!code highlight]
+    # Replace with the API Key you obtained from the ShuYou user console
+    api_key="<YOUR ShuYou_API_KEY>", # [!code highlight]
+    # 3. Point the base URL to the ShuYou endpoint
+    base_url="https://shuyou.ai"  # [!code highlight]
 )
 message = client.messages.create(
     model="anthropic/claude-sonnet-4.5",
@@ -1437,8 +1437,8 @@ print(message.content)
 ```
 
 ```cURL
-curl https://api.agipower.ai/v1/messages \
-     --header "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+     --header "x-api-key: $ShuYou_API_KEY" \
      --header "anthropic-version: 2023-06-01" \
      --header "content-type: application/json" \
      --data \

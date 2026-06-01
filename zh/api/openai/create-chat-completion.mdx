@@ -7,7 +7,7 @@ head:
       content: Create Chat Completion
   - - meta
     - name: keywords
-      content: AGIPower, API, documentation, create, chat, completion, new, OpenAI, Anthropic
+      content: ShuYou, API, documentation, create, chat, completion, new, OpenAI, Anthropic
 ---
 
 # Create Chat Completion
@@ -17,7 +17,7 @@ head:
 </Tip>
 
 ```
-POST https://api.agipower.ai/v1/chat/completions
+POST https://api.shuyou.ai/v1/chat/completions
 ```
 
 Create Chat Completion 接口兼容 OpenAI 的 [Create Chat Completion](https://platform.openai.com/docs/api-reference/chat/create) 接口，用于对话型大语言模型推理调用。
@@ -323,7 +323,7 @@ messages 里的每个元素表示一条对话消息，每条消息由 role 和 c
 ### temperature `number` **可选**
 
 - 默认：`1`
-- AGIPower 没有限制范围，建议在 `[0, 2]` 范围内取值。
+- ShuYou 没有限制范围，建议在 `[0, 2]` 范围内取值。
 
 采样温度，控制随机性：值越高越随机，值越低越稳定。一般与 `top_p` 二选一调节。
 
@@ -731,11 +731,11 @@ Nucleus sampling（核采样）参数：只从累积概率质量前 `top_p` 的 
 
 ### choices[i].message 字段
 
-#### reasoning `string` （AGIPower 拓展字段）
+#### reasoning `string` （ShuYou 拓展字段）
 
 推理过程的文本内容，用于展示模型对答案的思考过程或中间分析。实际是否返回取决于模型和请求中的推理配置。
 
-#### reasoning_details `string`（AGIPower 拓展字段）
+#### reasoning_details `string`（ShuYou 拓展字段）
 
 推理内容的文本主体，通常比 `reasoning` 更完整或更详细，可作为推理链（chain‑of‑thought）的主要承载字段。
 
@@ -797,7 +797,7 @@ Nucleus sampling（核采样）参数：只从累积概率质量前 `top_p` 的 
 - id `string`  
   工具调用的唯一 ID，用于与后续 `tool` 消息中的 `tool_call_id` 对应。
 - type `string`  
-  工具类型。目前标准为 `function`，AGIPower 可能在扩展中支持 `custom` 等其他类型。
+  工具类型。目前标准为 `function`，ShuYou 可能在扩展中支持 `custom` 等其他类型。
 - function `object`  
   当 `type = "function"` 时，表示模型调用的函数。
   - arguments `string`  
@@ -827,7 +827,7 @@ Nucleus sampling（核采样）参数：只从累积概率质量前 `top_p` 的 
 
 #### service_tier `string`
 
-指定用于处理请求的服务类型或服务等级。AGIPower 自身不限定取值，如果上游模型返回该字段则会透传。
+指定用于处理请求的服务类型或服务等级。ShuYou 自身不限定取值，如果上游模型返回该字段则会透传。
 
 #### system_fingerprint `string`
 
@@ -884,9 +884,9 @@ Nucleus sampling（核采样）参数：只从累积概率质量前 `top_p` 的 
 
 由流式模型响应生成的增量对话内容，即相较于之前分块「新增」的部分。
 
-- reasoning `string`（AGIPower 拓展字段）  
+- reasoning `string`（ShuYou 拓展字段）
   推理过程内容的增量文本，用于逐块输出推理信息。
-- reasoning_content `string`（AGIPower 拓展字段）  
+- reasoning_content `string`（ShuYou 拓展字段）
   推理内容主体的增量片段，通常与 `reasoning` 搭配，用于拼接完整推理文本。
 - content `string`  
   本分块的消息正文内容增量。客户端应将各分块的 `content` 依次拼接成完整回复。
@@ -1010,7 +1010,7 @@ Nucleus sampling（核采样）参数：只从累积概率质量前 `top_p` 的 
 
 #### system_fingerprint `string`
 
-此指纹表示本次请求使用的后端配置。虽然在部分上游已标记为 Deprecated，但 AGIPower 仍会保留并透传该字段。
+此指纹表示本次请求使用的后端配置。虽然在部分上游已标记为 Deprecated，但 ShuYou 仍会保留并透传该字段。
 
 ---
 
@@ -1049,8 +1049,8 @@ Nucleus sampling（核采样）参数：只从累积概率质量前 `top_p` 的 
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  baseURL: 'https://api.agipower.ai/v1',
-  apiKey: '<AGIPower_API_KEY>',
+  baseURL: 'https://api.shuyou.ai/v1',
+  apiKey: '<ShuYou_API_KEY>',
 });
 
 async function main() {
@@ -1074,8 +1074,8 @@ main();
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key="<your_AGIPower_API_KEY>",
+    base_url="https://api.shuyou.ai/v1",
+    api_key="<your_ShuYou_API_KEY>",
 )
 
 completion = client.chat.completions.create(
@@ -1092,9 +1092,9 @@ print(completion.choices[0].message.content)
 ```
 
 ```cURL
-curl https://api.agipower.ai/v1/chat/completions \
+curl https://api.shuyou.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -d '{
     "model": "openai/gpt-5",
     "messages": [
@@ -1171,7 +1171,7 @@ curl https://api.agipower.ai/v1/chat/completions \
 
 <Warning title="重要说明">
 
-- **背景**：Claude Opus 4.5 原生使用 Anthropic Messages 协议，AGIPower 将 Chat Completion 协议转换为 Messages 协议。
+- **背景**：Claude Opus 4.5 原生使用 Anthropic Messages 协议，ShuYou 将 Chat Completion 协议转换为 Messages 协议。
 - **问题**：开启 reasoning 时，工具调用场景的第二轮对话需要传入 reasoning 的 `signature`，用于验证推理内容的完整性和连续性。
 - **解决方案**：将上一轮 assistant 消息中的 `reasoning`、`reasoning_details` 字段完整传回即可。
 </Warning>

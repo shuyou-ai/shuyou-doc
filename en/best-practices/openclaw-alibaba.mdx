@@ -1,12 +1,12 @@
-# Deploying OpenClaw on Alibaba Cloud and Integrating AGIPower: A Hands-on Guide
+# Deploying OpenClaw on Alibaba Cloud and Integrating ShuYou: A Hands-on Guide
 
-> With [AGIPower](https://agipower.ai/), you can be among the first to try:
+> With [ShuYou](https://shuyou.ai/), you can be among the first to try:
 >
 > - **OpenAI GPT-5.2** — A general-purpose LLM with top-tier code generation and logical reasoning
 > - **Anthropic Claude Sonnet 4.6** — Ultra-long context, ideal for complex document processing
 > - **Google Gemini 3.1 Pro** — Native multimodal support with strong image-and-text understanding
 >
-> 💡 **No need to register separately for overseas platforms like OpenAI, Google, or Anthropic**—one AGIPower account covers it all, so you can skip complicated credit card binding and regional restrictions.
+> 💡 **No need to register separately for overseas platforms like OpenAI, Google, or Anthropic**—one ShuYou account covers it all, so you can skip complicated credit card binding and regional restrictions.
 
 ## Deploy OpenClaw
 
@@ -16,18 +16,18 @@
 
 > **Alibaba Cloud integrates Bailian API Key by default**, which comes with some free quota—enough to get the Web UI and DingTalk integration working.
 
-## Configure AGIPower
+## Configure ShuYou
 
 ### Prerequisites
 
 1. OpenClaw has been deployed on the server and is running properly
-2. You have registered a AGIPower account and obtained an API key
+2. You have registered a ShuYou account and obtained an API key
 
 ---
 
-### Step 1: Get a AGIPower API Key
+### Step 1: Get a ShuYou API Key
 
-1. Log in to the [AGIPower Console](https://agipower.ai)
+1. Log in to the [ShuYou Console](https://shuyou.ai)
 2. Go to the **API Keys** page
 3. Click **Create new key**
 4. Copy the generated key (format: `sk-ss-v1-xxxx` or `sk-xxxx`)
@@ -48,14 +48,14 @@ Log in to the server and edit `~/.openclaw/openclaw.json` (default path on Aliba
   "models": {
     "mode": "merge",
     "providers": {
-      "agipower": {
-        "baseUrl": "https://api.agipower.ai/v1",
-        "apiKey": "sk-ss-v1-replace-with-your-agipower-api-key",
+      "ShuYou": {
+        "baseUrl": "https://api.shuyou.ai/v1",
+        "apiKey": "sk-ss-v1-replace-with-your-ShuYou-api-key",
         "api": "openai-completions",
         "models": [
           {
             "id": "openai/gpt-5.2",
-            "name": "GPT-5.2 via AGIPower",
+            "name": "GPT-5.2 via ShuYou",
             "reasoning": false,
             "input": ["text", "image"],
             "cost": {
@@ -69,7 +69,7 @@ Log in to the server and edit `~/.openclaw/openclaw.json` (default path on Aliba
           },
           {
             "id": "google/gemini-3.1-pro-preview",
-            "name": "Gemini 3.1 Pro via AGIPower",
+            "name": "Gemini 3.1 Pro via ShuYou",
             "reasoning": false,
             "input": ["text", "image"],
             "cost": {
@@ -83,7 +83,7 @@ Log in to the server and edit `~/.openclaw/openclaw.json` (default path on Aliba
           },
           {
             "id": "anthropic/claude-sonnet-4.6",
-            "name": "Claude Sonnet 4.6 via AGIPower",
+            "name": "Claude Sonnet 4.6 via ShuYou",
             "reasoning": false,
             "input": ["text", "image"],
             "cost": {
@@ -102,12 +102,12 @@ Log in to the server and edit `~/.openclaw/openclaw.json` (default path on Aliba
   "agents": {
     "defaults": {
       "model": {
-        "primary": "agipower/openai/gpt-5.2"
+        "primary": "ShuYou/openai/gpt-5.2"
       },
       "models": {
-        "agipower/openai/gpt-5.2": {},
-        "agipower/google/gemini-3.1-pro-preview": {},
-        "agipower/anthropic/claude-sonnet-4.6": {}
+        "ShuYou/openai/gpt-5.2": {},
+        "ShuYou/google/gemini-3.1-pro-preview": {},
+        "ShuYou/anthropic/claude-sonnet-4.6": {}
       }
     }
   }
@@ -125,22 +125,22 @@ Run on the server:
 openclaw models list
 ```
 
-A successful setup means AGIPower models like `agipower/openai/gpt-5.2` appear in the list.
+A successful setup means ShuYou models like `ShuYou/openai/gpt-5.2` appear in the list.
 
 Example output:
 
 ```
 NAME                                PROVIDER    ID
-openai/gpt-5.2                      agipower      openai/gpt-5.2
-google/gemini-3.1-pro-preview       agipower      google/gemini-3.1-pro-preview
-anthropic/claude-sonnet-4.6         agipower      anthropic/claude-sonnet-4.6
+openai/gpt-5.2                      ShuYou      openai/gpt-5.2
+google/gemini-3.1-pro-preview       ShuYou      google/gemini-3.1-pro-preview
+anthropic/claude-sonnet-4.6         ShuYou      anthropic/claude-sonnet-4.6
 ```
 
 Then run:
 
 ```bash
 # Set the default model
-openclaw models set agipower/openai/gpt-5.2
+openclaw models set ShuYou/openai/gpt-5.2
 
 # Test a conversation
 openclaw agent --local --agent main --message "Hello, just testing"
@@ -164,7 +164,7 @@ The Alibaba Cloud OpenClaw app image comes with a built-in web search Skill base
 
 Go to the [Tavily website](https://tavily.com) to register, then retrieve your API key from the console.
 
-![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/agipower/2026/03/02/VAVtdUO/1772450803550-28c2a035-c83a-4bbc-95fb-5d2cc6e31551.png)
+![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/ShuYou/2026/03/02/VAVtdUO/1772450803550-28c2a035-c83a-4bbc-95fb-5d2cc6e31551.png)
 
 > Tip: You can also click **Generate MCP Link** and send the generated link to OpenClaw to have it automatically add the MCP service.
 
@@ -203,7 +203,7 @@ Edit `~/.openclaw/openclaw.json` and add:
 
 Just tell OpenClaw to prefer Tavily for web search going forward.
 
-![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/agipower/2026/03/02/xB6mFxR/1772451999609-01d4ca0e-4816-4c5f-8a30-ed67e1497260.png)
+![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/ShuYou/2026/03/02/xB6mFxR/1772451999609-01d4ca0e-4816-4c5f-8a30-ed67e1497260.png)
 
 ---
 
@@ -266,7 +266,7 @@ openclaw browser status
 Expected output: `running: true`, and it no longer shows `browser: unknown`.
 Use OpenClaw Browser to take a screenshot of any Chinese website (e.g., Baidu). If Chinese renders correctly, the setup is successful.
 
-![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/agipower/2026/03/02/dbqgTic/1772453669779-f6645b05-3dee-4898-9463-4c51340e8c78.png)
+![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/ShuYou/2026/03/02/dbqgTic/1772453669779-f6645b05-3dee-4898-9463-4c51340e8c78.png)
 
 ---
 
@@ -336,23 +336,23 @@ Run a conversation test in DingTalk. If you see the card-based interactive UI, t
 
 ## Use Cases
 
-### Scheduled Task: Monitoring New AGIPower Models
+### Scheduled Task: Monitoring New ShuYou Models
 
-Set up a scheduled task to check daily whether AGIPower has released new models, so you can try the latest capabilities as soon as possible.
+Set up a scheduled task to check daily whether ShuYou has released new models, so you can try the latest capabilities as soon as possible.
 
-![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/agipower/2026/03/02/5DA3il2/1772453969722-39c7383b-0a19-464f-bbbb-ec7d1f5f460a.png)
+![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/ShuYou/2026/03/02/5DA3il2/1772453969722-39c7383b-0a19-464f-bbbb-ec7d1f5f460a.png)
 
 In the Web UI, you can see the configured scheduled tasks and manually trigger them to validate the logic.
 
-![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/agipower/2026/03/02/1KIV8iV/1772453390450-a9905ca5-7984-4f2e-bc8b-dec693bca70c.png)
+![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/ShuYou/2026/03/02/1KIV8iV/1772453390450-a9905ca5-7984-4f2e-bc8b-dec693bca70c.png)
 
 Actual result: the bot automatically pushes new model announcements to the DingTalk group.
 
-![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/agipower/2026/03/02/Ar04e0Q/1772454079027-0ec93b6d-2a1c-496e-b236-bb98d415ba58.png)
+![openclaw-alibaba](https://cdn.marmot-cloud.com/storage/ShuYou/2026/03/02/Ar04e0Q/1772454079027-0ec93b6d-2a1c-496e-b236-bb98d415ba58.png)
 
 ## Related Resources
 
-- [AGIPower Documentation](https://agipower.ai/docs/best-practices/openclaw.html)
+- [ShuYou Documentation](https://shuyou.ai/docs/best-practices/openclaw.html)
 - [OpenClaw Documentation](https://openclaw.io/docs)
 - [OpenClaw GitHub](https://github.com/openclaw)
 - [Tavily Website](https://tavily.com)
@@ -363,8 +363,8 @@ If you encounter any issues during use, or have suggestions and feedback, please
 
 <Tip title="Get Help">
 
-- **Official Website**: [https://agipower.ai](https://agipower.ai)
-- **Technical Support Email**: [support@agipower.ai](mailto:support@agipower.ai)
+- **Official Website**: [https://shuyou.ai](https://shuyou.ai)
+- **Technical Support Email**: [support@shuyou.ai](mailto:support@shuyou.ai)
 
 
 For more contacts and details, visit our [Contact Us page](/en/help/contact).

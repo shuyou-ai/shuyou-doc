@@ -2,15 +2,15 @@
 head:
   - - meta
     - name: description
-      content: AGIPower Web Search Guide - Enable AI models to access real-time web information via Chat Completions, Messages, Responses, and Vertex AI protocols
+      content: ShuYou Web Search Guide - Enable AI models to access real-time web information via Chat Completions, Messages, Responses, and Vertex AI protocols
   - - meta
     - name: keywords
-      content: AGIPower, Web Search, API, OpenAI, Anthropic, Claude, GPT, Vertex AI, Google Search, real-time search, grounding
+      content: ShuYou, Web Search, API, OpenAI, Anthropic, Claude, GPT, Vertex AI, Google Search, real-time search, grounding
 ---
 
 # Web Search
 
-This document explains how to use the Web Search feature on the AGIPower platform. AGIPower supports invoking Web Search via multiple compatible protocols, including Chat Completions, Messages, Responses, and Vertex AI.
+This document explains how to use the Web Search feature on the ShuYou platform. ShuYou supports invoking Web Search via multiple compatible protocols, including Chat Completions, Messages, Responses, and Vertex AI.
 
 ## Overview
 
@@ -52,7 +52,7 @@ The Chat Completions API enables Web Search via the `web_search_options` paramet
 
 
 ```cURL
-curl -X POST "https://api.agipower.ai/v1/chat/completions" \
+curl -X POST "https://api.shuyou.ai/v1/chat/completions" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
@@ -81,7 +81,7 @@ import OpenAI from "openai";
 
 const client = new OpenAI({
   apiKey: "YOUR_API_KEY",
-  baseURL: "https://api.agipower.ai/v1",
+  baseURL: "https://api.shuyou.ai/v1",
 });
 
 async function chatWithWebSearch() {
@@ -93,7 +93,7 @@ async function chatWithWebSearch() {
         content: "How is the weather in Beijing today?",
       },
     ],
-    // @ts-ignore - web_search_options is a AGIPower extension parameter
+    // @ts-ignore - web_search_options is a ShuYou extension parameter
     web_search_options: {
       search_context_size: "medium",
       user_location: {
@@ -130,7 +130,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key="YOUR_API_KEY",
-    base_url="https://api.agipower.ai/v1"
+    base_url="https://api.shuyou.ai/v1"
 )
 
 response = client.chat.completions.create(
@@ -195,7 +195,7 @@ The Messages API enables Web Search using the `web_search_20250305` type within 
 
 
 ```cURL
-curl -X POST "https://api.agipower.ai/v1/messages" \
+curl -X POST "https://api.shuyou.ai/v1/messages" \
   -H "Content-Type: application/json" \
   -H "x-api-key: YOUR_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
@@ -228,7 +228,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic({
   apiKey: "YOUR_API_KEY",
-  baseURL: "https://agipower.ai",
+  baseURL: "https://shuyou.ai",
 });
 
 async function messageWithWebSearch() {
@@ -285,7 +285,7 @@ import anthropic
 
 client = anthropic.Anthropic(
     api_key="YOUR_API_KEY",
-    base_url="https://agipower.ai"
+    base_url="https://shuyou.ai"
 )
 
 response = client.messages.create(
@@ -361,7 +361,7 @@ The Responses API enables Web Search using the `web_search` family of types with
 
 
 ```cURL
-curl -X POST "https://api.agipower.ai/v1/responses" \
+curl -X POST "https://api.shuyou.ai/v1/responses" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
@@ -382,7 +382,7 @@ curl -X POST "https://api.agipower.ai/v1/responses" \
 ```
 
 ```流式cURL
-curl -X POST "https://api.agipower.ai/v1/responses" \
+curl -X POST "https://api.shuyou.ai/v1/responses" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
@@ -403,7 +403,7 @@ import OpenAI from "openai";
 
 const client = new OpenAI({
   apiKey: "YOUR_API_KEY",
-  baseURL: "https://api.agipower.ai/v1",
+  baseURL: "https://api.shuyou.ai/v1",
 });
 
 async function responsesWithWebSearch() {
@@ -486,7 +486,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key="YOUR_API_KEY",
-    base_url="https://api.agipower.ai/v1"
+    base_url="https://api.shuyou.ai/v1"
 )
 
 # Non-streaming request
@@ -584,12 +584,12 @@ In Vertex AI, Web Search is enabled via the `googleSearch` tool, and source info
 ```typescript
 import { GoogleGenAI } from "@google/genai";
 
-// Use the AGIPower proxy
+// Use the ShuYou proxy
 const client = new GoogleGenAI({
   apiKey: "YOUR_API_KEY",
   vertexai: true,
   httpOptions: {
-    baseUrl: "https://api.agipower.ai",
+    baseUrl: "https://api.shuyou.ai",
     apiVersion: "v1",
   },
 });
@@ -660,13 +660,13 @@ generateWithGoogleSearch();
 from google import genai
 from google.genai import types
 
-# Configure to use the AGIPower proxy
+# Configure to use the ShuYou proxy
 client = genai.Client(
     api_key="YOUR_API_KEY",
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai'
+        base_url='https://api.shuyou.ai'
     ),
 )
 

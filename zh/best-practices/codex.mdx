@@ -2,20 +2,20 @@
 head:
   - - meta
     - name: description
-      content: 通过 AGIPower 使用 Codex CLI 指南
+      content: 通过 ShuYou 使用 Codex CLI 指南
   - - meta
     - name: keywords
-      content: AGIPower, best practices, integration, codex, OpenAI, API
+      content: ShuYou, best practices, integration, codex, OpenAI, API
 ---
 
-# 通过 AGIPower 使用 Codex CLI 指南
+# 通过 ShuYou 使用 Codex CLI 指南
 
-Codex CLI 是 OpenAI 推出的开源编程助手工具，可以在本地终端运行，能够在您选择的目录中读取、修改和运行代码。它使用 Rust 构建，速度快、效率高，并在 GitHub 上持续改进。通过与 AGIPower 的集成，您可以使用更多模型选择，而不仅仅局限于 OpenAI 官方 API。
+Codex CLI 是 OpenAI 推出的开源编程助手工具，可以在本地终端运行，能够在您选择的目录中读取、修改和运行代码。它使用 Rust 构建，速度快、效率高，并在 GitHub 上持续改进。通过与 ShuYou 的集成，您可以使用更多模型选择，而不仅仅局限于 OpenAI 官方 API。
 
 <Info title="兼容性说明">
 OpenAI 已明确将 Responses 作为新一代统一接口，Chat Completions 仍可使用但不再是新项目首选；Codex 也将顺应这一方向，把 Chat Completions 视为兼容选项并逐步迁移到 Responses（本文配置即按 Responses 给出）。
 
-注意 OpenAI 协议的 base_url="https://api.agipower.ai/v1"。
+注意 OpenAI 协议的 base_url="https://api.shuyou.ai/v1"。
 </Info>
 
 ## 配置方案
@@ -36,15 +36,15 @@ npm install -g @openai/codex
 
 ### 配置环境变量
 
-在您的 shell 配置文件中添加 AGIPower API Key：
+在您的 shell 配置文件中添加 ShuYou API Key：
 
 ```bash
 # 编辑 ~/.zshrc 或 ~/.bashrc 文件，根据您实际使用的终端来选择
-export AGIPower_API_KEY="sk-xxx"  # [!code highlight]
+export ShuYou_API_KEY="sk-xxx"  # [!code highlight]
 ```
 
 <Warning title="重要配置">
-请确保将 `sk-xxx` 替换为您的真实 AGIPower API Key。您可以在 [AGIPower 控制台](https://agipower.ai/settings/keys) 中获取 API Key。
+请确保将 `sk-xxx` 替换为您的真实 ShuYou API Key。您可以在 [ShuYou 控制台](https://shuyou.ai/settings/keys) 中获取 API Key。
 </Warning>
 
 ### 配置 Codex
@@ -52,21 +52,21 @@ export AGIPower_API_KEY="sk-xxx"  # [!code highlight]
 创建或修改 Codex 配置文件 `~/.codex/config.toml`：
 
 ```toml
-model_provider = "agipower"  # [!code highlight]
+model_provider = "ShuYou"  # [!code highlight]
 model = "openai/gpt-5.2-codex"  # [!code highlight]
 
-[model_providers.agipower]  # [!code highlight]
-name = "AGIPower"  # [!code highlight]
-base_url = "https://api.agipower.ai/v1"  # [!code highlight]
-env_key = "AGIPower_API_KEY"  # [!code highlight]
+[model_providers.ShuYou]  # [!code highlight]
+name = "ShuYou"  # [!code highlight]
+base_url = "https://api.shuyou.ai/v1"  # [!code highlight]
+env_key = "ShuYou_API_KEY"  # [!code highlight]
 wire_api = "responses"  # [!code highlight]
 ```
 
 <Tip title="配置说明">
 
-- `model_provider`: 指定使用 AGIPower 作为模型提供商
-- `model`: 设置要使用的模型，可以是 AGIPower 支持的任何模型
-- `base_url`: AGIPower API 的基础 URL
+- `model_provider`: 指定使用 ShuYou 作为模型提供商
+- `model`: 设置要使用的模型，可以是 ShuYou 支持的任何模型
+- `base_url`: ShuYou API 的基础 URL
 - `env_key`: 环境变量中 API Key 的名称
 - `wire_api`: 指定使用 Responses 协议（推荐）
 </Tip>
@@ -92,16 +92,16 @@ codex  # [!code highlight]
 
 ## 支持的模型
 
-您可以灵活更换 `config.toml` 中的 `model` 字段为 AGIPower 支持的任何模型。
+您可以灵活更换 `config.toml` 中的 `model` 字段为 ShuYou 支持的任何模型。
 
 <Info title="获取模型列表">
 
-- 通过 [AGIPower 模型列表](https://agipower.ai/models?sort=newest&supported_protocol=responses) 查看 Responses 协议可用模型
+- 通过 [ShuYou 模型列表](https://shuyou.ai/models?sort=newest&supported_protocol=responses) 查看 Responses 协议可用模型
 - 使用模型的 slug 名称（如 `openai/gpt-5.2-codex`）
 - 如需指定特定供应商，请参考 [Provider Routing 文档](/zh/guide/provider-routing)
 </Info>
 
-支持Responses协议的模型请访问 [AGIPower 模型列表](https://agipower.ai/models?sort=newest&supported_protocol=responses) 查看！
+支持Responses协议的模型请访问 [ShuYou 模型列表](https://shuyou.ai/models?sort=newest&supported_protocol=responses) 查看！
 
 ## 故障排除
 
@@ -112,21 +112,21 @@ codex  # [!code highlight]
 
 **解决方案**：
 
-- 检查环境变量 `AGIPower_API_KEY` 是否正确设置
-- 使用 `echo $AGIPower_API_KEY` 验证环境变量值
+- 检查环境变量 `ShuYou_API_KEY` 是否正确设置
+- 使用 `echo $ShuYou_API_KEY` 验证环境变量值
 - 确认 API Key 是否已激活且有足够余额
 - 验证 API Key 格式是否以 `sk-` 开头
 
 
 #### 连接失败问题
-**问题**：Codex CLI 无法连接到 AGIPower 服务
+**问题**：Codex CLI 无法连接到 ShuYou 服务
 
 **解决方案**：
 
 - 检查网络连接是否正常
-- 验证 `config.toml` 中的 `base_url` 是否配置正确为 `https://api.agipower.ai/v1`
+- 验证 `config.toml` 中的 `base_url` 是否配置正确为 `https://api.shuyou.ai/v1`
 - 确认防火墙设置是否阻止了外部连接
-- 尝试使用 `curl https://api.agipower.ai/v1/models` 测试连接
+- 尝试使用 `curl https://api.shuyou.ai/v1/models` 测试连接
 
 
 #### 环境变量配置不生效
@@ -135,7 +135,7 @@ codex  # [!code highlight]
 **解决方案**：
 
 - 重新打开终端窗口，或执行 `source ~/.zshrc` 或 `source ~/.bashrc` 重新加载配置
-- 确认环境变量已正确设置：`echo $AGIPower_API_KEY`
+- 确认环境变量已正确设置：`echo $ShuYou_API_KEY`
 - 检查是否在正确的 shell 配置文件中添加了环境变量（zsh 用户使用 `.zshrc`，bash 用户使用 `.bashrc`）
 
 
@@ -155,7 +155,7 @@ codex  # [!code highlight]
 
 **解决方案**：
 
-- 访问 [AGIPower 模型列表](https://agipower.ai/models?sort=newest&supported_protocol=responses) 确认模型是否可用
+- 访问 [ShuYou 模型列表](https://shuyou.ai/models?sort=newest&supported_protocol=responses) 确认模型是否可用
 - 检查模型 slug 拼写是否正确
 - 尝试使用其他推荐的模型进行测试
 - 确认您的账户是否有权限访问该模型
@@ -171,37 +171,37 @@ codex  # [!code highlight]
 
 ```toml title="均衡配置"
 # 平衡性能和成本的模型选择
-model_provider = "agipower"
+model_provider = "ShuYou"
 model = "anthropic/claude-sonnet-4.5"
 
-[model_providers.agipower]
-name = "AGIPower"
-base_url = "https://api.agipower.ai/v1"
-env_key = "AGIPower_API_KEY"
+[model_providers.ShuYou]
+name = "ShuYou"
+base_url = "https://api.shuyou.ai/v1"
+env_key = "ShuYou_API_KEY"
 wire_api = "responses"
 ```
 
 ```toml title="性能优先配置"
 # 注重性能表现的模型选择
-model_provider = "agipower"
+model_provider = "ShuYou"
 model = "openai/gpt-5.2-codex"
 
-[model_providers.agipower]
-name = "AGIPower"
-base_url = "https://api.agipower.ai/v1"
-env_key = "AGIPower_API_KEY"
+[model_providers.ShuYou]
+name = "ShuYou"
+base_url = "https://api.shuyou.ai/v1"
+env_key = "ShuYou_API_KEY"
 wire_api = "responses"
 ```
 
 ```toml title="成本优化配置"
 # 注重成本效益的模型选择
-model_provider = "agipower"
+model_provider = "ShuYou"
 model = "deepseek/deepseek-chat"
 
-[model_providers.agipower]
-name = "AGIPower"
-base_url = "https://api.agipower.ai/v1"
-env_key = "AGIPower_API_KEY"
+[model_providers.ShuYou]
+name = "ShuYou"
+base_url = "https://api.shuyou.ai/v1"
+env_key = "ShuYou_API_KEY"
 wire_api = "responses"
 ```
 
@@ -210,8 +210,8 @@ wire_api = "responses"
 <Tip title="联系我们">
 如果您在使用过程中遇到任何问题，或有任何建议和反馈，欢迎通过以下方式联系我们：
 
-- **官方网站**：[https://agipower.ai](https://agipower.ai)
-- **技术支持邮箱**：[support@agipower.ai](mailto:support@agipower.ai)
+- **官方网站**：[https://shuyou.ai](https://shuyou.ai)
+- **技术支持邮箱**：[support@shuyou.ai](mailto:support@shuyou.ai)
 
 更多联系方式和详细信息，请访问我们的[联系我们页面](/zh/help/contact)。
 </Tip>

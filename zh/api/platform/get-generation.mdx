@@ -7,7 +7,7 @@ head:
       content: Get generation
   - - meta
     - name: keywords
-      content: AGIPower, API, documentation, get, generation
+      content: ShuYou, API, documentation, get, generation
 ---
 
 # Get generation
@@ -17,7 +17,7 @@ head:
 </Tip>
 
 ```
-GET https://api.agipower.ai/v1/management/generation?id=<generation_id>
+GET https://api.shuyou.ai/v1/management/generation?id=<generation_id>
 ```
 
 <Warning title="⚠️ 旧版地址已废弃">
@@ -64,25 +64,25 @@ Get generation 接口用于查询生成信息，如用量和费用等。
 **请求头参数：**
 
 ```http
-Authorization: Bearer <AGIPower_API_KEY>
+Authorization: Bearer <ShuYou_API_KEY>
 ```
 
 - **参数名**：`Authorization`
 - **格式**：`Bearer &lt;API_KEY&gt;`
-- **说明**：你的 AGIPower API Key
+- **说明**：你的 ShuYou API Key
   - **Pay As You Go API Key**：支持查询完整的计量和计费信息
   - **订阅制 API Key**（以 `sk-ss-v1-` 开头）：仅支持查询计量信息，不支持计费信息
 
 <Tip title="💡 获取 API Key">
-- Pay As You Go API Key：登录 [AGIPower 控制台](https://agipower.ai/platform/pay-as-you-go) 创建
-- 订阅制 API Key：登录 [订阅管理页面](https://agipower.ai/platform/subscription) 创建
+- Pay As You Go API Key：登录 [ShuYou 控制台](https://shuyou.ai/platform/pay-as-you-go) 创建
+- 订阅制 API Key：登录 [订阅管理页面](https://shuyou.ai/platform/subscription) 创建
 </Tip>
 
 ### generate_id `string` **必选**
 
 **查询参数：**
 
-AGIPower API 接口返回的 generation id，可以从以下接口获得：
+ShuYou API 接口返回的 generation id，可以从以下接口获得：
 
 - [Create Chat Completion](../openai/create-chat-completion.md) - OpenAI Chat Completions 协议
 - [Create a Model Response](../openai/openai-responses.md) - OpenAI Responses 协议
@@ -170,8 +170,8 @@ API 类型，根据调用的协议不同，取值如下：
 <Card title="GET /v1/management/generation">
 
 ```cURL
-curl https://api.agipower.ai/v1/management/generation?id=<generation_id> \
-  -H "Authorization: Bearer $AGIPower_API_KEY"
+curl https://api.shuyou.ai/v1/management/generation?id=<generation_id> \
+  -H "Authorization: Bearer $ShuYou_API_KEY"
 ```
 
 </Card>

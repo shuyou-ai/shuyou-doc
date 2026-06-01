@@ -4,10 +4,10 @@ title: Generate Content
 head:
   - - meta
     - name: description
-      content: AGIPower documentation - generate content new
+      content: ShuYou documentation - generate content new
   - - meta
     - name: keywords
-      content: AGIPower, API, documentation, generate, content, new
+      content: ShuYou, API, documentation, generate, content, new
 ---
 
 # Google Vertex AI API: Generate Content
@@ -19,16 +19,16 @@ Encountering errors? See the [API Error Codes Reference](/en/guide/advanced/erro
 ### Non-streaming:
 
 ```
-POST https://api.agipower.ai/v1/publishers/{provider}/models/{model}:generateContent
+POST https://api.shuyou.ai/v1/publishers/{provider}/models/{model}:generateContent
 ```
 
 ### Streaming:
 
 ```
-POST https://api.agipower.ai/v1/publishers/{provider}/models/{model}:streamGenerateContent
+POST https://api.shuyou.ai/v1/publishers/{provider}/models/{model}:streamGenerateContent
 ```
 
-AGIPower supports the Google Vertex AI API via the Gen AI SDK. For detailed request parameters and response schemas, see the [official Google Vertex AI documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference).
+ShuYou supports the Google Vertex AI API via the Gen AI SDK. For detailed request parameters and response schemas, see the [official Google Vertex AI documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference).
 
 ## Path parameters
 
@@ -1048,10 +1048,10 @@ Token usage.
 import { GoogleGenAI } from "@google/genai";
 
 const client = GoogleGenAI({
-  apiKey: "$AGIPower_API_KEY",
+  apiKey: "$ShuYou_API_KEY",
   vertexai: true,
   httpOptions: {
-    baseUrl: "https://api.agipower.ai",
+    baseUrl: "https://api.shuyou.ai",
     apiVersion: "v1",
   },
 });
@@ -1068,11 +1068,11 @@ from google import genai
 from google.genai import types
 
 client = genai.Client(
-    api_key="$AGIPower_API_KEY",
+    api_key="$ShuYou_API_KEY",
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai'
+        base_url='https://api.shuyou.ai'
     ),
 )
 

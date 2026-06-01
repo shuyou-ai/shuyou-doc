@@ -7,7 +7,7 @@ head:
       content: Create a Message
   - - meta
     - name: keywords
-      content: AGIPower, API, documentation, create, messages, new, Anthropic, Claude
+      content: ShuYou, API, documentation, create, messages, new, Anthropic, Claude
 ---
 
 # Create a Message
@@ -17,10 +17,10 @@ head:
 </Tip>
 
 ```
-POST https://api.agipower.ai/v1/messages
+POST https://api.shuyou.ai/v1/messages
 ```
 
-AGIPower 支持 Anthropic API, 使用方式见 API 调用示例。
+ShuYou 支持 Anthropic API, 使用方式见 API 调用示例。
 
 > 本文基于官方文档「Create a Message」编写，参数说明与嵌套结构与官网保持一致。
 
@@ -691,7 +691,7 @@ Message = {
 
 本次调用使用的模型 ID。
 
-- 是 AGIPower 定义的模型名，例如：
+- 是 ShuYou 定义的模型名，例如：
   - `"anthropic/claude-sonnet-4.6"`
 
 > 注意：这与 Anthropic API 风格的 `&lt;model&gt;` 字符串不同。
@@ -1401,10 +1401,10 @@ import Anthropic from '@anthropic-ai/sdk';
 
 // 1. 初始化 anthropic 客户端
 const anthropic = new Anthropic({
-  // 2. 替换为你从 AGIPower 用户控制台获取的 API Key
-  apiKey: '<你的 AGIPower_API_KEY>', // [!code highlight]
-  // 3. 将基础 URL 指向 AGIPower 端点
-  baseURL: "https://agipower.ai", // [!code highlight]
+  // 2. 替换为你从 ShuYou 用户控制台获取的 API Key
+  apiKey: '<你的 ShuYou_API_KEY>', // [!code highlight]
+  // 3. 将基础 URL 指向 ShuYou 端点
+  baseURL: "https://shuyou.ai", // [!code highlight]
 });
 
 async function main () {
@@ -1424,10 +1424,10 @@ import anthropic
 
 ## 1. 初始化 anthropic 客户端
 client = anthropic.Anthropic(
-    # 替换为你从 AGIPower 用户控制台获取的 API Key
-    api_key="<你的 AGIPower_API_KEY>", # [!code highlight]
-    # 3. 将基础 URL 指向 AGIPower 端点
-    base_url="https://agipower.ai"  # [!code highlight]
+    # 替换为你从 ShuYou 用户控制台获取的 API Key
+    api_key="<你的 ShuYou_API_KEY>", # [!code highlight]
+    # 3. 将基础 URL 指向 ShuYou 端点
+    base_url="https://shuyou.ai"  # [!code highlight]
 )
 message = client.messages.create(
     model="anthropic/claude-sonnet-4.5",
@@ -1440,8 +1440,8 @@ print(message.content)
 ```
 
 ```cURL
-curl https://api.agipower.ai/v1/messages \
-     --header "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+     --header "x-api-key: $ShuYou_API_KEY" \
      --header "anthropic-version: 2023-06-01" \
      --header "content-type: application/json" \
      --data \

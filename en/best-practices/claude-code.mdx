@@ -2,23 +2,23 @@
 head:
   - - meta
     - name: description
-      content: Guide to Using Claude Code CLI with AGIPower
+      content: Guide to Using Claude Code CLI with ShuYou
   - - meta
     - name: keywords
-      content: AGIPower, best practices, integration, claude, code, Anthropic, Claude, GPT, API
+      content: ShuYou, best practices, integration, claude, code, Anthropic, Claude, GPT, API
 ---
 
-# Guide to Using Claude Code CLI with AGIPower
+# Guide to Using Claude Code CLI with ShuYou
 
 <Info title="Compatibility Notes">
 
-Claude Code is Anthropic’s official Coding Agent. With AGIPower integration, you can access a broader set of model options instead of being limited to Anthropic’s official Claude models.
+Claude Code is Anthropic’s official Coding Agent. With ShuYou integration, you can access a broader set of model options instead of being limited to Anthropic’s official Claude models.
 
-For example, via AGIPower you can use GPT-5.2 series, Claude-4.5 series, Gemini-3 series, Grok 4.1 series, Doubao-Seed-Code, Kimi-K2, Minimax-M2, GLM-4.6, DeepSeek-V3.2, Qwen3-Coder-Plus, and more in Claude Code. For the full list of supported models, see the [official model list](https://agipower.ai/models?sort=newest&supported_protocol=messages).
+For example, via ShuYou you can use GPT-5.2 series, Claude-4.5 series, Gemini-3 series, Grok 4.1 series, Doubao-Seed-Code, Kimi-K2, Minimax-M2, GLM-4.6, DeepSeek-V3.2, Qwen3-Coder-Plus, and more in Claude Code. For the full list of supported models, see the [official model list](https://shuyou.ai/models?sort=newest&supported_protocol=messages).
 
-AGIPower fully supports the Anthropic API protocol and can be seamlessly integrated into tools like Claude Code and Cursor. You only need to change two parameters to use it.
+ShuYou fully supports the Anthropic API protocol and can be seamlessly integrated into tools like Claude Code and Cursor. You only need to change two parameters to use it.
 
-Note: the Anthropic-compatible `base_url="https://agipower.ai"`.
+Note: the Anthropic-compatible `base_url="https://shuyou.ai"`.
 </Info>
 
 ## Configuration Options
@@ -92,13 +92,13 @@ winget install Anthropic.ClaudeCode
 
 #### How the Configuration Works
 
-By default, Claude Code connects directly to Anthropic’s official service. However, by configuring environment variables, we can redirect its requests to AGIPower. This provides several benefits:
+By default, Claude Code connects directly to Anthropic’s official service. However, by configuring environment variables, we can redirect its requests to ShuYou. This provides several benefits:
 
 - **No changes to Claude Code itself**: Switch endpoints using only environment variables
-- **Authenticate with a AGIPower API Key**: Replaces Anthropic’s official API key
+- **Authenticate with a ShuYou API Key**: Replaces Anthropic’s official API key
 - **More model choices**: In addition to Claude, you can use GPT, Gemini, Qwen, and more
 
-The core configuration is to set two key environment variables: `ANTHROPIC_BASE_URL` (the AGIPower endpoint) and `ANTHROPIC_AUTH_TOKEN` (your AGIPower API Key), so that all Claude Code requests are proxied through AGIPower.
+The core configuration is to set two key environment variables: `ANTHROPIC_BASE_URL` (the ShuYou endpoint) and `ANTHROPIC_AUTH_TOKEN` (your ShuYou API Key), so that all Claude Code requests are proxied through ShuYou.
 
 <Warning title="Important Change in v2.0.7x">
 Due to updates in Claude Code v2.0.7x, its **environment-variable loading logic has changed**: the `env` config in `~/.claude/settings.json` **cannot be reliably read** in the following scenarios:
@@ -106,12 +106,12 @@ Due to updates in Claude Code v2.0.7x, its **environment-variable loading logic 
 - When **logging in for the first time** in Claude Code
 - When logging in again after running **logout**
 
-Therefore, when connecting to AGIPower, it’s recommended to standardize on **shell profile environment variables** to ensure both login and requests go through AGIPower’s Anthropic-compatible endpoint.
+Therefore, when connecting to ShuYou, it’s recommended to standardize on **shell profile environment variables** to ensure both login and requests go through ShuYou’s Anthropic-compatible endpoint.
 </Warning>
 
-### Step 0: Get a AGIPower API Key
+### Step 0: Get a ShuYou API Key
 
-Before configuring Claude Code, you need a AGIPower API Key. AGIPower offers two billing options—choose based on your use case:
+Before configuring Claude Code, you need a ShuYou API Key. ShuYou offers two billing options—choose based on your use case:
 
 
 
@@ -121,12 +121,12 @@ Before configuring Claude Code, you need a AGIPower API Key. AGIPower offers two
 ✅ API Key format: sk-ss-v1-xxx
 
 How to get it:
-1. Visit the subscription management page: https://agipower.ai/platform/subscription
+1. Visit the subscription management page: https://shuyou.ai/platform/subscription
 2. Choose a plan (Pro $20/mo, Max $100/mo, Ultra $200/mo)
 3. After subscribing, create a subscription API Key on the page
 
 For details, see: Subscription Plan Guide
-📚 https://agipower.ai/guide/subscription
+📚 https://shuyou.ai/guide/subscription
 ```
 
 ```text title="Pay-as-you-go API Key"
@@ -135,12 +135,12 @@ For details, see: Subscription Plan Guide
 ✅ API Key format: sk-xxx
 
 How to get it:
-1. Visit the pay-as-you-go page: https://agipower.ai/platform/pay-as-you-go
+1. Visit the pay-as-you-go page: https://shuyou.ai/platform/pay-as-you-go
 2. Top up your account (top-ups automatically include a 20% bonus credit)
 3. Create an API Key in the "Pay As You Go API Keys" section
 
 For details, see: Pay-as-you-go Guide
-📚 https://agipower.ai/guide/pay-as-you-go
+📚 https://shuyou.ai/guide/pay-as-you-go
 ```
 
 
@@ -155,7 +155,7 @@ Subscription keys are not allowed for production use. Violations may result in a
 
 ### Step 1: Configure Shell Environment Variables (Recommended)
 
-This step writes the AGIPower connection configuration into your shell config file so it automatically applies whenever you open a terminal.
+This step writes the ShuYou connection configuration into your shell config file so it automatically applies whenever you open a terminal.
 
 
 
@@ -169,12 +169,12 @@ This step writes the AGIPower connection configuration into your shell config fi
 
 # 2. Append the following to the end of the corresponding config file (replace the API Key)
 
-# ============= AGIPower + Claude Code Configuration =============
-# Connect Claude Code to AGIPower instead of Anthropic’s official service
+# ============= ShuYou + Claude Code Configuration =============
+# Connect Claude Code to ShuYou instead of Anthropic’s official service
 
-# Core settings: AGIPower endpoint and authentication
-export ANTHROPIC_BASE_URL="https://agipower.ai"  # AGIPower Anthropic-compatible endpoint
-export ANTHROPIC_AUTH_TOKEN="sk-ss-v1-xxx"                   # Replace with your AGIPower API Key (subscription sk-ss-v1-xxx or pay-as-you-go sk-xxx)
+# Core settings: ShuYou endpoint and authentication
+export ANTHROPIC_BASE_URL="https://shuyou.ai"  # ShuYou Anthropic-compatible endpoint
+export ANTHROPIC_AUTH_TOKEN="sk-ss-v1-xxx"                   # Replace with your ShuYou API Key (subscription sk-ss-v1-xxx or pay-as-you-go sk-xxx)
 export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"          # Disable non-essential traffic
 export API_TIMEOUT_MS="30000000"                              # API timeout in milliseconds
 
@@ -215,12 +215,12 @@ notepad $PROFILE
 
 # 4. Append the following to the end of the Profile file (replace the API Key)
 
-# ============= AGIPower + Claude Code Configuration =============
-# Connect Claude Code to AGIPower instead of Anthropic’s official service
+# ============= ShuYou + Claude Code Configuration =============
+# Connect Claude Code to ShuYou instead of Anthropic’s official service
 
-# Core settings: AGIPower endpoint and authentication
-$env:ANTHROPIC_BASE_URL = "https://agipower.ai"  # AGIPower Anthropic-compatible endpoint
-$env:ANTHROPIC_AUTH_TOKEN = "sk-ss-v1-xxx"                   # Replace with your AGIPower API Key (subscription sk-ss-v1-xxx or pay-as-you-go sk-xxx)
+# Core settings: ShuYou endpoint and authentication
+$env:ANTHROPIC_BASE_URL = "https://shuyou.ai"  # ShuYou Anthropic-compatible endpoint
+$env:ANTHROPIC_AUTH_TOKEN = "sk-ss-v1-xxx"                   # Replace with your ShuYou API Key (subscription sk-ss-v1-xxx or pay-as-you-go sk-xxx)
 $env:CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1"          # Disable non-essential traffic
 $env:API_TIMEOUT_MS = "30000000"                              # API timeout in milliseconds
 
@@ -244,18 +244,18 @@ Write-Host "ANTHROPIC_AUTH_TOKEN: $env:ANTHROPIC_AUTH_TOKEN"
 
 <Warning title="🔑 Important: Replace the API Key">
 
-Be sure to replace `sk-ss-v1-xxx` or `sk-xxx` in the configuration with your real AGIPower API Key:
+Be sure to replace `sk-ss-v1-xxx` or `sk-xxx` in the configuration with your real ShuYou API Key:
 
 **Subscription API Key (recommended for personal development)**
 
 - Format: `sk-ss-v1-xxx`
-- Get it from: [Subscription management page](https://agipower.ai/platform/subscription)
+- Get it from: [Subscription management page](https://shuyou.ai/platform/subscription)
 - Detailed guide: [Subscription plan docs](/en/guide/subscription)
 
 **Pay-as-you-go API Key (production)**
 
 - Format: `sk-xxx`
-- Get it from: [Pay-as-you-go page](https://agipower.ai/platform/pay-as-you-go)
+- Get it from: [Pay-as-you-go page](https://shuyou.ai/platform/pay-as-you-go)
 - Detailed guide: [Pay-as-you-go docs](/en/guide/pay-as-you-go)
 </Warning>
 
@@ -263,8 +263,8 @@ Be sure to replace `sk-ss-v1-xxx` or `sk-xxx` in the configuration with your rea
 
 | Variable                                   | Purpose            | Notes                                                            |
 | ------------------------------------------ | ------------------ | ---------------------------------------------------------------- |
-| `ANTHROPIC_BASE_URL`                       | Service endpoint   | Redirects Claude Code requests to AGIPower                         |
-| `ANTHROPIC_AUTH_TOKEN`                     | Auth token         | Your AGIPower API Key (subscription or pay-as-you-go)              |
+| `ANTHROPIC_BASE_URL`                       | Service endpoint   | Redirects Claude Code requests to ShuYou                         |
+| `ANTHROPIC_AUTH_TOKEN`                     | Auth token         | Your ShuYou API Key (subscription or pay-as-you-go)              |
 | `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` | Traffic control    | Disables non-essential telemetry to improve privacy              |
 | `ANTHROPIC_API_KEY`                        | Conflict avoidance | Clear it to avoid conflicts with existing local Anthropic config |
 | `API_TIMEOUT_MS`                           | API timeout        | Sets the API request timeout in milliseconds                     |
@@ -274,7 +274,7 @@ Be sure to replace `sk-ss-v1-xxx` or `sk-xxx` in the configuration with your rea
 
 ### Step 2: Launch Claude Code and Complete Authentication
 
-After the environment variables are configured, you can start Claude Code. On first launch, it will automatically authenticate via AGIPower.
+After the environment variables are configured, you can start Claude Code. On first launch, it will automatically authenticate via ShuYou.
 
 **Steps:**
 
@@ -293,7 +293,7 @@ After the environment variables are configured, you can start Claude Code. On fi
 
 4. On first launch, Claude Code will:
    - Automatically read `ANTHROPIC_AUTH_TOKEN` from your environment variables
-   - Authenticate via the AGIPower endpoint specified by `ANTHROPIC_BASE_URL`
+   - Authenticate via the ShuYou endpoint specified by `ANTHROPIC_BASE_URL`
    - Start working immediately, with no additional login steps
 
 <Tip title="Tip">
@@ -302,22 +302,22 @@ If you see an error that the `claude` command cannot be found, confirm that Clau
 
 ### Step 3: Verify the Connection
 
-After launching successfully, it’s recommended to verify that Claude Code is correctly connected to AGIPower.
+After launching successfully, it’s recommended to verify that Claude Code is correctly connected to ShuYou.
 
 In the Claude Code prompt, run `/status` and check whether the configuration is correct:
 
 ```text
 > /status
 Auth token: ANTHROPIC_AUTH_TOKEN  # [!code highlight]
-Anthropic base URL: https://agipower.ai  # [!code highlight]
+Anthropic base URL: https://shuyou.ai  # [!code highlight]
 ```
 
 **What to verify:**
 
 - ✅ `Auth token` should display `ANTHROPIC_AUTH_TOKEN` (meaning it’s read from environment variables)
-- ✅ `Anthropic base URL` should display `https://agipower.ai` (the AGIPower endpoint)
+- ✅ `Anthropic base URL` should display `https://shuyou.ai` (the ShuYou endpoint)
 
-If everything matches, your setup is complete—you can now use Claude Code through AGIPower.
+If everything matches, your setup is complete—you can now use Claude Code through ShuYou.
 
 ## Switch / Set Default Models
 
@@ -334,10 +334,10 @@ After editing, remember to run `source ~/.bashrc` / `source ~/.zshrc` or restart
 ### Supported Models
 
 <Info title="Notes on Models Supported by the Anthropic Protocol">
-Models compatible with the Anthropic protocol are being adapted in batches. You can filter currently supported models via the [official model list](https://agipower.ai/models?sort=newest&supported_protocol=messages) and select the Anthropic Messages protocol:
-![anthropic-support](https://cdn.marmot-cloud.com/storage/agipower/2025/10/16/602FqX9/anthropic-support.png)
+Models compatible with the Anthropic protocol are being adapted in batches. You can filter currently supported models via the [official model list](https://shuyou.ai/models?sort=newest&supported_protocol=messages) and select the Anthropic Messages protocol:
+![anthropic-support](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/16/602FqX9/anthropic-support.png)
 Or you can check support on a specific model detail page:
-![anthropic-support](https://cdn.marmot-cloud.com/storage/agipower/2025/10/16/I9JHS8b/detail-anthropic-support.png)
+![anthropic-support](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/16/I9JHS8b/detail-anthropic-support.png)
 </Info>
 
 ## Use the Claude Code Extension in VSCode
@@ -349,7 +349,7 @@ In addition to the CLI, Claude Code also provides a VSCode extension, allowing y
 Search for and install **Claude Code Extension** from the VSCode Marketplace:
 
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2026/02/03/S4ThMGS/cc-vs.png" alt="Install Claude Code Extension" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/03/S4ThMGS/cc-vs.png" alt="Install Claude Code Extension" />
 &lt;/div&gt;
 
 ### Step 2: Open Settings
@@ -357,7 +357,7 @@ Search for and install **Claude Code Extension** from the VSCode Marketplace:
 After installation, click the extension’s **Settings** icon to open the configuration page:
 
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2026/02/03/lDKDS2r/cc-vs2.png" alt="Open Claude Code settings" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/03/lDKDS2r/cc-vs2.png" alt="Open Claude Code settings" />
 &lt;/div&gt;
 
 ### Step 3: Configure the Model and Environment Variables
@@ -365,7 +365,7 @@ After installation, click the extension’s **Settings** icon to open the config
 Click **Edit in settings.json**, then add or modify the following configuration:
 
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2026/02/03/w8EeQzh/cc-vs3.png" alt="Configure model and environment variables" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2026/02/03/w8EeQzh/cc-vs3.png" alt="Configure model and environment variables" />
 &lt;/div&gt;
 
 ```json
@@ -374,7 +374,7 @@ Click **Edit in settings.json**, then add or modify the following configuration:
   "claudeCode.environmentVariables": [
     {
       "name": "ANTHROPIC_BASE_URL",
-      "value": "https://agipower.ai"
+      "value": "https://shuyou.ai"
     },
     {
       "name": "ANTHROPIC_AUTH_TOKEN",
@@ -406,7 +406,7 @@ Click **Edit in settings.json**, then add or modify the following configuration:
 
 <Warning title="🔑 Important Configuration Notes">
 
-1. **Replace the API Key**: Replace `sk-ss-v1-xxx` with your real AGIPower API Key
+1. **Replace the API Key**: Replace `sk-ss-v1-xxx` with your real ShuYou API Key
    - Subscription API Key (`sk-ss-v1-xxx`): best for personal development
    - Pay-as-you-go API Key (`sk-xxx`): best for production
 
@@ -440,16 +440,16 @@ After configuration, you can use the Claude Code extension in VSCode:
 
 ## What It Looks Like
 
-After setup, you can use multiple AGIPower models in Claude Code:
+After setup, you can use multiple ShuYou models in Claude Code:
 
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2025/10/16/GxOgGlh/claude-code-v2.png" alt="Claude Code" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/16/GxOgGlh/claude-code-v2.png" alt="Claude Code" />
 &lt;/div&gt;
 
 You can use the '/model' command to confirm which model is currently in use:
 
 &lt;div style="text-align: center;"&gt;
-  <img src="https://cdn.marmot-cloud.com/storage/agipower/2025/10/16/MOGcIN5/claude-code-v2-model.png" alt="Claude Code Model" />
+  <img src="https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/16/MOGcIN5/claude-code-v2-model.png" alt="Claude Code Model" />
 &lt;/div&gt;
 
 ## Troubleshooting
@@ -467,8 +467,8 @@ You can use the '/model' command to confirm which model is currently in use:
    - Ensure there are no extra spaces or newline characters
 
 2. **Validate the API Key**:
-   - Subscription: visit the [subscription management page](https://agipower.ai/platform/subscription) to check subscription status and quota
-   - Pay-as-you-go: visit the [pay-as-you-go page](https://agipower.ai/platform/pay-as-you-go) to confirm sufficient balance
+   - Subscription: visit the [subscription management page](https://shuyou.ai/platform/subscription) to check subscription status and quota
+   - Pay-as-you-go: visit the [pay-as-you-go page](https://shuyou.ai/platform/pay-as-you-go) to confirm sufficient balance
 
 3. **Confirm environment variables are loaded**:
 
@@ -491,12 +491,12 @@ You can use the '/model' command to confirm which model is currently in use:
    - [Pay-as-you-go API Key guide](/en/guide/pay-as-you-go#create-and-manage-api-keys)
 
 
-#### Authentication Failure When Switching from Another Platform to AGIPower
-**Issue**: You previously used a Claude Code official account or another platform (e.g., MiniMax, GLM, etc.). After switching to AGIPower, authentication fails or configuration conflicts occur.
+#### Authentication Failure When Switching from Another Platform to ShuYou
+**Issue**: You previously used a Claude Code official account or another platform (e.g., MiniMax, GLM, etc.). After switching to ShuYou, authentication fails or configuration conflicts occur.
 
 **Solution**:
 
-This usually happens because old config files cached prior authentication info, causing conflicts with the new AGIPower configuration. Clean up and reconfigure as follows:
+This usually happens because old config files cached prior authentication info, causing conflicts with the new ShuYou configuration. Clean up and reconfigure as follows:
 
 1. **Delete the old config file**:
 
@@ -512,11 +512,11 @@ This usually happens because old config files cached prior authentication info, 
 
 2. **Confirm your shell environment variables are configured correctly**:
 
-   Check whether your shell config file (`~/.zshrc` or `~/.bashrc`) contains the full AGIPower configuration. Refer to the [Step 1: Configure Shell Environment Variables](#step-1-configure-shell-environment-variables-recommended) section above, and ensure it includes these key variables:
+   Check whether your shell config file (`~/.zshrc` or `~/.bashrc`) contains the full ShuYou configuration. Refer to the [Step 1: Configure Shell Environment Variables](#step-1-configure-shell-environment-variables-recommended) section above, and ensure it includes these key variables:
 
    ```bash
-   export ANTHROPIC_BASE_URL="https://agipower.ai"
-   export ANTHROPIC_AUTH_TOKEN="sk-ss-v1-xxx"  # Replace with your AGIPower API Key
+   export ANTHROPIC_BASE_URL="https://shuyou.ai"
+   export ANTHROPIC_AUTH_TOKEN="sk-ss-v1-xxx"  # Replace with your ShuYou API Key
    export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
    export API_TIMEOUT_MS="30000000"
    export ANTHROPIC_API_KEY=""  # Clear to avoid conflicts
@@ -542,13 +542,13 @@ This usually happens because old config files cached prior authentication info, 
 4. **Verify environment variables are applied**:
 
    ```bash [macOS/Linux]
-   # Check AGIPower endpoint
+   # Check ShuYou endpoint
    echo $ANTHROPIC_BASE_URL
-   # Should output: https://agipower.ai
+   # Should output: https://shuyou.ai
 
    # Check whether the API Key is set
    echo $ANTHROPIC_AUTH_TOKEN
-   # Should output your AGIPower API Key
+   # Should output your ShuYou API Key
 
    # Confirm the old API Key is cleared
    echo $ANTHROPIC_API_KEY
@@ -556,13 +556,13 @@ This usually happens because old config files cached prior authentication info, 
    ```
 
    ```powershell [Windows PowerShell]
-   # Check AGIPower endpoint
+   # Check ShuYou endpoint
    Write-Host "ANTHROPIC_BASE_URL: $env:ANTHROPIC_BASE_URL"
-   # Should output: https://agipower.ai
+   # Should output: https://shuyou.ai
 
    # Check whether the API Key is set
    Write-Host "ANTHROPIC_AUTH_TOKEN: $env:ANTHROPIC_AUTH_TOKEN"
-   # Should output your AGIPower API Key
+   # Should output your ShuYou API Key
 
    # Confirm the old API Key is cleared
    Write-Host "ANTHROPIC_API_KEY: $env:ANTHROPIC_API_KEY"
@@ -585,7 +585,7 @@ This usually happens because old config files cached prior authentication info, 
 
    ```text
    Auth token: ANTHROPIC_AUTH_TOKEN
-   Anthropic base URL: https://agipower.ai
+   Anthropic base URL: https://shuyou.ai
    ```
 
 
@@ -595,18 +595,18 @@ This usually happens because old config files cached prior authentication info, 
 
 **Solution**:
 
-- Use the [AGIPower model list](https://agipower.ai/models) and filter by "Anthropic API Compatible" to see currently supported models
+- Use the [ShuYou model list](https://shuyou.ai/models) and filter by "Anthropic API Compatible" to see currently supported models
 - Or open the model’s detail page to confirm Anthropic protocol support
 - Choose a model from the supported list above
 
 
 #### Connection Failures
-**Issue**: Claude Code cannot connect to the AGIPower service.
+**Issue**: Claude Code cannot connect to the ShuYou service.
 
 **Solution**:
 
 - Check that your network connection is working
-- Verify `ANTHROPIC_BASE_URL` is set to `https://agipower.ai`
+- Verify `ANTHROPIC_BASE_URL` is set to `https://shuyou.ai`
 - Confirm your firewall is not blocking outbound connections
 
 
@@ -624,7 +624,7 @@ This usually happens because old config files cached prior authentication info, 
 2. **Check the model configuration**:
    - Search for "claude-code.selectedModel" in Settings
    - Confirm the model name format is correct (e.g., `anthropic/claude-sonnet-4.5`)
-   - Confirm the model supports the Anthropic protocol (check via the [model list](https://agipower.ai/models?sort=newest&supported_protocol=messages))
+   - Confirm the model supports the Anthropic protocol (check via the [model list](https://shuyou.ai/models?sort=newest&supported_protocol=messages))
 
 3. **Resolve environment variable conflicts**:
    - The VSCode extension’s `settings.json` configuration has higher priority than system environment variables
@@ -803,16 +803,16 @@ After making the change, reload your config with `source ~/.zshrc` or `source ~/
 
 
 <Info title="More Models">
-See the [AGIPower model list](https://agipower.ai/models) for all available models and detailed information.
+See the [ShuYou model list](https://shuyou.ai/models) for all available models and detailed information.
 </Info>
 
 <Tip title="Contact Us">
 If you run into any issues or have suggestions/feedback, feel free to contact us via:
 
-- **Website**: [https://agipower.ai](https://agipower.ai)
-- **Support**: [support@agipower.ai](mailto:support@agipower.ai)
-- **Business**: [support@agipower.ai](mailto:support@agipower.ai)
-- **Twitter**: [@AGIPowerAI](https://twitter.com/AGIPowerAI)
+- **Website**: [https://shuyou.ai](https://shuyou.ai)
+- **Support**: [support@shuyou.ai](mailto:support@shuyou.ai)
+- **Business**: [support@shuyou.ai](mailto:support@shuyou.ai)
+- **Twitter**: [@ShuYouAI](https://twitter.com/ShuYouAI)
 - **Discord**: [http://discord.gg/vHZZzj84Bm](http://discord.gg/vHZZzj84Bm)
 
 For more contact options and details, visit our [Contact Us page](/en/help/contact).

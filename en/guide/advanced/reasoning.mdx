@@ -5,12 +5,12 @@ head:
       content: Reasoning Models
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, reasoning, OpenAI, API
+      content: ShuYou, guide, tutorial, reasoning, OpenAI, API
 ---
 
 # Reasoning Models
 
-AGIPower provides fine-grained control over model reasoning behavior and supports multiple API protocols:
+ShuYou provides fine-grained control over model reasoning behavior and supports multiple API protocols:
 
 - **OpenAI Chat Completion API**: use the `reasoning_effort` or `reasoning` parameter
 - **OpenAI Responses API**: use the `reasoning` parameter to control reasoning intensity and summaries
@@ -66,7 +66,7 @@ Controls whether reasoning is enabled. The default is `true`; set to `false` to 
 
 ### Parameter Priority and Auto-Calculation
 
-AGIPower automatically computes and fills in the parameters required by the model based on what you provide, ensuring optimal reasoning behavior.
+ShuYou automatically computes and fills in the parameters required by the model based on what you provide, ensuring optimal reasoning behavior.
 
 #### Default parameter completion
 
@@ -114,8 +114,8 @@ from openai import OpenAI
 import os
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key=os.getenv("AGIPower_API_KEY"),
+    base_url="https://api.shuyou.ai/v1",
+    api_key=os.getenv("ShuYou_API_KEY"),
 )
 
 completion = client.chat.completions.create(
@@ -144,8 +144,8 @@ from openai import OpenAI
 import os
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key=os.getenv("AGIPower_API_KEY"),
+    base_url="https://api.shuyou.ai/v1",
+    api_key=os.getenv("ShuYou_API_KEY"),
 )
 
 response = client.chat.completions.create(
@@ -171,9 +171,9 @@ print(msg.content)
 **Using the reasoning parameter**
 
 ```bash
-curl https://api.agipower.ai/v1/chat/completions \
+curl https://api.shuyou.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -d '{
     "model": "qwen/qwen3-max-preview",
     "messages": [
@@ -192,9 +192,9 @@ curl https://api.agipower.ai/v1/chat/completions \
 #### Using the reasoning_effort parameter
 
 ```bash
-curl https://api.agipower.ai/v1/chat/completions \
+curl https://api.shuyou.ai/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -d '{
     "model": "qwen/qwen3-max-preview",
     "messages": [
@@ -216,8 +216,8 @@ from openai import OpenAI
 import os
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key=os.getenv("AGIPower_API_KEY"),
+    base_url="https://api.shuyou.ai/v1",
+    api_key=os.getenv("ShuYou_API_KEY"),
 )
 
 response = client.chat.completions.create(
@@ -277,8 +277,8 @@ from openai import OpenAI
 import os
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
-    api_key=os.getenv("AGIPower_API_KEY"),
+    base_url="https://api.shuyou.ai/v1",
+    api_key=os.getenv("ShuYou_API_KEY"),
 )
 
 response = client.responses.create(
@@ -304,8 +304,8 @@ for item in response.output:
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1",
-  apiKey: process.env.AGIPower_API_KEY,
+  baseURL: "https://api.shuyou.ai/v1",
+  apiKey: process.env.ShuYou_API_KEY,
 });
 
 async function main() {
@@ -338,9 +338,9 @@ main();
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/responses \
+curl https://api.shuyou.ai/v1/responses \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $AGIPower_API_KEY" \
+  -H "Authorization: Bearer $ShuYou_API_KEY" \
   -d '{
     "model": "openai/gpt-5",
     "input": "Solve this math problem: If x^2 + 5x + 6 = 0, what are the values of x?",
@@ -420,8 +420,8 @@ Anthropic Claude models provide reasoning capabilities via **Extended Thinking**
 import anthropic
 
 client = anthropic.Anthropic(
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
-    base_url="https://agipower.ai" # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
+    base_url="https://shuyou.ai" # [!code highlight]
 )
 
 message = client.messages.create(
@@ -451,8 +451,8 @@ for block in message.content:
 import Anthropic from "@anthropic-ai/sdk";
 
 const anthropic = new Anthropic({
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
-  baseURL: "https://agipower.ai", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
+  baseURL: "https://shuyou.ai", // [!code highlight]
 });
 
 async function main() {
@@ -487,8 +487,8 @@ main();
 ```
 
 ```bash title="cURL"
-curl https://api.agipower.ai/v1/messages \
-  -H "x-api-key: $AGIPower_API_KEY" \
+curl https://api.shuyou.ai/v1/messages \
+  -H "x-api-key: $ShuYou_API_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -541,8 +541,8 @@ When streaming, thinking content is returned via the `thinking_delta` event:
 import anthropic
 
 client = anthropic.Anthropic(
-    api_key="<your AGIPower_API_KEY>",
-    base_url="https://agipower.ai"
+    api_key="<your ShuYou_API_KEY>",
+    base_url="https://shuyou.ai"
 )
 
 with client.messages.stream(
@@ -614,11 +614,11 @@ from google import genai
 from google.genai import types
 
 client = genai.Client(
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai' # [!code highlight]
+        base_url='https://api.shuyou.ai' # [!code highlight]
     ),
 )
 
@@ -640,11 +640,11 @@ from google import genai
 from google.genai import types
 
 client = genai.Client(
-    api_key="<your AGIPower_API_KEY>", # [!code highlight]
+    api_key="<your ShuYou_API_KEY>", # [!code highlight]
     vertexai=True,
     http_options=types.HttpOptions(
         api_version='v1',
-        base_url='https://api.agipower.ai' # [!code highlight]
+        base_url='https://api.shuyou.ai' # [!code highlight]
     ),
 )
 
@@ -665,10 +665,10 @@ print(response.text)
 import { GoogleGenAI } from "@google/genai";
 
 const client = new GoogleGenAI({
-  apiKey: "<your AGIPower_API_KEY>", // [!code highlight]
+  apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
   vertexai: true,
   httpOptions: {
-    baseUrl: "https://api.agipower.ai", // [!code highlight]
+    baseUrl: "https://api.shuyou.ai", // [!code highlight]
     apiVersion: "v1",
   },
 });

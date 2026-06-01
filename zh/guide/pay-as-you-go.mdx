@@ -5,12 +5,12 @@ head:
       content: Pay As You Go 按量付费
   - - meta
     - name: keywords
-      content: AGIPower, guide, tutorial, pay, you, OpenAI, API
+      content: ShuYou, guide, tutorial, pay, you, OpenAI, API
 ---
 
 # Pay As You Go 按量付费
 
-欢迎使用 **AGIPower Pay As You Go（按量付费）** 方案！本指南将帮助你了解按量付费的核心优势，以及如何充值、管理余额和创建生产级 API Key。
+欢迎使用 **ShuYou Pay As You Go（按量付费）** 方案！本指南将帮助你了解按量付费的核心优势，以及如何充值、管理余额和创建生产级 API Key。
 
 <Tip title="💡 生产环境的最佳选择">
 Pay As You Go 是专为生产环境打造的按量计费方案，提供**无 Rate Limit 限制**、**无并发限制**、**生产级稳定性保障**和**精准透明计费**。
@@ -20,7 +20,7 @@ Pay As You Go 是专为生产环境打造的按量计费方案，提供**无 Rat
 
 ## 什么是 Pay As You Go？
 
-**Pay As You Go（按量付费）** 是 AGIPower 为企业客户和生产环境量身打造的计费方案。与订阅制不同，按量付费采用**预充值 + 按实际消耗扣费**的模式，让你只为实际使用的 API 调用付费。
+**Pay As You Go（按量付费）** 是 ShuYou 为企业客户和生产环境量身打造的计费方案。与订阅制不同，按量付费采用**预充值 + 按实际消耗扣费**的模式，让你只为实际使用的 API 调用付费。
 
 ### 核心特性
 
@@ -65,9 +65,9 @@ Pay As You Go 方案特别适合以下场景：
 
 ### 第一步：登录控制台
 
-访问 **[AGIPower 控制台](https://agipower.ai/plantform/pay-as-you-go)**，导航到 **Manage > Pay As You Go** 页面。
+访问 **[ShuYou 控制台](https://shuyou.ai/plantform/pay-as-you-go)**，导航到 **Manage > Pay As You Go** 页面。
 
-![Pay As You Go 页面](https://cdn.marmot-cloud.com/storage/agipower/2026/01/19/rsGoojf/pay-as-you-go.png)
+![Pay As You Go 页面](https://cdn.marmot-cloud.com/storage/ShuYou/2026/01/19/rsGoojf/pay-as-you-go.png)
 
 ### 第二步：查看账户余额
 
@@ -121,7 +121,7 @@ Pay As You Go 的 API Key 与订阅制完全独立，专为生产环境设计：
 2. 输入 API Key 的名称（例如：`production-app`）
 3. 点击 **「Create」** 完成创建
 
-![创建 API Key](https://cdn.marmot-cloud.com/storage/agipower/2026/01/19/BNdWYST/pay-as-you-go-details.png)
+![创建 API Key](https://cdn.marmot-cloud.com/storage/ShuYou/2026/01/19/BNdWYST/pay-as-you-go-details.png)
 
 ### API Key 管理
 
@@ -146,7 +146,7 @@ Pay As You Go 的 API Key 与订阅制完全独立，专为生产环境设计：
 
 ### 使用 Pay As You Go API Key 调用
 
-创建 API Key 后，你可以在代码中使用该 Key 调用 AGIPower API。使用方式与快速开始指南中的方法完全相同，只需替换为你的 Pay As You Go API Key：
+创建 API Key 后，你可以在代码中使用该 Key 调用 ShuYou API。使用方式与快速开始指南中的方法完全相同，只需替换为你的 Pay As You Go API Key：
 
 
 
@@ -154,7 +154,7 @@ Pay As You Go 的 API Key 与订阅制完全独立，专为生产环境设计：
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://api.agipower.ai/v1",
+    base_url="https://api.shuyou.ai/v1",
     api_key="<你的 PAY_AS_YOU_GO_API_KEY>",  # [!code highlight]
 )
 
@@ -175,7 +175,7 @@ print(completion.choices[0].message.content)
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  baseURL: "https://api.agipower.ai/v1",
+  baseURL: "https://api.shuyou.ai/v1",
   apiKey: "<你的 PAY_AS_YOU_GO_API_KEY>",  // [!code highlight]
 });
 
@@ -210,7 +210,7 @@ main();
 
 点击 **Total Balance** 旁边的信息图标，可以查看 **Credits Breakdown（积分明细）**：
 
-![积分明细](https://cdn.marmot-cloud.com/storage/agipower/2026/01/19/YqxRLvm/pay-as-you-go-keys.png)
+![积分明细](https://cdn.marmot-cloud.com/storage/ShuYou/2026/01/19/YqxRLvm/pay-as-you-go-keys.png)
 
 积分明细包括：
 
@@ -269,14 +269,14 @@ main();
 
 - 查看 [高级调用指南](/zh/guide/advanced/streaming)，了解流式输出、多模态等高级特性
 - 阅读 [AI 保险文档](/zh/guide/insurance)，了解如何申请理赔
-- 访问 [成本分析页面](https://agipower.ai/settings/cost)，查看详细的成本归因和使用趋势
+- 访问 [成本分析页面](https://shuyou.ai/settings/cost)，查看详细的成本归因和使用趋势
 - 加入 [Discord 社区](http://discord.gg/vHZZzj84Bm)，与其他开发者交流
 
 <Tip title="联系我们">
 如果您在使用过程中遇到任何问题，或有任何建议和反馈，欢迎通过以下方式联系我们：
 
-- **官方网站**：[https://agipower.ai](https://agipower.ai)
-- **技术支持邮箱**：[support@agipower.ai](mailto:support@agipower.ai)
+- **官方网站**：[https://shuyou.ai](https://shuyou.ai)
+- **技术支持邮箱**：[support@shuyou.ai](mailto:support@shuyou.ai)
 
 
 更多联系方式和详细信息，请访问我们的[联系我们页面](/zh/help/contact)。
