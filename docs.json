@@ -46,7 +46,17 @@
     }
   },
   "navigation": {
-    "groups": []
+    "tabs": [
+      {
+        "tab": "API Reference"
+      },
+      {
+        "tab": "Integration Guide"
+      },
+      {
+        "tab": "User Guide"
+      }
+    ]
   },
   "footer": {
     "socials": {}
