@@ -757,16 +757,16 @@
         }
       }
     },
-    "/v1/management/flow_rate": {
+    "/v1/credits": {
       "get": {
-        "summary": "Get Flow Rate",
-        "operationId": "getFlowRate",
+        "summary": "Get Balance",
+        "operationId": "getBalance",
         "tags": [
           "Platform API"
         ],
         "responses": {
           "200": {
-            "description": "Current Flow exchange rate",
+            "description": "Get balance response",
             "content": {
               "application/json": {
                 "schema": {
@@ -779,51 +779,7 @@
         }
       }
     },
-    "/v1/management/payg/balance": {
-      "get": {
-        "summary": "Get PAYG Balance",
-        "operationId": "getPaygBalance",
-        "tags": [
-          "Platform API"
-        ],
-        "responses": {
-          "200": {
-            "description": "PAYG balance response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/management/subscription/detail": {
-      "get": {
-        "summary": "Get Subscription Detail",
-        "operationId": "getSubscriptionDetail",
-        "tags": [
-          "Platform API"
-        ],
-        "responses": {
-          "200": {
-            "description": "Subscription detail response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/management/generation": {
+    "/v1/generation": {
       "get": {
         "summary": "Get Generation",
         "operationId": "getGeneration",
