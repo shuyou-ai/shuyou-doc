@@ -1,0 +1,231 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Runway Gen-4.5 Video",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": ["Video Generation"],
+        "summary": "Runway Gen-4.5",
+        "operationId": "createRunwayGen45VideoPrediction",
+        "description": "Runway Gen-4.5 (`gen4.5`) creates videos asynchronously via POST /v1/predictions with `function: video`. Supports text-to-video and optional `first_frame_url` for image-to-video. Poll [Get a prediction](/en/api-reference/task-management/get-prediction) using `data.task_id`, or configure top-level `webhook` for completion callbacks.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RunwayGen45VideoPredictionRequest" },
+              "examples": {
+                "text_to_video": {
+                  "summary": "Text to video",
+                  "value": {
+                    "model": "gen4.5",
+                    "function": "video",
+                    "input": {
+                      "prompt": "A cinematic shot of a majestic lion in the savannah at golden hour",
+                      "aspect_ratio": "16:9",
+                      "duration": 5
+                    }
+                  }
+                },
+                "text_to_video_minimal": {
+                  "summary": "Minimal request",
+                  "value": {
+                    "model": "gen4.5",
+                    "function": "video",
+                    "input": {
+                      "prompt": "A cat playing on the grass"
+                    }
+                  }
+                },
+                "image_to_video": {
+                  "summary": "Image to video",
+                  "value": {
+                    "model": "gen4.5",
+                    "function": "video",
+                    "input": {
+                      "prompt": "Slow camera push-in with natural motion",
+                      "aspect_ratio": "1:1",
+                      "duration": 10,
+                      "first_frame_url": "https://example.com/first-frame.png"
+                    },
+                    "webhook": "https://api.shuyou.ai/backend/api/callback"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Async task created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PredictionTaskResponse" },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient quota",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "Model access denied",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "RunwayGen45VideoPredictionRequest": {
+        "type": "object",
+        "required": ["model", "function", "input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model ID. Use `gen4.5` for this endpoint.",
+            "enum": ["gen4.5"],
+            "default": "gen4.5",
+            "example": "gen4.5"
+          },
+          "function": {
+            "type": "string",
+            "description": "Task type. Must be `video` for video generation.",
+            "enum": ["video"],
+            "example": "video"
+          },
+          "input": { "$ref": "#/components/schemas/RunwayGen45VideoInput" },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional HTTPS callback URL when the task completes, fails, or is cancelled."
+          }
+        }
+      },
+      "RunwayGen45VideoInput": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "Text prompt for video generation.",
+            "example": "A cinematic shot of a majestic lion in the savannah at golden hour"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "The aspect ratio of the generated video.",
+            "enum": ["16:9", "9:16", "4:3", "3:4", "1:1", "21:9"],
+            "default": "1:1",
+            "example": "1:1"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Duration of the output video in seconds.",
+            "enum": [5, 10],
+            "default": 5,
+            "example": 5
+          },
+          "first_frame_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional initial image for video generation (first frame). If not provided, video will be generated from text only."
+          }
+        },
+        "additionalProperties": true
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "Async task ID. Use with Get a prediction or webhook correlation.",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "Current task status, e.g. `processing`.",
+                "example": "processing"
+              }
+            },
+            "required": ["task_id", "task_status"]
+          }
+        },
+        "required": ["data"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

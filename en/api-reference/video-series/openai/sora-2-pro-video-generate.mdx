@@ -1,0 +1,24 @@
+---
+title: OpenAI Sora 2 Pro
+description: Create asynchronous video tasks with sora-2-pro via POST /v1/predictions (function video).
+openapi: en/api-reference/video-series/openai/sora-2-pro-video-generate.json POST /v1/predictions
+---
+
+## Overview
+
+**OpenAI Sora 2 Pro** (`sora-2-pro`) supports:
+
+- **Text-to-video** — `prompt` (up to **32,000** characters)
+- **Reference-guided generation** — optional `first_frame_url`
+
+Resolutions: **720P** or **1080P**.
+
+## Input parameters
+
+| Field | Required | Default | Notes |
+| --- | --- | --- | --- |
+| `prompt` | Yes | — | Max **32,000** characters |
+| `aspect_ratio` | No | `16:9` | `16:9` or `9:16` |
+| `resolution` | No | `720P` | `720P` or `1080P` |
+| `duration` | No | `4` | `4`, `8`, or `12` seconds |
+| `first_frame_url` | No | — | Optional reference URL to guide generation |

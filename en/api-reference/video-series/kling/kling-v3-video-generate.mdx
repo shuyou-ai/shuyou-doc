@@ -1,0 +1,24 @@
+---
+title: Kling V3 Video
+description: Create asynchronous video tasks with kling-v3-video via POST /v1/predictions (function video).
+openapi: en/api-reference/video-series/kling/kling-v3-video-generate.json POST /v1/predictions
+---
+
+## Overview
+
+**Kling V3** (`kling-v3-video`) supports:
+
+- **Text-to-video** — `prompt` only
+- **First / last frame** — `first_frame_url`, `last_frame_url`
+
+## Input parameters
+
+| Field | Required | Default | Notes |
+| --- | --- | --- | --- |
+| `prompt` | Yes | — | Max **2500** characters |
+| `aspect_ratio` | No | `16:9` | `16:9`, `9:16`, or `1:1` |
+| `resolution` | No | `standard` | `standard` or `pro` |
+| `duration` | No | `5` | `3`–`15` (seconds) |
+| `generate_audio` | No | `true` | Include generated audio |
+| `first_frame_url` | No | — | First keyframe image URL |
+| `last_frame_url` | No | — | Last keyframe image URL |

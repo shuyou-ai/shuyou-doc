@@ -1,0 +1,260 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Grok Imagine Video",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": ["Video Generation"],
+        "summary": "Grok Imagine Video",
+        "operationId": "createGrokImagineVideoPrediction",
+        "description": "xAI Grok Imagine Video (`grok-imagine-video`) creates videos asynchronously via POST /v1/predictions with `function: video`. Supports text-to-video, image animation via `first_frame_url`, and reference images. Poll [Get a prediction](/en/api-reference/task-management/get-prediction) using `data.task_id`, or configure top-level `webhook` for completion callbacks.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/GrokImagineVideoPredictionRequest" },
+              "examples": {
+                "text_to_video": {
+                  "summary": "Text to video",
+                  "value": {
+                    "model": "grok-imagine-video",
+                    "function": "video",
+                    "input": {
+                      "prompt": "A cinematic shot of a majestic lion in the savannah at golden hour",
+                      "aspect_ratio": "16:9",
+                      "resolution": "720P",
+                      "duration": 8
+                    }
+                  }
+                },
+                "text_to_video_minimal": {
+                  "summary": "Minimal request",
+                  "value": {
+                    "model": "grok-imagine-video",
+                    "function": "video",
+                    "input": {
+                      "prompt": "A cat playing on the grass"
+                    }
+                  }
+                },
+                "image_to_video": {
+                  "summary": "Animate first frame",
+                  "value": {
+                    "model": "grok-imagine-video",
+                    "function": "video",
+                    "input": {
+                      "prompt": "The subject slowly turns toward the camera",
+                      "aspect_ratio": "16:9",
+                      "resolution": "720P",
+                      "duration": 6,
+                      "first_frame_url": "https://example.com/first-frame.png"
+                    },
+                    "webhook": "https://api.shuyou.ai/backend/api/callback"
+                  }
+                },
+                "with_references": {
+                  "summary": "Reference images",
+                  "value": {
+                    "model": "grok-imagine-video",
+                    "function": "video",
+                    "input": {
+                      "prompt": "A character walking through a neon-lit street, consistent appearance",
+                      "aspect_ratio": "9:16",
+                      "resolution": "480P",
+                      "duration": 10,
+                      "reference_image_urls": ["https://example.com/character-ref.png"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Async task created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PredictionTaskResponse" },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient quota",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "Model access denied",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "GrokImagineVideoPredictionRequest": {
+        "type": "object",
+        "required": ["model", "function", "input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model ID. Use `grok-imagine-video` for this endpoint.",
+            "enum": ["grok-imagine-video"],
+            "default": "grok-imagine-video",
+            "example": "grok-imagine-video"
+          },
+          "function": {
+            "type": "string",
+            "description": "Task type. Must be `video` for video generation.",
+            "enum": ["video"],
+            "example": "video"
+          },
+          "input": { "$ref": "#/components/schemas/GrokImagineVideoInput" },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional HTTPS callback URL when the task completes, fails, or is cancelled."
+          }
+        }
+      },
+      "GrokImagineVideoInput": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "The text prompt describing the video you want to generate.",
+            "example": "A cinematic shot of a majestic lion in the savannah at golden hour"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "The aspect ratio of the generated video.",
+            "enum": ["1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3"],
+            "example": "16:9"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "The resolution of the generated video.",
+            "enum": ["480P", "720P"],
+            "example": "720P"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "The duration of the generated video in seconds.",
+            "minimum": 1,
+            "maximum": 15,
+            "default": 8,
+            "example": 8
+          },
+          "first_frame_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the input image to animate. Should be 720p or higher resolution in 16:9 or 9:16 aspect ratio. If the image is not in 16:9 or 9:16 aspect ratio, it will be cropped to fit."
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "description": "URLs of reference images for consistent subject appearance. Up to 3 images.",
+            "items": { "type": "string", "format": "uri" },
+            "maxItems": 3,
+            "default": []
+          }
+        },
+        "additionalProperties": true
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "Async task ID. Use with Get a prediction or webhook correlation.",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "Current task status, e.g. `processing`.",
+                "example": "processing"
+              }
+            },
+            "required": ["task_id", "task_status"]
+          }
+        },
+        "required": ["data"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

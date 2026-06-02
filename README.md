@@ -35,6 +35,8 @@ Long-form field docs live in `*-reference.mdx` files (linked from the playground
 ## Local preview
 
 ```bash
+mint dev
+
 npx mintlify@latest dev
 ```
 

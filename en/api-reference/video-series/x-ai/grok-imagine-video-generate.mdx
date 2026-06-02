@@ -1,0 +1,24 @@
+---
+title: Grok Imagine Video
+description: Create asynchronous video tasks with grok-imagine-video via POST /v1/predictions (function video).
+openapi: en/api-reference/video-series/x-ai/grok-imagine-video-generate.json POST /v1/predictions
+---
+
+## Overview
+
+xAI **Grok Imagine Video** (`grok-imagine-video`) supports:
+
+- **Text-to-video** — `prompt`
+- **Image animation** — `first_frame_url` (720p+, prefer 16:9 or 9:16; other ratios may be cropped)
+- **Reference images** — up to **3** URLs in `reference_image_urls`
+
+## Input parameters
+
+| Field | Required | Default | Notes |
+| --- | --- | --- | --- |
+| `prompt` | Yes | — | Text description of the video |
+| `aspect_ratio` | No | — | `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `3:2`, `2:3` |
+| `resolution` | No | — | `480P` or `720P` |
+| `duration` | No | `8` | `1`–`15` seconds |
+| `first_frame_url` | No | — | Input image URL to animate |
+| `reference_image_urls` | No | `[]` | Up to **3** reference image URLs |

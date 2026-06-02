@@ -60,6 +60,19 @@
                     },
                     "webhook": "https://api.shuyou.ai/api/callback"
                   }
+                },
+                "audio": {
+                  "summary": "语音合成（TTS）",
+                  "value": {
+                    "model": "qwen3-tts-flash",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "欢迎使用 ShuYou AI 文档。",
+                      "voice": "Cherry",
+                      "language": "Auto"
+                    },
+                    "webhook": "https://api.shuyou.ai/backend/api/callback"
+                  }
                 }
               }
             }

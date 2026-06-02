@@ -1,0 +1,261 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Gemini 3.1 Flash TTS Preview",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": ["Audio Generation"],
+        "summary": "Gemini 3.1 Flash TTS Preview",
+        "operationId": "createGemini31FlashTtsPreviewPrediction",
+        "description": "Gemini 3.1 Flash TTS Preview (`gemini-3.1-flash-tts-preview`) converts text to speech asynchronously via POST /v1/predictions with `function: audio`. Poll [Get a prediction](/en/api-reference/task-management/get-prediction) using `data.task_id`, or configure top-level `webhook` for completion callbacks.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Gemini31FlashTtsPreviewPredictionRequest" },
+              "examples": {
+                "text_to_speech": {
+                  "summary": "Expressive TTS",
+                  "value": {
+                    "model": "gemini-3.1-flash-tts-preview",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "Say cheerfully: Have a wonderful day!",
+                      "style_instructions": "Say the following in a warm, upbeat tone.",
+                      "voice": "Kore",
+                      "language": "en-US",
+                      "output_format": "mp3"
+                    },
+                    "webhook": "https://api.shuyou.ai/backend/api/callback"
+                  }
+                },
+                "text_to_speech_minimal": {
+                  "summary": "Minimal request",
+                  "value": {
+                    "model": "gemini-3.1-flash-tts-preview",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "Welcome to ShuYou AI documentation."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Async task created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PredictionTaskResponse" },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient quota",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "Model access denied",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "Gemini31FlashTtsPreviewPredictionRequest": {
+        "type": "object",
+        "required": ["model", "function", "input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model ID. Use `gemini-3.1-flash-tts-preview` for this endpoint.",
+            "enum": ["gemini-3.1-flash-tts-preview"],
+            "default": "gemini-3.1-flash-tts-preview",
+            "example": "gemini-3.1-flash-tts-preview"
+          },
+          "function": {
+            "type": "string",
+            "description": "Task type. Must be `audio` for text-to-speech.",
+            "enum": ["audio"],
+            "example": "audio"
+          },
+          "input": { "$ref": "#/components/schemas/Gemini31FlashTtsPreviewInput" },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional HTTPS callback URL when the task completes, fails, or is cancelled."
+          }
+        }
+      },
+      "Gemini31FlashTtsPreviewInput": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "maxLength": 32000,
+            "description": "The text to convert to speech. Supports markup tags like `[sigh]`, `[laughing]`, `[whispering]`, `[shouting]`, and `[extremely fast]` for expressive delivery.",
+            "default": "Say cheerfully: Have a wonderful day!",
+            "example": "Say cheerfully: Have a wonderful day!"
+          },
+          "style_instructions": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "Style instructions to control how the text is spoken. Use natural language to describe the desired tone, pace, accent, and emotion.",
+            "default": "Say the following.",
+            "example": "Say the following in a warm, upbeat tone."
+          },
+          "voice": {
+            "type": "string",
+            "description": "Voice preset for speech generation. See the voice table on this page for all supported values.",
+            "default": "Kore",
+            "example": "Kore",
+            "enum": [
+              "Achernar",
+              "Achird",
+              "Algenib",
+              "Algieba",
+              "Alnilam",
+              "Aoede",
+              "Autonoe",
+              "Callirrhoe",
+              "Charon",
+              "Despina",
+              "Enceladus",
+              "Erinome",
+              "Fenrir",
+              "Gacrux",
+              "Iapetus",
+              "Kore",
+              "Laomedeia",
+              "Leda",
+              "Orus",
+              "Pulcherrima",
+              "Puck",
+              "Rasalgethi",
+              "Sadachbia",
+              "Sadaltager",
+              "Schedar",
+              "Sulafat",
+              "Umbriel",
+              "Vindemiatrix",
+              "Zephyr",
+              "Zubenelgenubi"
+            ]
+          },
+          "language": {
+            "type": "string",
+            "description": "BCP-47 language code for speech output. See the language table on this page for supported codes. Default `en-US` (English US).",
+            "default": "en-US",
+            "example": "en-US"
+          },
+          "output_format": {
+            "type": "string",
+            "description": "Audio output format.",
+            "enum": ["mp3", "wav", "ogg_opus"],
+            "default": "mp3",
+            "example": "mp3"
+          }
+        },
+        "additionalProperties": true
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "Async task ID. Use with Get a prediction or webhook correlation.",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "Current task status, e.g. `processing`.",
+                "example": "processing"
+              }
+            },
+            "required": ["task_id", "task_status"]
+          }
+        },
+        "required": ["data"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

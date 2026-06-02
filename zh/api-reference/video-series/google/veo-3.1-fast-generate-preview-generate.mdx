@@ -1,0 +1,27 @@
+---
+title: Veo 3.1 Fast Generate Preview 视频生成
+description: 通过 POST /v1/predictions（function 为 video）使用 veo-3.1-fast-generate-preview 创建异步视频任务。
+openapi: zh/api-reference/video-series/google/veo-3.1-fast-generate-preview-generate.json POST /v1/predictions
+---
+
+## 概览
+
+Google **Veo 3.1 Fast Generate Preview**（`veo-3.1-fast-generate-preview`）支持：
+
+- **文生视频** — 仅传 `prompt`
+- **首尾帧** — `first_frame_url`、`last_frame_url`
+
+相比 `veo-3.1-generate-preview` 生成更快（不支持参考图模式）。
+
+## 输入参数
+
+| Field | Required | Default | Notes |
+| --- | --- | --- | --- |
+| `prompt` | 是 | — | 最多 **1000** 字符 |
+| `aspect_ratio` | 否 | `16:9` | 仅 `16:9`、`9:16` |
+| `resolution` | 否 | `720P` | `720P`、`1080P`、`4K` |
+| `duration` | 否 | `8` | `4`、`6`、`8`（秒） |
+| `generate_audio` | 否 | `true` | 是否生成配套音频 |
+| `negative_prompt` | 否 | — | 反向提示词 |
+| `first_frame_url` | 否 | — | 首帧图片 URL |
+| `last_frame_url` | 否 | — | 尾帧图片 URL |

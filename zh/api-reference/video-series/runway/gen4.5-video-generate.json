@@ -1,0 +1,231 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Runway Gen-4.5 Video",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": ["Video Generation"],
+        "summary": "Runway Gen-4.5 视频生成",
+        "operationId": "createRunwayGen45VideoPrediction",
+        "description": "Runway Gen-4.5（`gen4.5`）通过 POST /v1/predictions（`function` 为 `video`）异步生成视频。支持文生视频及可选 `first_frame_url` 图生视频。使用 `data.task_id` 轮询 [Get a prediction](/zh/api-reference/task-management/get-prediction)，或配置顶层 `webhook` 接收回调。",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RunwayGen45VideoPredictionRequest" },
+              "examples": {
+                "text_to_video": {
+                  "summary": "文生视频",
+                  "value": {
+                    "model": "gen4.5",
+                    "function": "video",
+                    "input": {
+                      "prompt": "A cinematic shot of a majestic lion in the savannah at golden hour",
+                      "aspect_ratio": "16:9",
+                      "duration": 5
+                    }
+                  }
+                },
+                "text_to_video_minimal": {
+                  "summary": "最简请求",
+                  "value": {
+                    "model": "gen4.5",
+                    "function": "video",
+                    "input": {
+                      "prompt": "A cat playing on the grass"
+                    }
+                  }
+                },
+                "image_to_video": {
+                  "summary": "图生视频",
+                  "value": {
+                    "model": "gen4.5",
+                    "function": "video",
+                    "input": {
+                      "prompt": "Slow camera push-in with natural motion",
+                      "aspect_ratio": "1:1",
+                      "duration": 10,
+                      "first_frame_url": "https://example.com/first-frame.png"
+                    },
+                    "webhook": "https://api.shuyou.ai/backend/api/callback"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "异步任务已创建",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PredictionTaskResponse" },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求无效",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "402": {
+            "description": "配额不足",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "无权访问模型",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "429": {
+            "description": "请求过于频繁",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "RunwayGen45VideoPredictionRequest": {
+        "type": "object",
+        "required": ["model", "function", "input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型 ID。本接口使用 `gen4.5`。",
+            "enum": ["gen4.5"],
+            "default": "gen4.5",
+            "example": "gen4.5"
+          },
+          "function": {
+            "type": "string",
+            "description": "任务类型。视频生成须为 `video`。",
+            "enum": ["video"],
+            "example": "video"
+          },
+          "input": { "$ref": "#/components/schemas/RunwayGen45VideoInput" },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "可选。任务完成、失败或取消时的 HTTPS 回调地址。"
+          }
+        }
+      },
+      "RunwayGen45VideoInput": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "视频生成文本提示词。",
+            "example": "A cinematic shot of a majestic lion in the savannah at golden hour"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "生成视频的宽高比。",
+            "enum": ["16:9", "9:16", "4:3", "3:4", "1:1", "21:9"],
+            "default": "1:1",
+            "example": "1:1"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "输出视频时长（秒）。",
+            "enum": [5, 10],
+            "default": 5,
+            "example": 5
+          },
+          "first_frame_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "可选首帧图片 URL（图生视频）。不传则仅根据文本生成。"
+          }
+        },
+        "additionalProperties": true
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "异步任务 ID。可用于 Get a prediction 或与 webhook 关联。",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "当前任务状态，如 `processing`。",
+                "example": "processing"
+              }
+            },
+            "required": ["task_id", "task_status"]
+          }
+        },
+        "required": ["data"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

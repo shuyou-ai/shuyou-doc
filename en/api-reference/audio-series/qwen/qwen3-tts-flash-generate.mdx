@@ -1,0 +1,82 @@
+---
+title: Qwen3 TTS Flash
+description: Create asynchronous text-to-speech tasks with qwen3-tts-flash via POST /v1/predictions (function audio).
+openapi: en/api-reference/audio-series/qwen/qwen3-tts-flash-generate.json POST /v1/predictions
+---
+
+## Voice presets (`input.voice`)
+
+Pass a **voice preset name** in `input.voice`. The table below lists Qwen TTS voices supported by **`qwen3-tts-flash`** (and related Qwen TTS model families).
+
+| `voice` | Name | Description | Languages |
+| --- | --- | --- | --- |
+| `Cherry` | 芊悦 | Sunny, upbeat, natural female | Mandarin, English, French, German, Russian, Italian, Spanish, Portuguese, Japanese, Korean |
+| `Serena` | 苏瑶 | Gentle female | Same as above |
+| `Ethan` | 晨煦 | Warm, energetic male (Mandarin with slight northern accent) | Same as above |
+| `Chelsie` | 千雪 | Anime-style virtual girlfriend (female) | Same as above |
+| `Momo` | 茉兔 | Playful, teasing female | Same as above |
+| `Vivian` | 十三 | Cute but feisty female | Same as above |
+| `Moon` | 月白 | Cool, handsome male | Same as above |
+| `Maia` | 四月 | Intellectual and gentle female | Same as above |
+| `Kai` | 凯 | Soothing male | Same as above |
+| `Nofish` | 不吃鱼 | Designer male (non-retroflex accent) | Same as above |
+| `Bella` | 萌宝 | Cute young female | Same as above |
+| `Jennifer` | 詹妮弗 | Cinematic American female | Same as above |
+| `Ryan` | 甜茶 | Dramatic, expressive male | Same as above |
+| `Katerina` | 卡捷琳娜 | Mature female | Same as above |
+| `Aiden` | 艾登 | American male | Same as above |
+| `Eldric Sage` | 沧明子 | Wise elder male | Same as above |
+| `Mia` | 乖小妹 | Obedient, gentle female | Same as above |
+| `Mochi` | 沙小弥 | Precocious young male | Same as above |
+| `Bellona` | 燕铮莺 | Powerful, clear female (period drama style) | Same as above |
+| `Vincent` | 田叔 | Husky, gritty male | Same as above |
+| `Bunny` | 萌小姬 | Very cute young female | Same as above |
+| `Neil` | 阿闻 | Professional news anchor male | Same as above |
+| `Elias` | 墨讲师 | Educational female narrator | Same as above |
+| `Arthur` | 徐大爷 | Folksy storyteller male | Same as above |
+| `Nini` | 邻家妹妹 | Sweet younger-sister female | Same as above |
+| `Seren` | 小婉 | Calm, sleep-aid female | Same as above |
+| `Pip` | 顽屁小孩 | Mischievous boy | Same as above |
+| `Stella` | 少女阿月 | Sweet magical-girl female | Same as above |
+| `Bodega` | 博德加 | Warm Spanish uncle (male) | Same as above |
+| `Sonrisa` | 索尼莎 | Cheerful Latina female | Same as above |
+| `Alek` | 阿列克 | Russian male | Same as above |
+| `Dolce` | 多尔切 | Laid-back Italian uncle (male) | Same as above |
+| `Sohee` | 素熙 | Warm Korean female | Same as above |
+| `Ono Anna` | 小野杏 | Feisty childhood-friend female | Same as above |
+| `Lenn` | 莱恩 | Rational German youth (male) | Same as above |
+| `Emilien` | 埃米尔安 | Romantic French male | Same as above |
+| `Andre` | 安德雷 | Magnetic, steady male | Same as above |
+| `Radio Gol` | 拉迪奥·戈尔 | Sports commentator male | Same as above |
+| `Jada` | 上海-阿珍 | Shanghai dialect female | Shanghai dialect + same multilingual set |
+| `Dylan` | 北京-晓东 | Beijing dialect male | Beijing dialect + same multilingual set |
+| `Li` | 南京-老李 | Nanjing dialect male | Nanjing dialect + same multilingual set |
+| `Marcus` | 陕西-秦川 | Shaanxi dialect male | Shaanxi dialect + same multilingual set |
+| `Roy` | 闽南-阿杰 | Taiwanese Hokkien male | Hokkien + same multilingual set |
+| `Peter` | 天津-李彼得 | Tianjin dialect male (comic duo style) | Tianjin dialect + same multilingual set |
+| `Sunny` | 四川-晴儿 | Sichuan dialect female | Sichuan dialect + same multilingual set |
+| `Eric` | 四川-程川 | Sichuan dialect male | Sichuan dialect + same multilingual set |
+| `Rocky` | 粤语-阿强 | Cantonese male | Cantonese + same multilingual set |
+| `Kiki` | 粤语-阿清 | Cantonese female | Cantonese + same multilingual set |
+
+## Language (`input.language`)
+
+Optional. Sets the synthesis language (Qwen API field: `language_type`). Default **`Auto`**.
+
+| Value | When to use |
+| --- | --- |
+| `Auto` | Mixed-language text or uncertain language. The model matches pronunciation per segment; accuracy is not guaranteed. |
+| `Chinese` | Single-language Chinese text — typically better quality than `Auto` |
+| `English` | Single-language English text |
+| `German` | Single-language German text |
+| `Italian` | Single-language Italian text |
+| `Portuguese` | Single-language Portuguese text |
+| `Spanish` | Single-language Spanish text |
+| `Japanese` | Single-language Japanese text |
+| `Korean` | Single-language Korean text |
+| `French` | Single-language French text |
+| `Russian` | Single-language Russian text |
+
+<Tip>
+For monolingual content, specify the language explicitly instead of `Auto` for best results.
+</Tip>

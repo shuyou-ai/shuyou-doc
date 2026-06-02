@@ -60,6 +60,19 @@
                     },
                     "webhook": "https://api.shuyou.ai/api/callback"
                   }
+                },
+                "audio": {
+                  "summary": "Audio generation (TTS)",
+                  "value": {
+                    "model": "qwen3-tts-flash",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "Welcome to ShuYou AI documentation.",
+                      "voice": "Cherry",
+                      "language": "Auto"
+                    },
+                    "webhook": "https://api.shuyou.ai/backend/api/callback"
+                  }
                 }
               }
             }

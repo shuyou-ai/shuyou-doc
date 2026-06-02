@@ -1,0 +1,261 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Gemini 3.1 Flash TTS Preview",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": ["Audio Generation"],
+        "summary": "Gemini 3.1 Flash TTS Preview 语音合成",
+        "operationId": "createGemini31FlashTtsPreviewPrediction",
+        "description": "Gemini 3.1 Flash TTS Preview（`gemini-3.1-flash-tts-preview`）通过 POST /v1/predictions（`function` 为 `audio`）异步合成语音。使用 `data.task_id` 轮询 [Get a prediction](/zh/api-reference/task-management/get-prediction)，或配置顶层 `webhook` 接收回调。",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Gemini31FlashTtsPreviewPredictionRequest" },
+              "examples": {
+                "text_to_speech": {
+                  "summary": "带风格指令的 TTS",
+                  "value": {
+                    "model": "gemini-3.1-flash-tts-preview",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "Say cheerfully: Have a wonderful day!",
+                      "style_instructions": "用温暖、轻快的语气朗读以下内容。",
+                      "voice": "Kore",
+                      "language": "en-US",
+                      "output_format": "mp3"
+                    },
+                    "webhook": "https://api.shuyou.ai/backend/api/callback"
+                  }
+                },
+                "text_to_speech_minimal": {
+                  "summary": "最简请求",
+                  "value": {
+                    "model": "gemini-3.1-flash-tts-preview",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "Welcome to ShuYou AI documentation."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "异步任务已创建",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PredictionTaskResponse" },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求无效",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "402": {
+            "description": "配额不足",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "无权访问模型",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "429": {
+            "description": "请求过于频繁",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "Gemini31FlashTtsPreviewPredictionRequest": {
+        "type": "object",
+        "required": ["model", "function", "input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型 ID。本接口使用 `gemini-3.1-flash-tts-preview`。",
+            "enum": ["gemini-3.1-flash-tts-preview"],
+            "default": "gemini-3.1-flash-tts-preview",
+            "example": "gemini-3.1-flash-tts-preview"
+          },
+          "function": {
+            "type": "string",
+            "description": "任务类型。文本转语音须为 `audio`。",
+            "enum": ["audio"],
+            "example": "audio"
+          },
+          "input": { "$ref": "#/components/schemas/Gemini31FlashTtsPreviewInput" },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "可选。任务完成、失败或取消时的 HTTPS 回调地址。"
+          }
+        }
+      },
+      "Gemini31FlashTtsPreviewInput": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "maxLength": 32000,
+            "description": "待合成文本。支持 `[sigh]`、`[laughing]`、`[whispering]`、`[shouting]`、`[extremely fast]` 等标记以增强表现力。",
+            "default": "Say cheerfully: Have a wonderful day!",
+            "example": "Say cheerfully: Have a wonderful day!"
+          },
+          "style_instructions": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "风格指令，用自然语言描述期望的语气、语速、口音与情感。",
+            "default": "Say the following.",
+            "example": "用温暖、轻快的语气朗读以下内容。"
+          },
+          "voice": {
+            "type": "string",
+            "description": "语音合成音色。完整列表见本页音色表。",
+            "default": "Kore",
+            "example": "Kore",
+            "enum": [
+              "Achernar",
+              "Achird",
+              "Algenib",
+              "Algieba",
+              "Alnilam",
+              "Aoede",
+              "Autonoe",
+              "Callirrhoe",
+              "Charon",
+              "Despina",
+              "Enceladus",
+              "Erinome",
+              "Fenrir",
+              "Gacrux",
+              "Iapetus",
+              "Kore",
+              "Laomedeia",
+              "Leda",
+              "Orus",
+              "Pulcherrima",
+              "Puck",
+              "Rasalgethi",
+              "Sadachbia",
+              "Sadaltager",
+              "Schedar",
+              "Sulafat",
+              "Umbriel",
+              "Vindemiatrix",
+              "Zephyr",
+              "Zubenelgenubi"
+            ]
+          },
+          "language": {
+            "type": "string",
+            "description": "输出语音的 BCP-47 语言代码。完整列表见本页语种表。默认 `en-US`（美式英语）。",
+            "default": "en-US",
+            "example": "en-US"
+          },
+          "output_format": {
+            "type": "string",
+            "description": "音频输出格式。",
+            "enum": ["mp3", "wav", "ogg_opus"],
+            "default": "mp3",
+            "example": "mp3"
+          }
+        },
+        "additionalProperties": true
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "异步任务 ID。可用于 Get a prediction 或与 webhook 关联。",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "当前任务状态，如 `processing`。",
+                "example": "processing"
+              }
+            },
+            "required": ["task_id", "task_status"]
+          }
+        },
+        "required": ["data"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

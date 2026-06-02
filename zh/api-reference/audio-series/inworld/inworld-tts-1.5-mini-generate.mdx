@@ -1,0 +1,129 @@
+---
+title: Inworld TTS 1.5 Mini 语音合成
+description: 通过 POST /v1/predictions（function 为 audio）使用 inworld-tts-1.5-mini 创建异步文本转语音任务。
+openapi: zh/api-reference/audio-series/inworld/inworld-tts-1.5-mini-generate.json POST /v1/predictions
+---
+
+## 文本（`input.prompt`）
+
+必填。待合成文本，最多 **2000** 字符。
+
+## 音色（`input.voice`）
+
+可选。默认 **`Craig (en)`**。请按表中值原样传入（含括号内语言代码）。
+
+| # | `voice` |
+| --- | --- |
+| 1 | `Loretta (en)` |
+| 2 | `Darlene (en)` |
+| 3 | `Marlene (en)` |
+| 4 | `Hank (en)` |
+| 5 | `Evelyn (en)` |
+| 6 | `Celeste (en)` |
+| 7 | `Pippa (en)` |
+| 8 | `Tessa (en)` |
+| 9 | `Liam (en)` |
+| 10 | `Callum (en)` |
+| 11 | `Hamish (en)` |
+| 12 | `Abby (en)` |
+| 13 | `Graham (en)` |
+| 14 | `Rupert (en)` |
+| 15 | `Mortimer (en)` |
+| 16 | `Snik (en)` |
+| 17 | `Anjali (en)` |
+| 18 | `Saanvi (en)` |
+| 19 | `Arjun (en)` |
+| 20 | `Claire (en)` |
+| 21 | `Oliver (en)` |
+| 22 | `Simon (en)` |
+| 23 | `Elliot (en)` |
+| 24 | `James (en)` |
+| 25 | `Serena (en)` |
+| 26 | `Gareth (en)` |
+| 27 | `Vinny (en)` |
+| 28 | `Lauren (en)` |
+| 29 | `Jessica (en)` |
+| 30 | `Ethan (en)` |
+| 31 | `Tyler (en)` |
+| 32 | `Jason (en)` |
+| 33 | `Chloe (en)` |
+| 34 | `Veronica (en)` |
+| 35 | `Victoria (en)` |
+| 36 | `Miranda (en)` |
+| 37 | `Sebastian (en)` |
+| 38 | `Victor (en)` |
+| 39 | `Malcolm (en)` |
+| 40 | `Kayla (en)` |
+| 41 | `Nate (en)` |
+| 42 | `Jake (en)` |
+| 43 | `Brian (en)` |
+| 44 | `Amina (en)` |
+| 45 | `Kelsey (en)` |
+| 46 | `Derek (en)` |
+| 47 | `Grant (en)` |
+| 48 | `Evan (en)` |
+| 49 | `Alex (en)` |
+| 50 | `Ashley (en)` |
+| 51 | `Craig (en)` |
+| 52 | `Deborah (en)` |
+| 53 | `Dennis (en)` |
+| 54 | `Edward (en)` |
+| 55 | `Elizabeth (en)` |
+| 56 | `Hades (en)` |
+| 57 | `Julia (en)` |
+| 58 | `Pixie (en)` |
+| 59 | `Mark (en)` |
+| 60 | `Olivia (en)` |
+| 61 | `Priya (en)` |
+| 62 | `Ronald (en)` |
+| 63 | `Sarah (en)` |
+| 64 | `Shaun (en)` |
+| 65 | `Theodore (en)` |
+| 66 | `Timothy (en)` |
+| 67 | `Wendy (en)` |
+| 68 | `Dominus (en)` |
+| 69 | `Hana (en)` |
+| 70 | `Clive (en)` |
+| 71 | `Carter (en)` |
+| 72 | `Blake (en)` |
+| 73 | `Luna (en)` |
+| 74 | `Yichen (zh)` |
+| 75 | `Xiaoyin (zh)` |
+| 76 | `Xinyi (zh)` |
+| 77 | `Jing (zh)` |
+| 78 | `Erik (nl)` |
+| 79 | `Katrien (nl)` |
+| 80 | `Lennart (nl)` |
+| 81 | `Lore (nl)` |
+| 82 | `Alain (fr)` |
+| 83 | `Hélène (fr)` |
+| 84 | `Mathieu (fr)` |
+| 85 | `Étienne (fr)` |
+| 86 | `Johanna (de)` |
+| 87 | `Josef (de)` |
+| 88 | `Gianni (it)` |
+| 89 | `Orietta (it)` |
+| 90 | `Asuka (ja)` |
+| 91 | `Satoshi (ja)` |
+| 92 | `Hyunwoo (ko)` |
+| 93 | `Minji (ko)` |
+| 94 | `Seojun (ko)` |
+| 95 | `Yoona (ko)` |
+| 96 | `Szymon (pl)` |
+| 97 | `Wojciech (pl)` |
+| 98 | `Heitor (pt)` |
+| 99 | `Maitê (pt)` |
+| 100 | `Diego (es)` |
+| 101 | `Lupita (es)` |
+| 102 | `Miguel (es)` |
+| 103 | `Rafael (es)` |
+| 104 | `Svetlana (ru)` |
+| 105 | `Elena (ru)` |
+| 106 | `Dmitry (ru)` |
+| 107 | `Nikolai (ru)` |
+| 108 | `Riya (hi)` |
+| 109 | `Manoj (hi)` |
+| 110 | `Yael (he)` |
+| 111 | `Oren (he)` |
+| 112 | `Nour (ar)` |
+| 113 | `Omar (ar)` |

@@ -1,0 +1,258 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Veo 3.1 Lite Generate Preview",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": ["Video Generation"],
+        "summary": "Veo 3.1 Lite Generate Preview 视频生成",
+        "operationId": "createVeo31LiteGeneratePreviewPrediction",
+        "description": "Google Veo 3.1 Lite Generate Preview（`veo-3.1-lite-generate-preview`）通过 POST /v1/predictions（`function` 为 `video`）异步生成视频。支持文生视频、首尾帧与参考图。使用 `data.task_id` 轮询 [Get a prediction](/zh/api-reference/task-management/get-prediction)，或配置顶层 `webhook` 接收回调。",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Veo31LiteGeneratePreviewPredictionRequest" },
+              "examples": {
+                "text_to_video": {
+                  "summary": "文生视频",
+                  "value": {
+                    "model": "veo-3.1-lite-generate-preview",
+                    "function": "video",
+                    "input": {
+                      "prompt": "A cinematic shot of a majestic lion in the savannah at golden hour",
+                      "aspect_ratio": "16:9",
+                      "resolution": "720P",
+                      "duration": 8,
+                      "generate_audio": true
+                    }
+                  }
+                },
+                "text_to_video_minimal": {
+                  "summary": "最简请求",
+                  "value": {
+                    "model": "veo-3.1-lite-generate-preview",
+                    "function": "video",
+                    "input": {
+                      "prompt": "A cat playing on the grass"
+                    }
+                  }
+                },
+                "first_last_frame": {
+                  "summary": "首尾帧",
+                  "value": {
+                    "model": "veo-3.1-lite-generate-preview",
+                    "function": "video",
+                    "input": {
+                      "prompt": "Smooth transition between the two keyframes",
+                      "aspect_ratio": "16:9",
+                      "resolution": "1080P",
+                      "duration": 6,
+                      "first_frame_url": "https://example.com/first-frame.png",
+                      "last_frame_url": "https://example.com/last-frame.png"
+                    },
+                    "webhook": "https://api.shuyou.ai/backend/api/callback"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "异步任务已创建",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PredictionTaskResponse" },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求无效",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "402": {
+            "description": "配额不足",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "无权访问模型",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "429": {
+            "description": "请求过于频繁",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "Veo31LiteGeneratePreviewPredictionRequest": {
+        "type": "object",
+        "required": ["model", "function", "input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型 ID。本接口使用 `veo-3.1-lite-generate-preview`。",
+            "enum": ["veo-3.1-lite-generate-preview"],
+            "default": "veo-3.1-lite-generate-preview",
+            "example": "veo-3.1-lite-generate-preview"
+          },
+          "function": {
+            "type": "string",
+            "description": "任务类型。视频生成须为 `video`。",
+            "enum": ["video"],
+            "example": "video"
+          },
+          "input": { "$ref": "#/components/schemas/Veo31LiteGeneratePreviewInput" },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "可选。任务完成、失败或取消时的 HTTPS 回调地址。"
+          }
+        }
+      },
+      "Veo31LiteGeneratePreviewInput": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "描述待生成视频的文本提示词。",
+            "example": "A cinematic shot of a majestic lion in the savannah at golden hour"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "生成视频的宽高比。仅支持 `16:9` 与 `9:16`。",
+            "enum": ["16:9", "9:16"],
+            "default": "16:9",
+            "example": "16:9"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "生成视频的分辨率。",
+            "enum": ["720P", "1080P"],
+            "default": "720P",
+            "example": "720P"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "生成视频时长（秒）。",
+            "enum": [4, 6, 8],
+            "default": 8,
+            "example": 8
+          },
+          "generate_audio": {
+            "type": "boolean",
+            "description": "是否为视频生成音频。",
+            "default": true,
+            "example": true
+          },
+          "negative_prompt": {
+            "type": "string",
+            "description": "反向提示词，用于约束生成内容。"
+          },
+          "first_frame_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "视频首帧图片 URL。"
+          },
+          "last_frame_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "视频尾帧图片 URL。"
+          }
+        },
+        "additionalProperties": true
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "异步任务 ID。可用于 Get a prediction 或与 webhook 关联。",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "当前任务状态，如 `processing`。",
+                "example": "processing"
+              }
+            },
+            "required": ["task_id", "task_status"]
+          }
+        },
+        "required": ["data"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

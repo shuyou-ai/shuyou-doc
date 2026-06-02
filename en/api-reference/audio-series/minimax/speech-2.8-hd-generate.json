@@ -1,0 +1,294 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MiniMax Speech 2.8 HD",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": ["Audio Generation"],
+        "summary": "MiniMax Speech 2.8 HD",
+        "operationId": "createSpeech28HdPrediction",
+        "description": "MiniMax Speech 2.8 HD (`speech-2.8-hd`) generates studio-grade text-to-speech asynchronously via POST /v1/predictions with `function: audio`. Poll [Get a prediction](/en/api-reference/task-management/get-prediction) using `data.task_id`, or configure top-level `webhook` for completion callbacks.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Speech28HdPredictionRequest" },
+              "examples": {
+                "text_to_speech": {
+                  "summary": "Text to speech",
+                  "value": {
+                    "model": "speech-2.8-hd",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "At the jet bridge, Leo took his first step onto the metal walkway. He could smell faint fumes from the runway. The plane loomed ahead like a quiet animal. As he approached the door, he paused, gave the flight attendant a small smile, and entered the long, low-lit cabin.Engines roared. Leo grasped the armrest as the plane gathered speed and lifted into the sky. The city below shrank into a dim grid of lights. At cruising altitude, the engines settled into a low hum. The atmosphere outside felt thin and silent.",
+                      "voice": "English_Graceful_Lady"
+                    },
+                    "webhook": "https://api.shuyou.ai/backend/api/callback"
+                  }
+                },
+                "text_to_speech_minimal": {
+                  "summary": "Minimal request",
+                  "value": {
+                    "model": "speech-2.8-hd",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "Welcome to ShuYou AI documentation.",
+                      "voice": "English_Graceful_Lady"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Async task created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PredictionTaskResponse" },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient quota",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "Model access denied",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "Speech28HdPredictionRequest": {
+        "type": "object",
+        "required": ["model", "function", "input"],
+        "properties": {
+                              "model": {
+            "type": "string",
+            "description": "Model ID. Use `speech-2.8-hd` for this endpoint.",
+            "default": "speech-2.8-hd",
+            "example": "speech-2.8-hd"
+          },
+          "function": {
+            "type": "string",
+            "description": "Task type. Must be `audio` for text-to-speech.",
+            "enum": ["audio"],
+            "example": "audio"
+          },
+          "input": { "$ref": "#/components/schemas/Speech28HdInput" },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional HTTPS callback URL when the task completes, fails, or is cancelled."
+          }
+        }
+      },
+      "Speech28HdInput": {
+        "type": "object",
+        "required": ["prompt", "voice"],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "Text to synthesize into speech (maps to MiniMax `text`). Long-form scripts are supported; check model limits on the platform.",
+            "example": "Welcome to ShuYou AI documentation."
+          },
+                                                  "voice": {
+            "type": "string",
+            "description": "MiniMax voice preset ID (maps to `voice_id`). Pass the ID exactly as in the voice table on this page (327 presets). Example: `English_Graceful_Lady`.",
+            "example": "English_Graceful_Lady"
+          },
+          "speed": {
+            "type": "number",
+            "description": "Speech speed multiplier. Range `0.5`–`2.0`. Default `1`.",
+            "minimum": 0.5,
+            "maximum": 2,
+            "default": 1,
+            "example": 1
+          },
+          "volume": {
+            "type": "number",
+            "description": "Output volume. Range `0`–`10`. Default `1`.",
+            "minimum": 0,
+            "maximum": 10,
+            "default": 1,
+            "example": 1
+          },
+          "pitch": {
+            "type": "integer",
+            "description": "Pitch adjustment in semitones. Range `-12`–`12`. Default `0`.",
+            "minimum": -12,
+            "maximum": 12,
+            "default": 0,
+            "example": 0
+          },
+          "emotion": {
+            "type": "string",
+            "description": "Emotional tone for synthesis.",
+            "enum": ["happy", "sad", "angry", "fearful", "disgusted", "surprised", "calm", "neutral", "fluent"],
+            "example": "neutral"
+          },
+          "format": {
+            "type": "string",
+            "description": "Output audio format.",
+            "enum": ["mp3", "wav", "flac", "pcm"],
+            "default": "mp3",
+            "example": "mp3"
+          },
+          "language": {
+            "type": "string",
+            "description": "Language or dialect boost (maps to MiniMax `language_boost`). Optional; omit or use `auto` for auto-detection. Use `Chinese` for Mandarin and `Chinese,Yue` for Cantonese.",
+            "example": "auto",
+            "enum": [
+            "Chinese",
+            "Chinese,Yue",
+            "English",
+            "Arabic",
+            "Russian",
+            "Spanish",
+            "French",
+            "Portuguese",
+            "German",
+            "Turkish",
+            "Dutch",
+            "Ukrainian",
+            "Vietnamese",
+            "Indonesian",
+            "Japanese",
+            "Italian",
+            "Korean",
+            "Thai",
+            "Polish",
+            "Romanian",
+            "Greek",
+            "Czech",
+            "Finnish",
+            "Hindi",
+            "Bulgarian",
+            "Danish",
+            "Hebrew",
+            "Malay",
+            "Persian",
+            "Slovak",
+            "Swedish",
+            "Croatian",
+            "Filipino",
+            "Hungarian",
+            "Norwegian",
+            "Slovenian",
+            "Catalan",
+            "Nynorsk",
+            "Tamil",
+            "Afrikaans",
+            "auto"
+]
+          },
+          "english_normalization": {
+            "type": "boolean",
+            "description": "When `true`, normalizes English numbers, dates, and abbreviations for more natural reading (may add latency).",
+            "default": false,
+            "example": false
+          }
+        },
+        "additionalProperties": true
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "Async task ID. Use with Get a prediction or webhook correlation.",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "Current task status, e.g. `processing`.",
+                "example": "processing"
+              }
+            },
+            "required": ["task_id", "task_status"]
+          }
+        },
+        "required": ["data"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

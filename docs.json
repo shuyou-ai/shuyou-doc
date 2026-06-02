@@ -103,8 +103,46 @@
                 ]
               },
               {
+                "group": "Audio Series",
+                "pages": [
+                  {
+                    "group": "Google Gemini",
+                    "pages": [
+                      "en/api-reference/audio-series/google/gemini-3.1-flash-tts-preview-generate"
+                    ]
+                  },
+                  {
+                    "group": "Inworld",
+                    "pages": [
+                      "en/api-reference/audio-series/inworld/inworld-tts-1.5-mini-generate",
+                      "en/api-reference/audio-series/inworld/inworld-tts-1.5-max-generate"
+                    ]
+                  },
+                  {
+                    "group": "MiniMax",
+                    "pages": [
+                      "en/api-reference/audio-series/minimax/speech-2.8-hd-generate"
+                    ]
+                  },
+                  {
+                    "group": "Qwen",
+                    "pages": [
+                      "en/api-reference/audio-series/qwen/qwen3-tts-flash-generate"
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "Video Series",
                 "pages": [
+                  {
+                    "group": "Google Gemini",
+                    "pages": [
+                      "en/api-reference/video-series/google/veo-3.1-lite-generate-preview-generate",
+                      "en/api-reference/video-series/google/veo-3.1-fast-generate-preview-generate",
+                      "en/api-reference/video-series/google/veo-3.1-generate-preview-generate"
+                    ]
+                  },
                   {
                     "group": "Seedance",
                     "pages": [
@@ -119,6 +157,31 @@
                       "en/api-reference/video-series/happyhorse/happyhorse-1.0-r2v-video-generate",
                       "en/api-reference/video-series/happyhorse/happyhorse-1.0-i2v-video-generate",
                       "en/api-reference/video-series/happyhorse/happyhorse-1.0-video-edit-video-generate"
+                    ]
+                  },
+                  {
+                    "group": "Kling",
+                    "pages": [
+                      "en/api-reference/video-series/kling/kling-v3-video-generate"
+                    ]
+                  },
+                  {
+                    "group": "OpenAI",
+                    "pages": [
+                      "en/api-reference/video-series/openai/sora-2-video-generate",
+                      "en/api-reference/video-series/openai/sora-2-pro-video-generate"
+                    ]
+                  },
+                  {
+                    "group": "Runway",
+                    "pages": [
+                      "en/api-reference/video-series/runway/gen4.5-video-generate"
+                    ]
+                  },
+                  {
+                    "group": "xAI",
+                    "pages": [
+                      "en/api-reference/video-series/x-ai/grok-imagine-video-generate"
                     ]
                   }
                 ]
@@ -259,8 +322,46 @@
                 ]
               },
               {
+                "group": "音频系列",
+                "pages": [
+                  {
+                    "group": "Google Gemini",
+                    "pages": [
+                      "zh/api-reference/audio-series/google/gemini-3.1-flash-tts-preview-generate"
+                    ]
+                  },
+                  {
+                    "group": "Inworld",
+                    "pages": [
+                      "zh/api-reference/audio-series/inworld/inworld-tts-1.5-mini-generate",
+                      "zh/api-reference/audio-series/inworld/inworld-tts-1.5-max-generate"
+                    ]
+                  },
+                  {
+                    "group": "MiniMax",
+                    "pages": [
+                      "zh/api-reference/audio-series/minimax/speech-2.8-hd-generate"
+                    ]
+                  },
+                  {
+                    "group": "Qwen",
+                    "pages": [
+                      "zh/api-reference/audio-series/qwen/qwen3-tts-flash-generate"
+                    ]
+                  }
+                ]
+              },
+              {
                 "group": "视频系列",
                 "pages": [
+                  {
+                    "group": "Google Gemini",
+                    "pages": [
+                      "zh/api-reference/video-series/google/veo-3.1-lite-generate-preview-generate",
+                      "zh/api-reference/video-series/google/veo-3.1-fast-generate-preview-generate",
+                      "zh/api-reference/video-series/google/veo-3.1-generate-preview-generate"
+                    ]
+                  },
                   {
                     "group": "Seedance",
                     "pages": [
@@ -275,6 +376,31 @@
                       "zh/api-reference/video-series/happyhorse/happyhorse-1.0-r2v-video-generate",
                       "zh/api-reference/video-series/happyhorse/happyhorse-1.0-i2v-video-generate",
                       "zh/api-reference/video-series/happyhorse/happyhorse-1.0-video-edit-video-generate"
+                    ]
+                  },
+                  {
+                    "group": "Kling",
+                    "pages": [
+                      "zh/api-reference/video-series/kling/kling-v3-video-generate"
+                    ]
+                  },
+                  {
+                    "group": "OpenAI",
+                    "pages": [
+                      "zh/api-reference/video-series/openai/sora-2-video-generate",
+                      "zh/api-reference/video-series/openai/sora-2-pro-video-generate"
+                    ]
+                  },
+                  {
+                    "group": "Runway",
+                    "pages": [
+                      "zh/api-reference/video-series/runway/gen4.5-video-generate"
+                    ]
+                  },
+                  {
+                    "group": "xAI",
+                    "pages": [
+                      "zh/api-reference/video-series/x-ai/grok-imagine-video-generate"
                     ]
                   }
                 ]

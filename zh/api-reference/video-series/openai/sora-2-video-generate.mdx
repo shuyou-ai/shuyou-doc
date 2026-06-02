@@ -1,0 +1,24 @@
+---
+title: OpenAI Sora 2 视频生成
+description: 通过 POST /v1/predictions（function 为 video）使用 sora-2 创建异步视频任务。
+openapi: zh/api-reference/video-series/openai/sora-2-video-generate.json POST /v1/predictions
+---
+
+## 概览
+
+**OpenAI Sora 2**（`sora-2`）支持：
+
+- **文生视频** — `prompt`（最多 **32,000** 字符）
+- **参考引导生成** — 可选 `first_frame_url`
+
+输出分辨率固定为 **720P**。
+
+## 输入参数
+
+| 字段 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `prompt` | 是 | — | 最多 **32,000** 字符 |
+| `aspect_ratio` | 否 | `16:9` | `16:9` 或 `9:16` |
+| `resolution` | 否 | `720P` | 仅 `720P` |
+| `duration` | 否 | `4` | `4`、`8`、`12` 秒 |
+| `first_frame_url` | 否 | — | 可选参考 URL（如首帧图片） |

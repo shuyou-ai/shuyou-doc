@@ -1,0 +1,27 @@
+---
+title: Veo 3.1 Generate Preview
+description: Create asynchronous video tasks with veo-3.1-generate-preview via POST /v1/predictions (function video).
+openapi: en/api-reference/video-series/google/veo-3.1-generate-preview-generate.json POST /v1/predictions
+---
+
+## Overview
+
+Google **Veo 3.1 Generate Preview** (`veo-3.1-generate-preview`) supports:
+
+- **Text-to-video** — `prompt` only
+- **First / last frame** — `first_frame_url`, `last_frame_url`
+- **Reference images** — up to **3** URLs in `reference_image_urls` for consistent subject appearance
+
+## Input parameters
+
+| Field | Required | Default | Notes |
+| --- | --- | --- | --- |
+| `prompt` | Yes | — | Max **1000** characters |
+| `aspect_ratio` | No | `16:9` | `16:9` or `9:16` only |
+| `resolution` | No | `720P` | `720P`, `1080P`, `4K` |
+| `duration` | No | `8` | `4`, `6`, or `8` (seconds) |
+| `generate_audio` | No | `true` | Include generated audio |
+| `negative_prompt` | No | — | Negative guidance text |
+| `first_frame_url` | No | — | First keyframe image URL |
+| `last_frame_url` | No | — | Last keyframe image URL |
+| `reference_image_urls` | No | `[]` | Up to **3** reference image URLs |

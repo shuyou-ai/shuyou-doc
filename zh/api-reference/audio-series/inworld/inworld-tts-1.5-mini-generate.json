@@ -1,0 +1,205 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Inworld TTS 1.5 Mini",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": ["Audio Generation"],
+        "summary": "Inworld TTS 1.5 Mini 语音合成",
+        "operationId": "createInworldTts15MiniPrediction",
+        "description": "Inworld TTS 1.5 Mini（`inworld-tts-1.5-mini`）通过 POST /v1/predictions（`function` 为 `audio`）异步合成语音。使用 `data.task_id` 轮询 [Get a prediction](/zh/api-reference/task-management/get-prediction)，或配置顶层 `webhook` 接收回调。",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/InworldTts15MiniPredictionRequest" },
+              "examples": {
+                "text_to_speech": {
+                  "summary": "文本转语音",
+                  "value": {
+                    "model": "inworld-tts-1.5-mini",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "Welcome to ShuYou AI documentation.",
+                      "voice": "Craig (en)"
+                    },
+                    "webhook": "https://api.shuyou.ai/backend/api/callback"
+                  }
+                },
+                "text_to_speech_minimal": {
+                  "summary": "最简请求",
+                  "value": {
+                    "model": "inworld-tts-1.5-mini",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "Hello from Inworld TTS."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "异步任务已创建",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PredictionTaskResponse" },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求无效",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "402": {
+            "description": "配额不足",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "无权访问模型",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "429": {
+            "description": "请求过于频繁",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "InworldTts15MiniPredictionRequest": {
+        "type": "object",
+        "required": ["model", "function", "input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型 ID。本接口使用 `inworld-tts-1.5-mini`。",
+            "enum": ["inworld-tts-1.5-mini"],
+            "default": "inworld-tts-1.5-mini",
+            "example": "inworld-tts-1.5-mini"
+          },
+          "function": {
+            "type": "string",
+            "description": "任务类型。文本转语音须为 `audio`。",
+            "enum": ["audio"],
+            "example": "audio"
+          },
+          "input": { "$ref": "#/components/schemas/InworldTts15MiniInput" },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "可选。任务完成、失败或取消时的 HTTPS 回调地址。"
+          }
+        }
+      },
+      "InworldTts15MiniInput": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "待合成文本。最多 2000 字符。",
+            "example": "Welcome to ShuYou AI documentation."
+          },
+          "voice": {
+            "type": "string",
+            "description": "语音合成音色。请按本页音色表原样传入（共 113 个）。默认 `Craig (en)`。",
+            "default": "Craig (en)",
+            "example": "Craig (en)"
+          }
+        },
+        "additionalProperties": true
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "异步任务 ID。可用于 Get a prediction 或与 webhook 关联。",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "当前任务状态，如 `processing`。",
+                "example": "processing"
+              }
+            },
+            "required": ["task_id", "task_status"]
+          }
+        },
+        "required": ["data"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

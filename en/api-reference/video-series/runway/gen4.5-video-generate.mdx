@@ -1,0 +1,21 @@
+---
+title: Runway Gen-4.5
+description: Create asynchronous video tasks with gen4.5 via POST /v1/predictions (function video).
+openapi: en/api-reference/video-series/runway/gen4.5-video-generate.json POST /v1/predictions
+---
+
+## Overview
+
+**Runway Gen-4.5** (`gen4.5`) supports:
+
+- **Text-to-video** — `prompt` only
+- **Image-to-video** — optional `first_frame_url` as the initial frame
+
+## Input parameters
+
+| Field | Required | Default | Notes |
+| --- | --- | --- | --- |
+| `prompt` | Yes | — | Text prompt for video generation |
+| `aspect_ratio` | No | `1:1` | `16:9`, `9:16`, `4:3`, `3:4`, `1:1`, `21:9` |
+| `duration` | No | `5` | `5` or `10` seconds |
+| `first_frame_url` | No | — | Optional first-frame image URL |

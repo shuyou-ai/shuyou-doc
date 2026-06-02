@@ -1,0 +1,275 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Qwen3 TTS Flash",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": ["Audio Generation"],
+        "summary": "Qwen3 TTS Flash",
+        "operationId": "createQwen3TtsFlashPrediction",
+        "description": "Qwen3 TTS Flash (`qwen3-tts-flash`) converts text to speech asynchronously via POST /v1/predictions with `function: audio`. Poll [Get a prediction](/zh/api-reference/task-management/get-prediction) using `data.task_id`, or configure top-level `webhook` for completion callbacks.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Qwen3TtsFlashPredictionRequest" },
+              "examples": {
+                "text_to_speech": {
+                  "summary": "Text to speech",
+                  "value": {
+                    "model": "qwen3-tts-flash",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "At the jet bridge, Leo took his first step onto the metal walkway. He could smell faint fumes from the runway. The plane loomed ahead like a quiet animal. As he approached the door, he paused, gave the flight attendant a small smile, and entered the long, low-lit cabin.Engines roared. Leo grasped the armrest as the plane gathered speed and lifted into the sky. The city below shrank into a dim grid of lights. At cruising altitude, the engines settled into a low hum. The atmosphere outside felt thin and silent.",
+                      "voice": "Cherry",
+                      "language": "Auto"
+                    },
+                    "webhook": "https://api.shuyou.ai/backend/api/callback"
+                  }
+                },
+                "text_to_speech_minimal": {
+                  "summary": "Minimal request",
+                  "value": {
+                    "model": "qwen3-tts-flash",
+                    "function": "audio",
+                    "input": {
+                      "prompt": "Welcome to ShuYou AI documentation.",
+                      "voice": "Cherry",
+                      "language": "Auto"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Async task created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PredictionTaskResponse" },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient quota",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "Model access denied",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "Qwen3TtsFlashPredictionRequest": {
+        "type": "object",
+        "required": ["model", "function", "input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model ID. Use `qwen3-tts-flash` for this endpoint.",
+            "enum": ["qwen3-tts-flash"],
+            "default": "qwen3-tts-flash",
+            "example": "qwen3-tts-flash"
+          },
+          "function": {
+            "type": "string",
+            "description": "Task type. Must be `audio` for text-to-speech.",
+            "enum": ["audio"],
+            "example": "audio"
+          },
+          "input": { "$ref": "#/components/schemas/Qwen3TtsFlashInput" },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional HTTPS callback URL when the task completes, fails, or is cancelled."
+          }
+        }
+      },
+      "Qwen3TtsFlashInput": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "Text content to synthesize into speech.",
+            "example": "Welcome to ShuYou AI documentation."
+          },
+          "voice": {
+            "type": "string",
+            "description": "Qwen TTS 音色预设。请按文档表格中的名称原样传入（如 `Cherry`、`Serena`、`Eldric Sage`、`Ono Anna`）。详见本页音色列表。除模型页另有说明外，`qwen3-tts-flash` 支持下列全部预设。",
+            "example": "Cherry",
+            "enum": [
+              "Cherry",
+              "Serena",
+              "Ethan",
+              "Chelsie",
+              "Momo",
+              "Vivian",
+              "Moon",
+              "Maia",
+              "Kai",
+              "Nofish",
+              "Bella",
+              "Jennifer",
+              "Ryan",
+              "Katerina",
+              "Aiden",
+              "Eldric Sage",
+              "Mia",
+              "Mochi",
+              "Bellona",
+              "Vincent",
+              "Bunny",
+              "Neil",
+              "Elias",
+              "Arthur",
+              "Nini",
+              "Seren",
+              "Pip",
+              "Stella",
+              "Bodega",
+              "Sonrisa",
+              "Alek",
+              "Dolce",
+              "Sohee",
+              "Ono Anna",
+              "Lenn",
+              "Emilien",
+              "Andre",
+              "Radio Gol",
+              "Jada",
+              "Dylan",
+              "Li",
+              "Marcus",
+              "Roy",
+              "Peter",
+              "Sunny",
+              "Eric",
+              "Rocky",
+              "Kiki"
+            ]
+          },
+          "language": {
+            "type": "string",
+            "description": "合成音频语种（对应 Qwen 文档中的 `language_type`）。可选；默认 `Auto`。**Auto** — 适用于文本包含多种语言或语种不确定的场景，模型自动为不同语言片段匹配发音，但无法保证完全精准。**指定语种** — 适用于单一语种文本，指定具体语种能显著提升合成质量，效果通常优于 Auto。",
+            "example": "Auto",
+            "default": "Auto",
+            "enum": [
+              "Auto",
+              "Chinese",
+              "English",
+              "German",
+              "Italian",
+              "Portuguese",
+              "Spanish",
+              "Japanese",
+              "Korean",
+              "French",
+              "Russian"
+            ]
+          }
+        },
+        "additionalProperties": true
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "Async task ID. Use with Get a prediction or webhook correlation.",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "Current task status, e.g. `processing`.",
+                "example": "processing"
+              }
+            },
+            "required": ["task_id", "task_status"]
+          }
+        },
+        "required": ["data"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,97 @@
+---
+title: Gemini 3.1 Flash TTS Preview 语音合成
+description: 通过 POST /v1/predictions（function 为 audio）使用 gemini-3.1-flash-tts-preview 创建异步文本转语音任务。
+openapi: zh/api-reference/audio-series/google/gemini-3.1-flash-tts-preview-generate.json POST /v1/predictions
+---
+
+## 文本（`input.prompt`）
+
+必填。待合成文本（最多 **32,000** 字符）。可在文本中使用下列标记增强表现力：
+
+| 标记 | 效果 |
+| --- | --- |
+| `[sigh]` | 叹气 |
+| `[laughing]` | 笑声 |
+| `[whispering]` | 低语 |
+| `[shouting]` | 喊叫 |
+| `[extremely fast]` | 极快语速 |
+
+## 风格指令（`input.style_instructions`）
+
+可选（最多 **1,000** 字符）。用自然语言描述语气、语速、口音与情感。默认值：`Say the following.`
+
+## 音色（`input.voice`）
+
+可选。默认 **`Kore`**。
+
+| `voice` |
+| --- |
+| `Achernar` |
+| `Achird` |
+| `Algenib` |
+| `Algieba` |
+| `Alnilam` |
+| `Aoede` |
+| `Autonoe` |
+| `Callirrhoe` |
+| `Charon` |
+| `Despina` |
+| `Enceladus` |
+| `Erinome` |
+| `Fenrir` |
+| `Gacrux` |
+| `Iapetus` |
+| `Kore` |
+| `Laomedeia` |
+| `Leda` |
+| `Orus` |
+| `Pulcherrima` |
+| `Puck` |
+| `Rasalgethi` |
+| `Sadachbia` |
+| `Sadaltager` |
+| `Schedar` |
+| `Sulafat` |
+| `Umbriel` |
+| `Vindemiatrix` |
+| `Zephyr` |
+| `Zubenelgenubi` |
+
+## 语种（`input.language`）
+
+可选 BCP-47 语言代码。默认 **`en-US`**。
+
+| 代码 | 代码 | 代码 | 代码 |
+| --- | --- | --- | --- |
+| `af-ZA` | `am-ET` | `ar-001` | `ar-EG` |
+| `az-AZ` | `be-BY` | `bg-BG` | `bn-BD` |
+| `ca-ES` | `ceb-PH` | `cmn-CN` | `cmn-tw` |
+| `cs-CZ` | `da-DK` | `de-DE` | `el-GR` |
+| `en-AU` | `en-GB` | `en-IN` | `en-US` |
+| `es-419` | `es-ES` | `es-MX` | `et-EE` |
+| `eu-ES` | `fa-IR` | `fi-FI` | `fil-PH` |
+| `fr-CA` | `fr-FR` | `gl-ES` | `gu-IN` |
+| `he-IL` | `hi-IN` | `hr-HR` | `ht-HT` |
+| `hu-HU` | `hy-AM` | `id-ID` | `is-IS` |
+| `it-IT` | `ja-JP` | `jv-JV` | `ka-GE` |
+| `kn-IN` | `ko-KR` | `kok-IN` | `la-VA` |
+| `lb-LU` | `lo-LA` | `lt-LT` | `lv-LV` |
+| `mai-IN` | `mg-MG` | `mk-MK` | `ml-IN` |
+| `mn-MN` | `mr-IN` | `ms-MY` | `my-MM` |
+| `nb-NO` | `ne-NP` | `nl-NL` | `nn-NO` |
+| `or-IN` | `pa-IN` | `pl-PL` | `ps-AF` |
+| `pt-BR` | `pt-PT` | `ro-RO` | `ru-RU` |
+| `sd-IN` | `si-LK` | `sk-SK` | `sl-SI` |
+| `sq-AL` | `sr-RS` | `sv-SE` | `sw-KE` |
+| `ta-IN` | `te-IN` | `th-TH` | `tr-TR` |
+| `uk-UA` | `ur-PK` | `vi-VN` | |
+
+## 输出格式（`input.output_format`）
+
+可选。默认 **`mp3`**。
+
+| 取值 | 说明 |
+| --- | --- |
+| `mp3` | MP3 音频 |
+| `wav` | WAV 音频 |
+| `ogg_opus` | Ogg Opus 音频 |

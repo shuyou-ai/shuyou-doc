@@ -1,0 +1,24 @@
+---
+title: Grok Imagine Video 视频生成
+description: 通过 POST /v1/predictions（function 为 video）使用 grok-imagine-video 创建异步视频任务。
+openapi: zh/api-reference/video-series/x-ai/grok-imagine-video-generate.json POST /v1/predictions
+---
+
+## 概览
+
+xAI **Grok Imagine Video**（`grok-imagine-video`）支持：
+
+- **文生视频** — `prompt`
+- **图生视频** — `first_frame_url`（建议 720p+，优先 16:9 或 9:16；其他比例可能被裁剪）
+- **参考图** — `reference_image_urls` 最多 **3** 张
+
+## 输入参数
+
+| 字段 | 必填 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `prompt` | 是 | — | 视频描述文本 |
+| `aspect_ratio` | 否 | — | `1:1`、`16:9`、`9:16`、`4:3`、`3:4`、`3:2`、`2:3` |
+| `resolution` | 否 | — | `480P` 或 `720P` |
+| `duration` | 否 | `8` | `1`–`15` 秒 |
+| `first_frame_url` | 否 | — | 待动画化的图片 URL |
+| `reference_image_urls` | 否 | `[]` | 参考图 URL，最多 **3** 张 |
