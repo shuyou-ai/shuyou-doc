@@ -46,85 +46,99 @@
     }
   },
   "navigation": {
-    "languages": [
+    "tabs": [
       {
-        "language": "zh-Hans",
-        "groups": [
+        "tab": "Untitled Tab",
+        "languages": [
           {
-            "group": "关于 ShuYou",
-            "pages": [
-              "zh/about/intro"
-            ]
-          },
-          {
-            "group": "API 参考",
-            "openapi": "openapi.json",
-            "pages": [
+            "language": "zh-Hans",
+            "groups": [
               {
-                "group": "OpenAI Compatible API",
-                "pages": []
+                "group": "关于 ShuYou",
+                "pages": [
+                  "zh/about/intro"
+                ]
               },
               {
-                "group": "Files API",
-                "pages": []
+                "group": "API 参考",
+                "openapi": "openapi.json",
+                "pages": [
+                  {
+                    "group": "OpenAI Compatible API",
+                    "pages": []
+                  },
+                  {
+                    "group": "Files API",
+                    "pages": []
+                  },
+                  {
+                    "group": "Images API",
+                    "pages": []
+                  },
+                  {
+                    "group": "OpenRouter Compatible API",
+                    "pages": []
+                  },
+                  {
+                    "group": "Anthropic Compatible API",
+                    "pages": []
+                  },
+                  {
+                    "group": "Google Compatible API",
+                    "pages": []
+                  },
+                  {
+                    "group": "Predictions API",
+                    "pages": []
+                  },
+                  {
+                    "group": "Platform API",
+                    "pages": []
+                  }
+                ]
               },
               {
-                "group": "Images API",
-                "pages": []
+                "group": "最佳实践",
+                "pages": [
+                  "zh/best-practices/claude-code",
+                  "zh/best-practices/codex",
+                  "zh/best-practices/gemini-cli",
+                  "zh/best-practices/opencode",
+                  "zh/best-practices/cline",
+                  "zh/best-practices/cherry-studio",
+                  "zh/best-practices/obsidian",
+                  "zh/best-practices/sider",
+                  "zh/best-practices/open-webui",
+                  "zh/best-practices/dify",
+                  "zh/best-practices/neovate-code",
+                  "zh/best-practices/github-copilot",
+                  "zh/best-practices/openclaw",
+                  "zh/best-practices/openclaw-alibaba",
+                  "zh/best-practices/cc-switch",
+                  "zh/best-practices/cursor",
+                  "zh/best-practices/rikkahub"
+                ]
               },
               {
-                "group": "OpenRouter Compatible API",
-                "pages": []
-              },
-              {
-                "group": "Anthropic Compatible API",
-                "pages": []
-              },
-              {
-                "group": "Google Compatible API",
-                "pages": []
-              },
-              {
-                "group": "Predictions API",
-                "pages": []
-              },
-              {
-                "group": "Platform API",
-                "pages": []
+                "group": "帮助中心",
+                "pages": [
+                  "zh/privacy",
+                  "zh/terms-of-service",
+                  "zh/help/contact"
+                ]
               }
             ]
           },
           {
-            "group": "最佳实践",
+            "language": "en",
             "pages": [
-              "zh/best-practices/claude-code",
-              "zh/best-practices/codex",
-              "zh/best-practices/gemini-cli",
-              "zh/best-practices/opencode",
-              "zh/best-practices/cline",
-              "zh/best-practices/cherry-studio",
-              "zh/best-practices/obsidian",
-              "zh/best-practices/sider",
-              "zh/best-practices/open-webui",
-              "zh/best-practices/dify",
-              "zh/best-practices/neovate-code",
-              "zh/best-practices/github-copilot",
-              "zh/best-practices/openclaw",
-              "zh/best-practices/openclaw-alibaba",
-              "zh/best-practices/cc-switch",
-              "zh/best-practices/cursor",
-              "zh/best-practices/rikkahub"
-            ]
-          },
-          {
-            "group": "帮助中心",
-            "pages": [
-              "zh/privacy",
-              "zh/terms-of-service",
-              "zh/help/contact"
+              "en/api/anthropic/anthropic-list-models"
             ]
           }
         ]
+      },
+      {
+        "tab": "Untitled Tab"
       }
     ]
   },
