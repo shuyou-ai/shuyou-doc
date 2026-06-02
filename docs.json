@@ -24,19 +24,19 @@
     "links": [
       {
         "label": "Home",
-        "href": "https://shuyou.ai"
+        "href": "https://api.shuyou.ai"
       },
       {
         "label": "Models",
-        "href": "https://shuyou.ai/models"
+        "href": "https://api.shuyou.ai/models"
       },
       {
         "label": "Studio",
-        "href": "https://shuyou.ai/text-generator"
+        "href": "https://api.shuyou.ai/text-generator"
       },
       {
         "label": "About Us",
-        "href": "https://shuyou.ai/about"
+        "href": "https://api.shuyou.ai/about"
       }
     ],
     "primary": {
@@ -113,8 +113,8 @@
                 "group": "Platform API",
                 "pages": [
                   "GET /v1/models",
-                  "GET /v1/management/generation",
-                  "GET /v1/management/payg/balance"
+                  "GET /v1/credits",
+                  "GET /v1/generation"
                 ]
               }
             ]
@@ -216,8 +216,8 @@
                 "group": "Platform API",
                 "pages": [
                   "GET /v1/models",
-                  "GET /v1/management/generation",
-                  "GET /v1/management/payg/balance"
+                  "GET /v1/credits",
+                  "GET /v1/generation"
                 ]
               }
             ]
