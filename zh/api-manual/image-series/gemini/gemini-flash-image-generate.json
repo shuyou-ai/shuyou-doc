@@ -1,0 +1,176 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Gemini Flash 图像生成",
+    "description": "通过 ShuYou 兼容的 OpenAI Images API 创建图像生成任务。",
+    "license": {
+      "name": "MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai",
+      "description": "生产环境"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "图像生成",
+      "description": "AI 图像生成相关 API"
+    }
+  ],
+  "paths": {
+    "/v1/images/generations": {
+      "post": {
+        "tags": ["图像生成"],
+        "summary": "Gemini Flash 图像生成",
+        "description": "- 支持文生图；通过 `image_urls` 支持图生图\n- 兼容 OpenAI Images API 格式\n- Vertex 原生调用方式见[图像生成指南](/zh/guide/advanced/image-generation)\n- 可通过[查询生成记录](/zh/api-manual/platform-management/get-generation)获取用量信息",
+        "operationId": "createGeminiFlashImageGeneration",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImageGenerationRequest"
+              },
+              "examples": {
+                "text_to_image": {
+                  "summary": "文生图",
+                  "value": {
+                    "model": "google/gemini-2.5-flash-image",
+                    "prompt": "一只在草地上玩耍的猫",
+                    "size": "1024x1024",
+                    "n": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "图像生成成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageGenerationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数无效",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "API Key 无效或已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "在请求头添加 `Authorization: Bearer YOUR_API_KEY`。在 [ShuYou 控制台](https://shuyou.ai/signin) 创建密钥。"
+      }
+    },
+    "schemas": {
+      "ImageGenerationRequest": {
+        "type": "object",
+        "required": ["model", "prompt"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "图像模型 ID，例如 `google/gemini-2.5-flash-image`。",
+            "example": "google/gemini-2.5-flash-image"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "描述要生成或编辑内容的提示词。",
+            "example": "一只在草地上玩耍的猫",
+            "maxLength": 2000
+          },
+          "size": {
+            "type": "string",
+            "description": "输出尺寸，具体支持值取决于模型。",
+            "example": "1024x1024"
+          },
+          "n": {
+            "type": "integer",
+            "description": "生成图片数量。",
+            "minimum": 1,
+            "maximum": 4,
+            "default": 1
+          },
+          "image_urls": {
+            "type": "array",
+            "description": "参考图 URL 列表，用于图生图或编辑。",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      },
+      "ImageGenerationResponse": {
+        "type": "object",
+        "properties": {
+          "created": {
+            "type": "integer",
+            "description": "响应创建时间（Unix 时间戳）。"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "b64_json": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

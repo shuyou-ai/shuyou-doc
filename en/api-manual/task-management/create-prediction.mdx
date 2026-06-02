@@ -1,0 +1,23 @@
+---
+title: Create Prediction
+description: Submit an asynchronous prediction job on ShuYou.
+openapi: en/api-manual/task-management/create-prediction.json POST /v1/predictions
+---
+
+> - Asynchronous job API for third-party and hosted models
+> - Returns a `prediction_id` — poll with [Get Prediction](/en/api-manual/task-management/get-prediction)
+> - `input` schema varies by model; check the [model catalog](https://shuyou.ai/models)
+
+## Typical workflow
+
+<Steps>
+  <Step title="Create prediction">
+    `POST /v1/predictions` with `model` and `input`.
+  </Step>
+  <Step title="Poll until complete">
+    `GET /v1/predictions/{prediction_id}` until `status` is `succeeded` or `failed`.
+  </Step>
+  <Step title="Use output">
+    Read URLs or structured data from the `output` field.
+  </Step>
+</Steps>

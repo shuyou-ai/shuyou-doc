@@ -51,18 +51,331 @@
         "language": "en",
         "tabs": [
           {
-            "tab": "API Reference"
+            "tab": "API Reference",
+            "groups": [
+              {
+                "group": "Language Series",
+                "pages": [
+                  {
+                    "group": "OpenAI Compatible API",
+                    "pages": [
+                      "en/api-manual/language-series/openai/openai-list-models",
+                      "en/api-manual/language-series/openai/create-chat-completion",
+                      "en/api-manual/language-series/openai/openai-responses"
+                    ]
+                  },
+                  {
+                    "group": "Anthropic Compatible API",
+                    "pages": [
+                      "en/api-manual/language-series/anthropic/create-messages"
+                    ]
+                  },
+                  {
+                    "group": "Google Vertex AI Compatible API",
+                    "pages": [
+                      "en/api-manual/language-series/vertexai/google-list-models",
+                      "en/api-manual/language-series/vertexai/generate-content"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Image Series",
+                "pages": [
+                  {
+                    "group": "Gemini",
+                    "pages": [
+                      "en/api-manual/image-series/gemini/gemini-flash-image-generate",
+                      "en/api-manual/image-series/gemini/gemini-flash-image-free-generate",
+                      "en/api-manual/image-series/gemini/gemini-pro-image-generate"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Video Series",
+                "pages": [
+                  {
+                    "group": "Veo",
+                    "pages": [
+                      "en/api-manual/video-series/veo/veo-3-video-generate"
+                    ]
+                  },
+                  {
+                    "group": "Seedance",
+                    "pages": [
+                      "en/api-manual/video-series/seedance/seedance-2-video-generate"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "File Series",
+                "pages": [
+                  "en/api-manual/file-series/overview",
+                  "en/api-manual/file-series/upload-stream",
+                  "en/api-manual/file-series/list-files",
+                  "en/api-manual/file-series/delete-file"
+                ]
+              },
+              {
+                "group": "Task Management",
+                "pages": [
+                  "en/api-manual/task-management/get-generation",
+                  "en/api-manual/task-management/create-prediction",
+                  "en/api-manual/task-management/get-prediction"
+                ]
+              },
+              {
+                "group": "Account Management",
+                "pages": [
+                  "en/api-manual/account-management/get-credits"
+                ]
+              },
+              {
+                "group": "Platform Management",
+                "pages": [
+                  "en/api-manual/platform-management/payg-balance",
+                  "en/api-manual/platform-management/subscription-detail",
+                  "en/api-manual/platform-management/flow-rate"
+                ]
+              }
+            ]
           },
           {
-            "tab": "Integration Guide"
+            "tab": "Integration Guide",
+            "pages": [
+              "en/guide/quickstart",
+              "en/guide/pay-as-you-go",
+              "en/guide/subscription",
+              "en/guide/invoice"
+            ]
           },
           {
-            "tab": "User Guide"
+            "tab": "User Guide",
+            "groups": [
+              {
+                "group": "Studio",
+                "pages": [
+                  "en/guide/studio/studio-chat"
+                ]
+              },
+              {
+                "group": "Advanced",
+                "pages": [
+                  "en/guide/advanced/error-codes",
+                  "en/guide/advanced/streaming",
+                  "en/guide/advanced/tool-calls",
+                  "en/guide/advanced/multimodal",
+                  "en/guide/advanced/reasoning",
+                  "en/guide/advanced/structured-output",
+                  "en/guide/advanced/prompt-cache",
+                  "en/guide/advanced/fallback",
+                  "en/guide/advanced/provider-routing",
+                  "en/guide/advanced/model-routing",
+                  "en/guide/advanced/long-context",
+                  "en/guide/advanced/web-search",
+                  "en/guide/advanced/image-generation",
+                  "en/guide/advanced/video-generation"
+                ]
+              },
+              {
+                "group": "Observability",
+                "pages": [
+                  "en/guide/observability/usage",
+                  "en/guide/observability/cost",
+                  "en/guide/observability/pricing",
+                  "en/guide/observability/logs",
+                  "en/guide/observability/insurance"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "language": "zh",
+        "tabs": [
+          {
+            "tab": "API 参考",
+            "groups": [
+              {
+                "group": "语言系列",
+                "pages": [
+                  {
+                    "group": "OpenAI 兼容 API",
+                    "pages": [
+                      "zh/api-manual/language-series/openai/openai-list-models",
+                      "zh/api-manual/language-series/openai/create-chat-completion",
+                      "zh/api-manual/language-series/openai/openai-responses"
+                    ]
+                  },
+                  {
+                    "group": "Anthropic 兼容 API",
+                    "pages": [
+                      "zh/api-manual/language-series/anthropic/anthropic-list-models",
+                      "zh/api-manual/language-series/anthropic/create-messages"
+                    ]
+                  },
+                  {
+                    "group": "Google Vertex AI 兼容 API",
+                    "pages": [
+                      "zh/api-manual/language-series/vertexai/google-list-models",
+                      "zh/api-manual/language-series/vertexai/generate-content"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "图像系列",
+                "pages": [
+                  {
+                    "group": "Gemini",
+                    "pages": [
+                      "zh/api-manual/image-series/gemini/gemini-flash-image-generate",
+                      "zh/api-manual/image-series/gemini/gemini-flash-image-free-generate",
+                      "zh/api-manual/image-series/gemini/gemini-pro-image-generate"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "视频系列",
+                "pages": [
+                  {
+                    "group": "Veo",
+                    "pages": [
+                      "zh/api-manual/video-series/veo/veo-3-video-generate"
+                    ]
+                  },
+                  {
+                    "group": "Seedance",
+                    "pages": [
+                      "zh/api-manual/video-series/seedance/seedance-2-video-generate"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "文件系列",
+                "pages": [
+                  "zh/api-manual/file-series/overview",
+                  "zh/api-manual/file-series/upload-stream",
+                  "zh/api-manual/file-series/list-files",
+                  "zh/api-manual/file-series/delete-file"
+                ]
+              },
+              {
+                "group": "任务管理",
+                "pages": [
+                  "zh/api-manual/task-management/get-generation",
+                  "zh/api-manual/task-management/create-prediction",
+                  "zh/api-manual/task-management/get-prediction"
+                ]
+              },
+              {
+                "group": "账户管理",
+                "pages": [
+                  "zh/api-manual/account-management/get-credits"
+                ]
+              },
+              {
+                "group": "平台管理",
+                "pages": [
+                  "zh/api-manual/platform-management/payg-balance",
+                  "zh/api-manual/platform-management/subscription-detail",
+                  "zh/api-manual/platform-management/flow-rate"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "接入指南",
+            "pages": [
+              "zh/guide/quickstart",
+              "zh/guide/pay-as-you-go",
+              "zh/guide/subscription",
+              "zh/guide/invoice"
+            ]
+          },
+          {
+            "tab": "用户指南",
+            "groups": [
+              {
+                "group": "Studio",
+                "pages": [
+                  "zh/guide/studio/studio-chat"
+                ]
+              },
+              {
+                "group": "高级功能",
+                "pages": [
+                  "zh/guide/advanced/error-codes",
+                  "zh/guide/advanced/streaming",
+                  "zh/guide/advanced/tool-calls",
+                  "zh/guide/advanced/multimodal",
+                  "zh/guide/advanced/reasoning",
+                  "zh/guide/advanced/structured-output",
+                  "zh/guide/advanced/prompt-cache",
+                  "zh/guide/advanced/fallback",
+                  "zh/guide/advanced/provider-routing",
+                  "zh/guide/advanced/model-routing",
+                  "zh/guide/advanced/long-context",
+                  "zh/guide/advanced/web-search",
+                  "zh/guide/advanced/image-generation",
+                  "zh/guide/advanced/video-generation"
+                ]
+              },
+              {
+                "group": "可观测性",
+                "pages": [
+                  "zh/guide/observability/usage",
+                  "zh/guide/observability/cost",
+                  "zh/guide/observability/pricing",
+                  "zh/guide/observability/logs",
+                  "zh/guide/observability/insurance"
+                ]
+              }
+            ]
           }
         ]
       }
     ]
   },
+  "redirects": [
+    {
+      "source": "/en/api/platform/:slug",
+      "destination": "/en/api-manual/platform-management/:slug"
+    },
+    {
+      "source": "/zh/api/platform/:slug",
+      "destination": "/zh/api-manual/platform-management/:slug"
+    },
+    {
+      "source": "/en/api/openai/:slug",
+      "destination": "/en/api-manual/language-series/openai/:slug"
+    },
+    {
+      "source": "/zh/api/openai/:slug",
+      "destination": "/zh/api-manual/language-series/openai/:slug"
+    },
+    {
+      "source": "/en/api/anthropic/:slug",
+      "destination": "/en/api-manual/language-series/anthropic/:slug"
+    },
+    {
+      "source": "/zh/api/anthropic/:slug",
+      "destination": "/zh/api-manual/language-series/anthropic/:slug"
+    },
+    {
+      "source": "/en/api/vertexai/:slug",
+      "destination": "/en/api-manual/language-series/vertexai/:slug"
+    },
+    {
+      "source": "/zh/api/vertexai/:slug",
+      "destination": "/zh/api-manual/language-series/vertexai/:slug"
+    }
+  ],
   "footer": {
     "socials": {
       "website": "https://shuyou.ai"

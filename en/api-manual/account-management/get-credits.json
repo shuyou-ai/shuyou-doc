@@ -1,0 +1,31 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Get Credits / Balance", "version": "1.0.0" },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/credits": {
+      "get": {
+        "tags": ["Account Management"],
+        "summary": "Get Credits",
+        "description": "- Returns account credit balance summary\n- For PAYG breakdown by source, use [Get PAYG Balance](/en/api-manual/platform-management/payg-balance)",
+        "operationId": "getCredits",
+        "responses": {
+          "200": {
+            "description": "Balance response",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "additionalProperties": true }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer" }
+    }
+  }
+}

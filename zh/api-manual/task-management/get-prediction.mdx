@@ -1,0 +1,9 @@
+---
+title: 查询预测任务
+description: 根据 prediction ID 轮询异步任务状态。
+openapi: zh/api-manual/task-management/get-prediction.json GET /v1/predictions/{prediction_id}
+---
+
+> - 在[创建预测任务](/zh/api-manual/task-management/create-prediction)后轮询
+> - `status` 为 `succeeded` 时从 `output` 获取结果
+> - 请及时保存输出 URL

@@ -1,0 +1,38 @@
+---
+title: Gemini Flash Image Generation
+description: Generate images with google/gemini-2.5-flash-image via the OpenAI-compatible Images API.
+openapi: en/api-manual/image-series/gemini/gemini-flash-image-generate.json POST /v1/images/generations
+---
+
+> - `google/gemini-2.5-flash-image` supports text-to-image and image-to-image generation
+> - OpenAI Images API compatible — use your existing OpenAI SDK with `base_url` set to `https://api.shuyou.ai/v1`
+> - For Vertex-native multimodal flows, see the [Image Generation guide](/en/guide/advanced/image-generation)
+> - Save generated image URLs promptly; availability depends on upstream provider policies
+
+<Tip title="Related models">
+Also available: `google/gemini-3-pro-image-preview`, `google/gemini-2.5-flash-image-free`. Browse the [model catalog](https://shuyou.ai/models).
+</Tip>
+
+## Authentication
+
+All requests require a Bearer token:
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+Create an API key in the [ShuYou console](https://shuyou.ai/signin).
+
+## Workflow
+
+<Steps>
+  <Step title="Create a generation request">
+    Call `POST /v1/images/generations` with `model` and `prompt`.
+  </Step>
+  <Step title="Receive image URLs">
+    The response includes `data[].url` (or `b64_json` when configured).
+  </Step>
+  <Step title="Optional: track usage">
+    Use [Get Generation](/en/api-manual/task-management/get-generation) to query billing metadata for Pay As You Go keys.
+  </Step>
+</Steps>

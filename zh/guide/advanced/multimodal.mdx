@@ -10,6 +10,10 @@ head:
 
 # 多模态
 
+## Files API
+
+可先上传 PDF 等文件，再在多次请求中复用 `file_id`。参见 [Files API 概览](/zh/api-manual/file-series/overview) 与 [上传文件](/zh/api-manual/file-series/upload-stream)。
+
 ShuYou 支持多模态输入，可通过多种 API 协议使用：
 
 - **OpenAI Chat Completion API**：使用 `image_url`、`file`（PDF/视频）和 `input_audio`（音频）内容类型

@@ -1,0 +1,14 @@
+---
+title: Veo 3.1 Video Generation
+description: Generate video with google/veo-3.1-generate-001 via Vertex AI generateContent.
+openapi: en/api-manual/video-series/veo/veo-3-video-generate.json POST /v1/publishers/{provider}/models/{model}:generateContent
+---
+
+> - Model path: `google/veo-3.1-generate-001` (Vertex `generateContent`)
+> - Set `generationConfig.responseModalities` to include `VIDEO`
+> - Jobs are asynchronous — poll the long-running operation until the video is ready
+> - Also available: `volcengine/doubao-seedance-1.5-pro`, `volcengine/doubao-seedance-2`
+
+<Tip title="Full guide">
+See [Video Generation](/en/guide/advanced/video-generation) for Python/TypeScript polling examples.
+</Tip>

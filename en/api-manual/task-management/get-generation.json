@@ -1,0 +1,52 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Get Generation", "version": "1.0.0" },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/management/generation": {
+      "get": {
+        "tags": ["Task Management"],
+        "summary": "Get Generation",
+        "description": "- Query usage and billing metadata for a completed request\n- Requires a **Pay As You Go** management API key for billing fields\n- Full field reference: [Get generation (detailed)](/en/api-manual/platform-management/get-generation)",
+        "operationId": "getGenerationDetail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Generation ID returned from inference or async jobs",
+            "example": "gen_01abc123def456"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Generation detail",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GenerationDetail" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Management API key (`Authorization: Bearer`)"
+      }
+    },
+    "schemas": {
+      "GenerationDetail": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Protocol-specific generation metadata including optional usage and cost fields."
+      }
+    }
+  }
+}

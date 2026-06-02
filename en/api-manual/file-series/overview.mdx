@@ -1,0 +1,41 @@
+---
+title: Files API Overview
+description: Upload and manage files for multimodal Chat Completions and Responses API calls.
+---
+
+> ShuYou exposes an **OpenAI-compatible Files API** at `/v1/files`.
+> Upload once, reuse the returned `file_id` across inference requests.
+
+## Workflow
+
+<Steps>
+  <Step title="Upload">
+    [Upload File](/en/api-manual/file-series/upload-stream) with `multipart/form-data`.
+  </Step>
+  <Step title="Reference in inference">
+    Pass `file_id` in Chat Completions or Responses API messages. See [Multimodal guide](/en/guide/advanced/multimodal).
+  </Step>
+  <Step title="Manage">
+    [List Files](/en/api-manual/file-series/list-files) and [Delete File](/en/api-manual/file-series/delete-file) when no longer needed.
+  </Step>
+</Steps>
+
+## When to upload vs inline
+
+| Approach | Best for |
+| --- | --- |
+| **Files API upload** | Large files, reuse across multiple requests, Responses API `input_file` |
+| **URL in message body** | Publicly accessible assets without storing on ShuYou |
+| **Base64 in message body** | Small files, one-off requests |
+
+<Tip title="OpenAI SDK">
+Use `openai.files.create()` with `base_url="https://api.shuyou.ai/v1"`.
+</Tip>
+
+## API endpoints
+
+| Endpoint | Description |
+| --- | --- |
+| [Upload File](/en/api-manual/file-series/upload-stream) | `POST /v1/files` |
+| [List Files](/en/api-manual/file-series/list-files) | `GET /v1/files` |
+| [Delete File](/en/api-manual/file-series/delete-file) | `DELETE /v1/files/{file_id}` |
