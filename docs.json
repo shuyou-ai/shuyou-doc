@@ -46,15 +46,20 @@
     }
   },
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "API Reference"
-      },
-      {
-        "tab": "Integration Guide"
-      },
-      {
-        "tab": "User Guide"
+        "language": "en",
+        "tabs": [
+          {
+            "tab": "API Reference"
+          },
+          {
+            "tab": "Integration Guide"
+          },
+          {
+            "tab": "User Guide"
+          }
+        ]
       }
     ]
   },
