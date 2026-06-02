@@ -8,6 +8,11 @@
     "dark": "#60A5FA"
   },
   "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://shuyou.ai"
+  },
   "api": {
     "playground": {
       "display": "interactive"
