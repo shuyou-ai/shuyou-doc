@@ -1,0 +1,463 @@
+---
+title: Claude Code
+description: Connect Claude Code to ShuYou via the Anthropic-compatible API.
+icon: /images/icons/claude-code.svg
+---
+
+# Claude Code
+
+<Info title="Compatibility">
+Claude Code is Anthropic's official coding agent. By integrating it with **ShuYou**, you gain access to a much wider range of models—not just Anthropic's Claude lineup.
+
+For example, through ShuYou you can use GPT, Claude, Gemini, and other models that support the Anthropic Messages protocol directly inside Claude Code. For the full list, see the [ShuYou model list](https://shuyou.ai/models).
+
+ShuYou fully supports the [Anthropic Messages API](/en/api-reference/language-series/anthropic/create-messages), so it integrates seamlessly into tools like Claude Code and Cursor. Just change two parameters to get started.
+
+Anthropic protocol base URL: **`https://api.shuyou.ai`**
+</Info>
+
+## Configuration
+
+### Installing Claude Code
+
+<Warning title="Important: the npm/pnpm install method is deprecated">
+The npm/pnpm install method for Claude Code is deprecated and no longer recommended. If you previously installed Claude Code via npm/pnpm, uninstall the old version first, then use the new native installation method.
+
+**Uninstall the old version (if applicable):**
+
+```bash
+npm uninstall -g @anthropic-ai/claude-code
+# or
+pnpm uninstall -g @anthropic-ai/claude-code
+
+# If you're already on a native install, you can run the migration command directly
+claude install
+```
+</Warning>
+
+**Recommended installation (native install):**
+
+<Tabs>
+  <Tab title="macOS / Linux / WSL">
+    ```bash
+    curl -fsSL https://claude.ai/install.sh | bash
+    ```
+  </Tab>
+  <Tab title="Windows PowerShell">
+    ```powershell
+    irm https://claude.ai/install.ps1 | iex
+    ```
+  </Tab>
+  <Tab title="Windows CMD">
+    ```cmd
+    curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+    ```
+  </Tab>
+  <Tab title="Homebrew (macOS)">
+    ```bash
+    brew install --cask claude-code
+    # Homebrew installs do not auto-update; update manually:
+    # brew upgrade claude-code
+    ```
+  </Tab>
+  <Tab title="WinGet (Windows)">
+    ```powershell
+    winget install Anthropic.ClaudeCode
+    # WinGet installs do not auto-update; update manually:
+    # winget upgrade Anthropic.ClaudeCode
+    ```
+  </Tab>
+</Tabs>
+
+<Info title="Installation notes">
+- **Native install (recommended)**: Script-based installs for macOS/Linux/WSL and Windows auto-update.
+- **Package manager install**: Homebrew and WinGet require manual upgrade commands.
+- **Full installation docs**: See the [official Claude Code installation docs](https://code.claude.com/docs/en/setup).
+- **Verify the install**: After installation, run `claude doctor`.
+</Info>
+
+### Configuring Claude Code
+
+#### How the configuration works
+
+By default, Claude Code connects directly to Anthropic's official service. By setting a few environment variables, we can redirect its requests to ShuYou instead. The benefits are:
+
+- **No changes to Claude Code itself**: You switch the service endpoint purely through environment variables.
+- **Authenticate with a ShuYou API Key**: Used in place of an official Anthropic API Key.
+- **Access more models**: Beyond the Claude series, you can also use GPT, Gemini, and other Anthropic-compatible models on ShuYou.
+
+The core of the setup is two key environment variables: `ANTHROPIC_BASE_URL` (`https://api.shuyou.ai`) and `ANTHROPIC_AUTH_TOKEN` (your ShuYou API Key). Together they route all of Claude Code's requests through ShuYou.
+
+<Warning title="Important change in v2.0.7x">
+Because of an update in Claude Code v2.0.7x, its **environment-variable loading logic has changed**: the `env` configuration in `~/.claude/settings.json` **cannot be reliably read** in the following scenarios:
+
+- On the **first login** to Claude Code
+- When logging in again after a **logout**
+
+For this reason, when connecting to ShuYou we recommend configuring everything via **shell profile environment variables**, ensuring that both login and requests go through ShuYou's Anthropic-compatible endpoint.
+</Warning>
+
+### Step 0: Get a ShuYou API Key
+
+Before configuring Claude Code, you need a ShuYou API Key. ShuYou offers two billing plans—choose based on your use case:
+
+<Tabs>
+  <Tab title="Subscription API Key (recommended)">
+    **Best for:** personal development, learning, vibe coding
+
+    **Highlights:** fixed monthly fee, predictable cost
+
+    **How to get it:**
+    1. Go to [Subscription management](https://shuyou.ai/pricing/subscription)
+    2. Choose a plan that fits your needs
+    3. After subscribing, create a subscription API Key on the page
+  </Tab>
+  <Tab title="Pay As You Go API Key">
+    **Best for:** production environments, commercial products, enterprise apps
+
+    **Highlights:** no rate limit, production-grade stability, billed by actual usage
+
+    **How to get it:**
+    1. Go to [Pay As You Go](https://shuyou.ai/platform/pay-as-you-go)
+    2. Top up your account
+    3. Create an API Key in the Pay As You Go section
+  </Tab>
+</Tabs>
+
+<Warning title="Important: choose the right API Key type">
+- **Personal development / learning** → use a **subscription API Key** for lower, more cost-effective pricing.
+- **Production / commercial projects** → use a **Pay As You Go API Key** for higher stability and no limits.
+
+Subscription keys must not be used in production; misuse may result in account restrictions.
+</Warning>
+
+### Step 1: Configure shell environment variables (recommended)
+
+This step writes the ShuYou connection settings into your shell config file so they take effect automatically every time you open a terminal.
+
+<Tabs>
+  <Tab title="macOS / Linux">
+    ```bash
+    # 1. Determine which shell you use (usually bash or zsh):
+    #    - bash  → edit ~/.bashrc
+    #    - zsh   → edit ~/.zshrc
+    #    - run echo $SHELL to check
+
+    # 2. Append the following (replace YOUR_SHUYOU_API_KEY)
+
+    # ========= ShuYou + Claude Code configuration =========
+    export ANTHROPIC_BASE_URL="https://api.shuyou.ai"
+    export ANTHROPIC_AUTH_TOKEN="YOUR_SHUYOU_API_KEY"
+    export ANTHROPIC_API_KEY=""
+
+    export CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS="1"
+    export CLAUDE_CODE_ATTRIBUTION_HEADER="0"
+    export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
+
+    export API_TIMEOUT_MS="30000000"
+
+    # 3. Apply the configuration
+    source ~/.bashrc   # or source ~/.zshrc
+    # Or restart the terminal
+    ```
+  </Tab>
+  <Tab title="Windows PowerShell">
+    ```powershell
+    # 1. Check whether a PowerShell profile exists
+    Test-Path $PROFILE
+
+    # 2. If False, create the profile file
+    if (!(Test-Path $PROFILE)) {
+        New-Item -Path $PROFILE -ItemType File -Force
+    }
+
+    # 3. Open the profile: notepad $PROFILE  (or code $PROFILE)
+
+    # 4. Append the following (replace YOUR_SHUYOU_API_KEY)
+
+    $env:ANTHROPIC_BASE_URL = "https://api.shuyou.ai"
+    $env:ANTHROPIC_AUTH_TOKEN = "YOUR_SHUYOU_API_KEY"
+    $env:ANTHROPIC_API_KEY = ""
+
+    $env:CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS = "1"
+    $env:CLAUDE_CODE_ATTRIBUTION_HEADER = "0"
+    $env:CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1"
+    $env:API_TIMEOUT_MS = "30000000"
+
+    # 5. Restart PowerShell, or run: . $PROFILE
+
+    Write-Host "ANTHROPIC_BASE_URL: $env:ANTHROPIC_BASE_URL"
+    Write-Host "ANTHROPIC_AUTH_TOKEN: $env:ANTHROPIC_AUTH_TOKEN"
+    ```
+  </Tab>
+</Tabs>
+
+<Warning title="Important: replace the API Key">
+Replace `YOUR_SHUYOU_API_KEY` with your real ShuYou API Key from the [console](https://shuyou.ai/signin).
+</Warning>
+
+| Variable | Required | Purpose | Description |
+| --- | --- | --- | --- |
+| `ANTHROPIC_BASE_URL` | Yes | Service endpoint | Redirects Claude Code's requests to ShuYou |
+| `ANTHROPIC_AUTH_TOKEN` | Yes | Authentication key | Your ShuYou API Key |
+| `ANTHROPIC_API_KEY` | Yes | Conflict avoidance | Set to `""` to avoid conflicts with an existing Anthropic config |
+| `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS` | Recommended | Performance | Disables experimental beta features to avoid long routing |
+| `CLAUDE_CODE_ATTRIBUTION_HEADER` | Recommended | Performance | Turns off the attribution header |
+| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` | Recommended | Traffic control | Disables non-essential reporting |
+| `API_TIMEOUT_MS` | Optional | API timeout | Request timeout in milliseconds |
+| `ANTHROPIC_DEFAULT_*_MODEL` | Optional | Model mapping | Haiku/Sonnet/Opus tiers; leave unset for Claude Code defaults |
+
+<Tip title="Why disable beta features? (Faster and more stable)">
+On non-first-party Anthropic-compatible gateways, experimental beta features can significantly increase request latency. Setting the three performance variables above improves speed and stability on ShuYou:
+
+```bash
+export CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS="1"
+export CLAUDE_CODE_ATTRIBUTION_HEADER="0"
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
+```
+</Tip>
+
+### Step 2: Launch Claude Code and authenticate
+
+Once the environment variables are set, you can start Claude Code. On first launch, it authenticates automatically through ShuYou.
+
+1. Open a **new** terminal window (to ensure environment variables are loaded).
+2. Go to your project directory:
+
+```bash
+cd /path/to/your/project
+```
+
+3. Launch Claude Code:
+
+```bash
+claude
+```
+
+4. On first launch, Claude Code will:
+   - Automatically read `ANTHROPIC_AUTH_TOKEN` from the environment variables
+   - Authenticate via the ShuYou service pointed to by `ANTHROPIC_BASE_URL`
+   - Be ready to use with no extra login steps
+
+<Tip>
+If you get a "command not found" error for `claude`, make sure Claude Code is installed (see the installation steps above).
+</Tip>
+
+### Step 3: Verify the connection
+
+At the Claude Code prompt, type the `/status` command:
+
+```text
+> /status
+Auth token: ANTHROPIC_AUTH_TOKEN
+Anthropic base URL: https://api.shuyou.ai
+```
+
+**What to check:**
+
+- `Auth token` should show as `ANTHROPIC_AUTH_TOKEN`
+- `Anthropic base URL` should show as `https://api.shuyou.ai`
+
+If the displayed information matches the above, the setup is successful.
+
+## Changing / specifying the default model
+
+Configuring a default model is **optional**. If you don't set `ANTHROPIC_DEFAULT_*_MODEL`, Claude Code uses its built-in default models.
+
+### Using official Claude models (recommended: aliases)
+
+For official Claude models, we recommend the **Claude model alias** form (e.g., `claude-opus-4-7`, `claude-sonnet-4-6`, `claude-haiku-4-5`) rather than the full ShuYou model slug (`anthropic/claude-sonnet-4.5`):
+
+```bash
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="claude-haiku-4-5"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="claude-sonnet-4-6"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-7"
+```
+
+<Info title="Why use aliases?">
+Claude Code validates model names against hardcoded strings to enable features like the **1M context window** and **effort-based reasoning control**. When the validator sees `claude-sonnet-4-6`, those features are activated; when it sees `anthropic/claude-sonnet-4.5`, validation may fail and features silently break.
+
+Use the alias form when available on the [model detail page](https://shuyou.ai/anthropic/claude-sonnet-4.5); otherwise use the full slug from the [model list](https://shuyou.ai/models).
+</Info>
+
+### Using non-Claude models
+
+When switching to a non-Claude model (such as GPT or Gemini), use the **full ShuYou model slug**:
+
+```bash
+export ANTHROPIC_DEFAULT_SONNET_MODEL="openai/gpt-4o"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemini-3.1-pro-preview"
+```
+
+After making changes, run `source ~/.bashrc` / `source ~/.zshrc` or restart your terminal. Switch models interactively with `/model`.
+
+### Supported models
+
+<Info title="Models supporting the Anthropic protocol">
+Support for the Anthropic protocol is being rolled out in batches. Filter **Anthropic API Compatible** on the [ShuYou model list](https://shuyou.ai/models):
+
+![anthropic-support](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/16/602FqX9/anthropic-support.png)
+
+You can also check on a [model detail page](https://shuyou.ai/anthropic/claude-haiku-4.5):
+
+![anthropic-support](https://cdn.marmot-cloud.com/storage/ShuYou/2025/10/16/I9JHS8b/detail-anthropic-support.png)
+</Info>
+
+## Using the Claude Code extension in VSCode
+
+In addition to the command-line version, Claude Code offers a VSCode extension for AI-assisted coding inside the editor.
+
+### Step 1: Install the Claude Code extension
+
+Search for and install **Claude Code** in the VSCode marketplace.
+
+### Step 2: Open the settings
+
+After installation, click the extension's **settings** icon, then choose **Edit in settings.json**.
+
+### Step 3: Configure the model and environment variables
+
+```json
+{
+  "claudeCode.selectedModel": "claude-sonnet-4-6",
+  "claudeCode.environmentVariables": [
+    { "name": "ANTHROPIC_BASE_URL", "value": "https://api.shuyou.ai" },
+    { "name": "ANTHROPIC_AUTH_TOKEN", "value": "YOUR_SHUYOU_API_KEY" },
+    { "name": "API_TIMEOUT_MS", "value": "3000000" },
+    { "name": "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS", "value": "1" },
+    { "name": "CLAUDE_CODE_ATTRIBUTION_HEADER", "value": "0" },
+    { "name": "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC", "value": "1" }
+  ]
+}
+```
+
+<Warning title="Important configuration notes">
+1. **Replace the API Key** with your real ShuYou API Key.
+2. **Configuration priority**: The VSCode extension prioritizes `settings.json` over shell profile variables. When using the extension, configure environment variables in `settings.json` only to avoid conflicts.
+3. **Model selection**: `claudeCode.selectedModel` sets the current model. Use `/model` to switch mid-conversation.
+</Warning>
+
+### Step 4: Start using it
+
+1. Click the Claude Code icon in the VSCode sidebar.
+2. Enter your question or task in the chat interface.
+3. Trust the workspace when prompted (**Trust This Folder**).
+
+<Tip title="Usage tips">
+- **Switch models**: Type `/model` mid-conversation.
+- **Check status**: Type `/status` to view connection status.
+- **Environment variable conflicts**: Ensure `ANTHROPIC_AUTH_TOKEN` and `ANTHROPIC_BASE_URL` are not overridden by system-level variables.
+</Tip>
+
+## Troubleshooting
+
+<AccordionGroup>
+<Accordion title="API Key error or authentication failure">
+**Problem:** API Key invalid, unauthorized, or authentication failed.
+
+**Solution:**
+
+1. Verify the API Key is valid in the [ShuYou console](https://shuyou.ai/signin).
+2. Check subscription quota or Pay As You Go balance.
+3. Confirm environment variables are loaded:
+
+```bash
+# macOS/Linux
+echo $ANTHROPIC_AUTH_TOKEN
+
+# Windows PowerShell
+echo $env:ANTHROPIC_AUTH_TOKEN
+```
+
+4. Confirm the API Key is enabled and not deleted.
+</Accordion>
+
+<Accordion title="Authentication fails when switching to ShuYou from another platform">
+**Problem:** Previously used official Claude Code or another platform; switching to ShuYou causes conflicts.
+
+**Solution:**
+
+1. Delete the old config file:
+
+```bash
+# macOS/Linux
+rm -rf ~/.claude/settings.json
+```
+
+```powershell
+# Windows PowerShell
+Remove-Item -Path "$env:USERPROFILE\.claude\settings.json" -Force
+```
+
+2. Re-apply the ShuYou shell environment variables from Step 1.
+3. Reload: `source ~/.zshrc` or `. $PROFILE`
+4. Verify:
+
+```bash
+echo $ANTHROPIC_BASE_URL    # Should output: https://api.shuyou.ai
+echo $ANTHROPIC_AUTH_TOKEN  # Should output your ShuYou API Key
+echo $ANTHROPIC_API_KEY     # Should output nothing
+```
+
+5. Restart Claude Code and run `/status`.
+</Accordion>
+
+<Accordion title="Model doesn't support the Anthropic protocol">
+Filter **Anthropic API Compatible** on the [ShuYou model list](https://shuyou.ai/models), or check each model's detail page.
+</Accordion>
+
+<Accordion title="Connection failures">
+- Check network connectivity.
+- Verify `ANTHROPIC_BASE_URL` is `https://api.shuyou.ai`.
+- Confirm firewall is not blocking outbound connections.
+</Accordion>
+
+<Accordion title="VSCode Claude Code extension configuration issues">
+1. Open VSCode settings → search "Claude Code" → **Edit in settings.json**.
+2. Confirm `claudeCode.environmentVariables` contains correct `ANTHROPIC_BASE_URL` and `ANTHROPIC_AUTH_TOKEN`.
+3. For Claude models use alias form (e.g. `claude-sonnet-4-6`); for others use full ShuYou slug.
+4. Fully restart VSCode after changes.
+5. Check **View → Output → Claude Code** for errors.
+6. Run `/status` in the extension chat.
+</Accordion>
+
+<Accordion title="Windows PowerShell script execution policy issue">
+Run PowerShell as Administrator:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+Enter `Y`, then reopen PowerShell.
+</Accordion>
+
+<Accordion title="How to enable the 1M context window">
+**Cause:** Claude Code validates model names against hardcoded strings. IDs with the `anthropic/` prefix may not enable 1M context.
+
+**Solution:** Use alias form:
+
+```bash
+# Won't enable 1M context
+export ANTHROPIC_DEFAULT_SONNET_MODEL="anthropic/claude-sonnet-4.5"
+
+# Enables 1M context correctly
+export ANTHROPIC_DEFAULT_SONNET_MODEL="claude-sonnet-4-6"
+```
+
+Reload shell config and restart Claude Code.
+</Accordion>
+
+<Accordion title="What to do if Opus 4.7 won't work">
+1. Upgrade Claude Code to the latest version (Opus 4.7 requires **v2.1.111+**). Run `claude --version`.
+2. Set `export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-7"`, or remove `ANTHROPIC_DEFAULT_*_MODEL` to use defaults.
+3. Reload config and restart Claude Code.
+</Accordion>
+</AccordionGroup>
+
+<Info title="More models">
+See the [ShuYou model list](https://shuyou.ai/models) for all available models.
+</Info>
+
+<Warning>
+Run Claude Code in a dedicated project folder. Avoid system directories or folders containing secrets.
+</Warning>

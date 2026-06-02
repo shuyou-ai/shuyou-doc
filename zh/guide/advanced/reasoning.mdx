@@ -421,7 +421,7 @@ import anthropic
 
 client = anthropic.Anthropic(
     api_key="<你的 ShuYou_API_KEY>", # [!code highlight]
-    base_url="https://shuyou.ai" # [!code highlight]
+    base_url="https://api.shuyou.ai" # [!code highlight]
 )
 
 message = client.messages.create(
@@ -452,7 +452,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const anthropic = new Anthropic({
   apiKey: "<你的 ShuYou_API_KEY>", // [!code highlight]
-  baseURL: "https://shuyou.ai", // [!code highlight]
+  baseURL: "https://api.shuyou.ai", // [!code highlight]
 });
 
 async function main() {
@@ -542,7 +542,7 @@ import anthropic
 
 client = anthropic.Anthropic(
     api_key="<你的 ShuYou_API_KEY>",
-    base_url="https://shuyou.ai"
+    base_url="https://api.shuyou.ai"
 )
 
 with client.messages.stream(

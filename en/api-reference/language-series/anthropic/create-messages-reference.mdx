@@ -1401,7 +1401,7 @@ const anthropic = new Anthropic({
   // 2. Replace with the API Key you obtained from the ShuYou user console
   apiKey: '<YOUR ShuYou_API_KEY>', // [!code highlight]
   // 3. Point the base URL to the ShuYou endpoint
-  baseURL: "https://shuyou.ai", // [!code highlight]
+  baseURL: "https://api.shuyou.ai", // [!code highlight]
 });
 
 async function main () {
@@ -1424,7 +1424,7 @@ client = anthropic.Anthropic(
     # Replace with the API Key you obtained from the ShuYou user console
     api_key="<YOUR ShuYou_API_KEY>", # [!code highlight]
     # 3. Point the base URL to the ShuYou endpoint
-    base_url="https://shuyou.ai"  # [!code highlight]
+    base_url="https://api.shuyou.ai"  # [!code highlight]
 )
 message = client.messages.create(
     model="anthropic/claude-sonnet-4.5",

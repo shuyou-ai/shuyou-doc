@@ -1,0 +1,121 @@
+---
+title: OpenCode
+description: Connect OpenCode to ShuYou for multi-model terminal coding assistance.
+icon: /images/icons/opencode.svg
+---
+
+# OpenCode
+
+Connect [OpenCode](https://opencode.ai/) to **ShuYou** and access Claude, GPT, and Gemini models from one terminal UI.
+
+## Prerequisites
+
+1. A modern terminal (Windows Terminal, iTerm2, etc.).
+2. A ShuYou API key from the [console](https://shuyou.ai/signin).
+
+## Step 1: Install OpenCode
+
+<Tabs>
+  <Tab title="macOS / Linux">
+    ```bash
+    curl -fsSL https://opencode.ai/install | bash
+    ```
+    Or: `brew install anomalyco/tap/opencode`
+  </Tab>
+  <Tab title="Windows">
+    ```bash
+    npm i -g opencode-ai@latest
+    ```
+  </Tab>
+</Tabs>
+
+```bash
+opencode --version
+```
+
+## Step 2: Configure ShuYou
+
+Register a custom provider:
+
+```bash
+opencode auth login
+```
+
+1. Select **other** in the provider list.
+2. Provider ID: `shuyou-anthropic` (repeat for `shuyou-openai` / `shuyou-google` if needed).
+3. Token: any placeholder (the real key goes in `opencode.json`).
+
+Edit `~/.config/opencode/opencode.json` (Windows: `%USERPROFILE%\.config\opencode\opencode.json`):
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "shuyou-anthropic": {
+      "npm": "@ai-sdk/anthropic",
+      "name": "ShuYou Claude",
+      "options": {
+        "baseURL": "https://api.shuyou.ai",
+        "apiKey": "YOUR_SHUYOU_API_KEY"
+      },
+      "models": {
+        "anthropic/claude-sonnet-4.5": {
+          "name": "Claude Sonnet 4.5",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "shuyou-openai": {
+      "npm": "@ai-sdk/openai",
+      "name": "ShuYou GPT",
+      "options": {
+        "baseURL": "https://api.shuyou.ai/v1",
+        "apiKey": "YOUR_SHUYOU_API_KEY"
+      },
+      "models": {
+        "openai/gpt-4o": {
+          "name": "GPT-4o",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "shuyou-google": {
+      "npm": "@ai-sdk/google",
+      "name": "ShuYou Gemini",
+      "options": {
+        "baseURL": "https://api.shuyou.ai/v1beta",
+        "apiKey": "YOUR_SHUYOU_API_KEY"
+      },
+      "models": {
+        "google/gemini-3.1-pro-preview": {
+          "name": "Gemini 3.1 Pro",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    }
+  }
+}
+```
+
+Replace `YOUR_SHUYOU_API_KEY` and add model slugs from the [ShuYou model catalog](https://shuyou.ai/models).
+
+## Step 3: Verify
+
+```bash
+cd your-project-directory
+opencode
+```
+
+In the TUI, run `/models` and select a ShuYou provider model.
+
+## FAQ
+
+**401 / 403:** Check `apiKey` in `opencode.json` and model slugs on ShuYou.
+
+**Config path:** `~/.config/opencode/opencode.json` (Windows: `%USERPROFILE%\.config\opencode\`).
+
+**Switch models:** Use `/models` inside OpenCode.
+
+<Warning>
+Use OpenCode only in project folders you trust. Validate JSON syntax before saving.
+</Warning>

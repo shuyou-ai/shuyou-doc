@@ -1,0 +1,81 @@
+---
+title: Codex CLI
+description: Connect OpenAI Codex CLI to ShuYou via the OpenAI-compatible API.
+icon: /images/icons/codex-cli.svg
+---
+
+# Codex CLI
+
+Connect OpenAI's [Codex CLI](https://github.com/openai/codex) to **ShuYou** and call GPT and other OpenAI-compatible models from the terminal with one API key.
+
+## Prerequisites
+
+1. Install [Node.js LTS](https://nodejs.org/) (v20+). Verify with `node -v` and `npm -v`.
+2. Create a ShuYou API key in the [console](https://shuyou.ai/signin).
+
+ShuYou OpenAI-compatible base URL: **`https://api.shuyou.ai/v1`**
+
+## Step 1: Install Codex CLI
+
+```bash
+npm install -g @openai/codex
+codex --version
+```
+
+## Step 2: Configure ShuYou
+
+Edit `~/.codex/config.toml` (Windows: `%USERPROFILE%\.codex\config.toml`):
+
+```toml
+model = "openai/gpt-4o"
+model_reasoning_effort = "medium"
+model_provider = "shuyou"
+
+[model_providers.shuyou]
+name = "ShuYou API"
+base_url = "https://api.shuyou.ai/v1"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+```
+
+Set your API key:
+
+<Tabs>
+  <Tab title="macOS / Linux">
+    ```bash
+    export OPENAI_API_KEY="YOUR_SHUYOU_API_KEY"
+    ```
+    Add the same line to `~/.zshrc` or `~/.bashrc` for persistence.
+  </Tab>
+  <Tab title="Windows">
+    ```powershell
+    $env:OPENAI_API_KEY = "YOUR_SHUYOU_API_KEY"
+    ```
+    Or set a persistent user variable in System Environment Variables.
+  </Tab>
+</Tabs>
+
+| Field | Description |
+| --- | --- |
+| `model` | Default model slug from [ShuYou models](https://shuyou.ai/models) |
+| `base_url` | `https://api.shuyou.ai/v1` |
+| `wire_api` | Must be `responses` (not `chat`) |
+
+## Step 3: Verify
+
+```bash
+cd your-project-directory
+codex "Who are you?"
+```
+
+## FAQ
+
+**401 / 403:** Check `OPENAI_API_KEY` and that the model slug exists on ShuYou.
+
+**Config not applied:** Restart the terminal and validate TOML syntax in `config.toml`.
+
+**Switch models:** Change the `model` field in `config.toml` and restart Codex.
+
+<Warning>
+Use Codex in a dedicated project folder. Avoid directories with secrets or system files.
+</Warning>

@@ -1,0 +1,59 @@
+---
+title: Cursor
+description: 在 Cursor IDE 中通过 OpenAI 或 Anthropic 兼容配置使用 ShuYou 模型。
+icon: /images/icons/cursor.svg
+---
+
+# Cursor
+
+在 [Cursor](https://cursor.com/) 编辑器中将 **ShuYou** 配置为模型后端，进行 AI 辅助编程。
+
+ShuYou 同时支持 OpenAI 兼容与 Anthropic 兼容协议。Cursor 各版本设置项名称可能不同，请按你当前版本选择对应方式。
+
+## 使用前准备
+
+1. 安装 [Cursor](https://cursor.com/download)。
+2. 在 [ShuYou 控制台](https://shuyou.ai/signin) 创建 API Key。
+
+## 方式 A：OpenAI 兼容（Chat Completions / Responses）
+
+适用于通过 ShuYou OpenAI 协议调用的 GPT 等模型。
+
+1. 打开 **Cursor 设置 → Models**。
+2. 启用 **Override OpenAI Base URL**（或同类自定义端点选项）。
+3. 填写：
+   - **Base URL：** `https://api.shuyou.ai/v1`
+   - **API Key：** 你的 ShuYou API Key
+4. 添加或选择 [ShuYou 模型列表](https://shuyou.ai/models) 中的 slug，例如 `openai/gpt-4o`。
+
+参考：[Create Chat Completion](/zh/api-reference/language-series/openai/create-chat-completion)。
+
+## 方式 B：Anthropic 兼容（Claude 模型）
+
+适用于 ShuYou 上的 Claude 系列模型。
+
+1. 打开 **Cursor 设置 → Models**。
+2. 若支持 Anthropic / Claude 自定义端点，配置：
+   - **Base URL：** `https://api.shuyou.ai`
+   - **API Key：** 你的 ShuYou API Key
+3. 选择标注 **Anthropic API Compatible** 的模型 slug，例如 `anthropic/claude-sonnet-4.5`。
+
+参考：[Create Messages](/zh/api-reference/language-series/anthropic/create-messages)。
+
+## 验证
+
+1. 在 Cursor 中打开项目。
+2. 使用已配置模型发起对话或 Agent 任务。
+3. 确认能正常回复，且无 `401` / `403` 错误。
+
+## 常见问题
+
+**找不到模型：** 使用 [shuyou.ai/models](https://shuyou.ai/models) 中的完整 slug（含供应商前缀）。
+
+**401 / 403：** 检查 API Key、账户余额及当前套餐是否支持该模型。
+
+**协议混用：** OpenAI 模型用 `https://api.shuyou.ai/v1`；Anthropic 模型用 `https://api.shuyou.ai`。
+
+<Tip>
+Cursor 界面随版本更新可能变化。若找不到覆盖项，请查阅 Cursor 官方文档中的「自定义 API」或「Bring your own key」说明。
+</Tip>

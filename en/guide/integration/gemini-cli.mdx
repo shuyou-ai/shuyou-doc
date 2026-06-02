@@ -1,0 +1,78 @@
+---
+title: Gemini CLI
+description: Connect Google Gemini CLI to ShuYou via the Gemini-compatible API.
+icon: /images/icons/gemini-cli.svg
+---
+
+# Gemini CLI
+
+Connect Google's [Gemini CLI](https://github.com/google-gemini/gemini-cli) to **ShuYou** and call Gemini models through ShuYou's Google-compatible endpoint.
+
+## Prerequisites
+
+1. Install [Node.js LTS](https://nodejs.org/) (v20+).
+2. Create a ShuYou API key in the [console](https://shuyou.ai/signin).
+
+ShuYou Gemini / Vertex-compatible base URL: **`https://api.shuyou.ai`**
+
+<Warning>
+Gemini CLI requires patching the installed `@google/genai` package to change the default Google endpoint. Back up files before editing, or prefer [Claude Code](/en/guide/integration/claude-code) or [Codex CLI](/en/guide/integration/codex-cli) for simpler setup.
+</Warning>
+
+## Step 1: Install Gemini CLI
+
+```bash
+npm install -g @google/gemini-cli
+gemini --version
+```
+
+## Step 2: Point API to ShuYou
+
+Find the global npm modules path:
+
+```bash
+npm root -g
+```
+
+In `{npm_root}/@google/gemini-cli/node_modules/@google/genai/dist/node/`, edit **`index.mjs`** and **`index.cjs`**. Locate the default base URL assignment:
+
+```javascript
+// Before
+initHttpOptions.baseUrl = `https://generativelanguage.googleapis.com/`;
+
+// After
+initHttpOptions.baseUrl = `https://api.shuyou.ai/`;
+```
+
+Set your API key:
+
+<Tabs>
+  <Tab title="macOS / Linux">
+    ```bash
+    export GEMINI_API_KEY="YOUR_SHUYOU_API_KEY"
+    ```
+  </Tab>
+  <Tab title="Windows">
+    ```powershell
+    $env:GEMINI_API_KEY = "YOUR_SHUYOU_API_KEY"
+    ```
+  </Tab>
+</Tabs>
+
+## Step 3: Verify
+
+```bash
+gemini "Who are you?"
+```
+
+In interactive mode, use `/model` to switch models. Pick slugs supported on [ShuYou models](https://shuyou.ai/models) for the Google / Vertex protocol.
+
+## FAQ
+
+**401 / 403:** Verify `GEMINI_API_KEY` and that both `index.mjs` and `index.cjs` were updated.
+
+**Updates break config:** Re-apply the base URL patch after upgrading `@google/gemini-cli`.
+
+<Warning>
+Run Gemini CLI in a dedicated project folder only.
+</Warning>

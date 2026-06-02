@@ -1,0 +1,81 @@
+---
+title: Codex CLI
+description: 将 OpenAI Codex CLI 连接到 ShuYou OpenAI 兼容 API。
+icon: /images/icons/codex-cli.svg
+---
+
+# Codex CLI
+
+将 OpenAI 官方 [Codex CLI](https://github.com/openai/codex) 接入 **ShuYou**，在终端通过 OpenAI 兼容接口调用 GPT 等模型。
+
+## 使用前准备
+
+1. 安装 [Node.js LTS](https://nodejs.org/)（建议 v20+），执行 `node -v`、`npm -v` 验证。
+2. 在 [ShuYou 控制台](https://shuyou.ai/signin) 创建 API Key。
+
+ShuYou OpenAI 兼容 Base URL：**`https://api.shuyou.ai/v1`**
+
+## 第一步：安装 Codex CLI
+
+```bash
+npm install -g @openai/codex
+codex --version
+```
+
+## 第二步：配置 ShuYou
+
+编辑 `~/.codex/config.toml`（Windows：`%USERPROFILE%\.codex\config.toml`）：
+
+```toml
+model = "openai/gpt-4o"
+model_reasoning_effort = "medium"
+model_provider = "shuyou"
+
+[model_providers.shuyou]
+name = "ShuYou API"
+base_url = "https://api.shuyou.ai/v1"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+```
+
+配置 API Key：
+
+<Tabs>
+  <Tab title="macOS / Linux">
+    ```bash
+    export OPENAI_API_KEY="你的 ShuYou API Key"
+    ```
+    可将上述命令写入 `~/.zshrc` 或 `~/.bashrc` 永久生效。
+  </Tab>
+  <Tab title="Windows">
+    ```powershell
+    $env:OPENAI_API_KEY = "你的 ShuYou API Key"
+    ```
+    或在系统环境变量中永久设置。
+  </Tab>
+</Tabs>
+
+| 字段 | 说明 |
+| --- | --- |
+| `model` | 默认模型 slug，见 [ShuYou 模型列表](https://shuyou.ai/models) |
+| `base_url` | `https://api.shuyou.ai/v1` |
+| `wire_api` | 必须为 `responses`（勿使用已弃用的 `chat`） |
+
+## 第三步：验证
+
+```bash
+cd 你的工作目录
+codex "你是谁"
+```
+
+## 常见问题
+
+**401 / 403：** 检查 `OPENAI_API_KEY` 及模型 slug 是否在 ShuYou 上可用。
+
+**配置未生效：** 重启终端，检查 `config.toml` TOML 语法。
+
+**切换模型：** 修改 `config.toml` 中的 `model` 后重启 Codex。
+
+<Warning>
+建议在专门的项目目录中使用 Codex CLI，避免在含密钥或系统目录中运行。
+</Warning>

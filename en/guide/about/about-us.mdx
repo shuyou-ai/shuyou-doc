@@ -1,0 +1,140 @@
+---
+title: Introduction
+sidebarTitle: Introduction
+description: Learn about ShuYou — an enterprise-grade LLM aggregation platform built for developers.
+---
+
+# Introduction
+
+## ShuYou overview
+
+ShuYou is an **enterprise-grade LLM aggregation platform** that provides one-stop access to the latest models from major providers worldwide.
+
+Our core philosophy is **developer-first**. In addition to a unified API for OpenAI, Anthropic, Google, DeepSeek, and other leading models, ShuYou invests deeply in API call logs, cost analytics, usage metrics, and performance monitoring—giving developers full observability over production AI workloads.
+
+**Platform highlights:**
+
+- **Native dual-protocol support** — Full compatibility with OpenAI and Anthropic standards, so tools like [Claude Code](/en/guide/integration/claude-code) and [Cursor](/en/guide/integration/cursor) integrate with minimal changes
+- **Intelligent routing and insurance** — Automatically selects optimal models and provides quality fallback guarantees
+- **Enterprise-grade reliability** — High capacity reserves, automatic failover, and global edge acceleration
+
+<Tip title="Recharge bonus">
+ShuYou currently offers a **5% bonus Credits** on top-up. Payment is supported via Stripe and WeChat Pay. Try the platform and share your feedback.
+</Tip>
+
+## Featured capabilities
+
+### LLM aggregation platform
+
+ShuYou aggregates leading closed-source and open-source language models on one platform, so developers can call them through a single integration surface.
+
+<Info title="One-stop access">
+Create one API key and use one API standard to call models from different vendors—no need to register on multiple platforms, manage multiple keys, or maintain separate billing wallets.
+</Info>
+
+**Key benefits:**
+
+- **Unified identity** — One API key controls access across providers
+- **Unified billing** — Transparent usage and centralized account management
+- **Broad model catalog** — Latest models from OpenAI, Anthropic, Google, DeepSeek, and more on the [model list](https://shuyou.ai/models)
+
+### Dual-protocol support
+
+ShuYou offers **dual-protocol** access so teams can integrate using the API style they already know.
+
+- **OpenAI-compatible API** — Call platform models through standard OpenAI endpoints. See [Create Chat Completion](/en/api-reference/language-series/openai/create-chat-completion).
+- **Anthropic-compatible API** — Call platform models through Anthropic Messages endpoints—ideal for Claude Code and similar tools. See [Create Messages](/en/api-reference/language-series/anthropic/create-messages).
+
+Choose the protocol that fits your stack without worrying about vendor-specific differences at the model layer.
+
+### High capacity and availability
+
+ShuYou maintains substantial capacity for each supported model so your applications are not blocked by upstream quotas.
+
+**Enterprise service guarantees:**
+
+- **High capacity reserves** — Most models are provisioned at Tier 5–level quotas
+- **Multi-provider coverage** — Critical models are backed by multiple upstream providers
+- **Automatic failover** — When one provider is saturated, traffic shifts to alternatives without manual intervention
+
+Learn more about provider selection in [Provider Routing](/en/guide/advanced/provider-routing) and fallback behavior in [Fallback](/en/guide/advanced/fallback).
+
+### Platform-wide quality monitoring (HLE)
+
+ShuYou is among the first platforms to run **public, continuous quality checks** across all model channels.
+
+**How it works:**
+
+- **Regular testing** — Ongoing **Human Last Exam (HLE)** evaluations monitor channel authenticity and reliability
+- **Open process** — Test methodology and results are published on GitHub for community review
+- **Live rankings** — Results feed public HLE leaderboards on the official site
+- **Quality traceability** — Helps ensure listed channels and models remain trustworthy and free of degraded (“dumbed down”) behavior
+
+### AI model insurance
+
+ShuYou provides **AI model insurance**—coverage when model outputs underperform expectations.
+
+**Insurance highlights:**
+
+- **Broad coverage** — Poor output quality, hallucinations, excessive latency, and related scenarios
+- **Automated detection and payout** — Daily checks on platform usage; eligible compensation credits post on the next day
+- **Data flywheel** — High-quality bad cases surfaced by insurance can inform product and prompt improvements
+- **Continuous improvement** — Use compensation insights to refine your AI applications over time
+
+See [Insurance Compensation](/en/guide/observability/insurance) for console details and metrics.
+
+### Intelligent model routing
+
+When you need the best balance of **quality and cost**, use ShuYou's smart routing.
+
+The system analyzes request content and task characteristics to pick a suitable model automatically—strong results without always paying for top-tier models.
+
+**Routing benefits:**
+
+- **Cost–quality balance** — Chooses between high-performance and economical models as appropriate
+- **Task-aware matching** — Aligns model capabilities with the request
+- **Continuous optimization** — Routing improves using historical data
+- **Transparent control** — Detailed routing logs and customizable rules
+
+See [Model Routing](/en/guide/advanced/model-routing) for configuration and examples.
+
+### Developer-friendly observability
+
+ShuYou is built for developers who need to debug, optimize, and govern AI usage in production.
+
+**Core observability features:**
+
+- **Detailed call logs** — Full request and response records for every API call
+- **Cost aggregation** — Break down spend by project, model, and time range
+- **Usage analytics** — Monitor token consumption and call volume
+- **Performance monitoring** — Track latency, concurrency, and related SLOs
+- **Model comparison** — Compare outputs across models for the same task
+- **Dashboards** — Visual reports for at-a-glance operational insight
+
+Explore [Usage](/en/guide/observability/usage), [Cost](/en/guide/observability/cost), [Logs](/en/guide/observability/logs), and [Pricing](/en/guide/observability/pricing).
+
+### Global edge network
+
+ShuYou runs on **Cloudflare** infrastructure with distributed edge nodes worldwide.
+
+**Technical advantages:**
+
+- **Global coverage** — Edge compute across major regions
+- **Smart routing** — Requests are directed to the nearest healthy node
+- **Lower latency** — Reduced network hop time for faster responses
+- **High availability** — Multi-node redundancy for stable service
+
+## Get started
+
+1. Sign in to the [ShuYou console](https://shuyou.ai/signin) and create an API key.
+2. Browse the [model catalog](https://shuyou.ai/models) and pick slugs for your use case.
+3. Call the [OpenAI](/en/api-reference/language-series/openai/create-chat-completion) or [Anthropic](/en/api-reference/language-series/anthropic/create-messages) compatible API—or follow an [integration guide](/en/guide/integration/claude-code) for your IDE or client.
+
+## Contact us
+
+Questions, feedback, or partnership inquiries:
+
+- **Website:** [https://shuyou.ai](https://shuyou.ai)
+- **API docs:** [https://api.shuyou.ai](https://api.shuyou.ai)
+- **Support email:** support@shuyou.ai
+- **Phone / WeChat:** 18626260603

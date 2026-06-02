@@ -1,0 +1,140 @@
+---
+title: 简介
+sidebarTitle: 简介
+description: 了解 ShuYou —— 面向开发者打造的企业级大模型聚合平台。
+---
+
+# 简介
+
+## ShuYou 概述
+
+ShuYou 是一款**企业级大模型聚合平台**，支持一站式调用各主流渠道的最新大模型。
+
+我们的核心理念是**开发者友好**。除提供统一的 API 接口访问 OpenAI、Anthropic、Google、DeepSeek 等全球主流大语言模型外，更在 API 调用日志分析、Cost（成本）、Usage（用量）、Performance（性能）等功能上持续深度打磨，为开发者提供全面的可观测性支持。
+
+**平台核心优势：**
+
+- **原生双协议支持**：完整兼容 OpenAI 和 Anthropic 两大协议标准，可无缝集成到 [Claude Code](/zh/guide/integration/claude-code)、[Cursor](/zh/guide/integration/cursor) 等主流开发工具
+- **智能路由与保险**：自动选择最优模型，并为输出质量提供保险兜底保障
+- **企业级服务**：高容量储备、自动故障转移、全球边缘节点加速
+
+<Tip title="充值优惠">
+平台目前提供充值额外赠送充值金额 **5% Credits** 的优惠活动，支持 Stripe 信用卡和微信充值。欢迎体验并提供反馈。
+</Tip>
+
+## 特色功能
+
+### 大模型聚合平台
+
+ShuYou 聚合了全球领先的闭源和开源大语言模型，在一个统一的平台上为开发者提供便捷的模型调用服务。
+
+<Info title="一站式接入体验">
+只需创建一个 API Key，使用一套统一的 API 标准，即可完成对不同供应商、不同模型的调用。无需在多个平台注册账号、管理多个密钥、充值多个钱包。
+</Info>
+
+**主要优势：**
+
+- **统一身份管理**：一个 API Key 管理所有供应商的访问权限
+- **统一计费体系**：透明的用量统计和成本控制，集中式账户管理
+- **丰富的模型选择**：涵盖 OpenAI、Anthropic、Google、DeepSeek 等多家主流供应商的最新模型，详见 [模型列表](https://shuyou.ai/models)
+
+### 双协议支持
+
+ShuYou 提供业界独特的**双协议支持**能力，让开发者能够以最熟悉的方式集成 AI 模型。
+
+- **OpenAI 兼容协议**：通过 OpenAI 标准 API 统一调用平台的所有大模型。参考 [Create Chat Completion](/zh/api-reference/language-series/openai/create-chat-completion)
+- **Anthropic 兼容协议**：通过 Anthropic 标准 API 统一调用平台的所有大模型，无缝集成 Claude Code 等工具。参考 [Create Messages](/zh/api-reference/language-series/anthropic/create-messages)
+
+您可以根据项目需求和团队习惯，自由选择最适合的 API 协议，而无需担心模型供应商的差异。
+
+### 高容量与高可用性
+
+我们为每个大语言模型都储备了充足的调用容量，确保您的业务不受模型容量限制的影响。
+
+**企业级服务保障：**
+
+- **高容量储备**：几乎所有模型均达到 Tier 5 级别的容量配额
+- **多供应商支持**：针对重要模型，我们引入了多家供应商的支持
+- **自动故障转移**：当某家供应商容量饱和时，系统会自动切换到其他供应商，确保服务不中断
+
+更多说明见 [供应商路由](/zh/guide/advanced/provider-routing) 与 [兜底机制](/zh/guide/advanced/fallback)。
+
+### 全平台模型「降智检测」
+
+ShuYou 是业界首个对所有模型渠道进行**公开、持续质量检测**的平台。
+
+**核心机制：**
+
+- **定期质量检测**：持续监控所有模型渠道的真实性和可靠性
+- **开源透明**：完整的测试流程和结果在 GitHub 公开，接受社区监督
+- **实时榜单**：测试结果实时公开到官网，形成动态的 HLE 榜单
+- **质量追溯**：确保平台上的所有渠道、所有模型均真实可靠，杜绝「降智」模型
+
+### AI 模型保险服务
+
+ShuYou 是全球首个提供 **AI 模型保险服务**的平台，为模型调用效果提供兜底保障。
+
+**保险服务特点：**
+
+- **全面的保障范围**：覆盖模型效果不佳、幻觉输出、响应延迟过高等多种场景
+- **自动检测与赔付**：每天对平台调用数据进行保险检测，赔付金额隔天自动到账
+- **数据飞轮价值**：保险算法挖掘出的数据都是高质量的 bad case，可直接用于优化您的 AI 产品
+- **持续改进支持**：通过保险赔付数据建立产品数据飞轮，不断完善 AI 应用效果
+
+控制台使用说明见 [保险赔付](/zh/guide/observability/insurance)。
+
+### 智能模型路由
+
+如果您希望在模型效果和使用成本之间找到最优平衡，ShuYou 的**智能路由**功能将是您的理想选择。
+
+系统会根据请求内容和任务特征，自动选择最适合的模型进行响应，在保证效果的同时尽可能降低成本。
+
+**智能路由优势：**
+
+- **效果与成本平衡**：自动在高性能模型和经济型模型之间做出最优选择
+- **任务特征识别**：深度分析请求内容，匹配最适合的模型能力
+- **持续学习优化**：基于历史数据不断优化路由策略
+- **透明可控**：提供详细的路由决策日志，支持自定义路由规则
+
+配置与示例见 [模型路由](/zh/guide/advanced/model-routing)。
+
+### 开发者友好的可观测性
+
+ShuYou 以服务开发者为核心理念，提供全面的可观测性和调试能力。
+
+**核心功能：**
+
+- **详细的日志分析**：完整记录每次 API 调用的请求和响应详情
+- **成本花销聚合**：从项目、模型、时间等多个维度分析成本分布
+- **用量统计分析**：实时监控 token 用量和调用频次
+- **性能监控分析**：追踪响应时间、并发数等关键性能指标
+- **模型效果对比**：支持不同模型的输出效果对比分析
+- **可视化仪表板**：直观的图表和报表，快速掌握全局状况
+
+详见 [Usage](/zh/guide/observability/usage)、[Cost](/zh/guide/observability/cost)、[Logs](/zh/guide/observability/logs)、[Pricing](/zh/guide/observability/pricing)。
+
+### 全球边缘节点
+
+ShuYou 依托 Cloudflare 的强大基础设施，在全球部署了分布式边缘计算节点。
+
+**技术优势：**
+
+- **全球覆盖**：分布在全球各大洲的边缘计算节点
+- **智能路由**：自动将请求路由到距离用户最近的节点
+- **低延迟保障**：显著降低网络传输延迟，提升响应速度
+- **高可用架构**：多节点冗余设计，确保服务稳定性
+
+## 快速开始
+
+1. 登录 [ShuYou 控制台](https://shuyou.ai/signin) 创建 API Key。
+2. 在 [模型列表](https://shuyou.ai/models) 中选择适合业务的模型 slug。
+3. 调用 [OpenAI](/zh/api-reference/language-series/openai/create-chat-completion) 或 [Anthropic](/zh/api-reference/language-series/anthropic/create-messages) 兼容 API，或参考 [接入指南](/zh/guide/integration/claude-code) 配置 IDE / 客户端。
+
+## 联系我们
+
+如果您在使用过程中遇到任何问题，或有任何建议和反馈，欢迎通过以下方式联系我们：
+
+- **官方网站**：[https://shuyou.ai](https://shuyou.ai)
+- **API 文档**：[https://api.shuyou.ai](https://api.shuyou.ai)
+- **技术支持邮箱**：support@shuyou.ai
+- **手机 / 微信（同号）**：18626260603

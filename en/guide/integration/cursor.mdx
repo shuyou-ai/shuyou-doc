@@ -1,0 +1,59 @@
+---
+title: Cursor
+description: Use ShuYou models in Cursor IDE via OpenAI or Anthropic-compatible settings.
+icon: /images/icons/cursor.svg
+---
+
+# Cursor
+
+Use **ShuYou** as the model backend in [Cursor](https://cursor.com/) for AI-assisted coding in the editor.
+
+ShuYou supports both OpenAI-compatible and Anthropic-compatible protocols. Cursor settings vary by version; use the path that matches your Cursor build.
+
+## Prerequisites
+
+1. Install [Cursor](https://cursor.com/download).
+2. Create a ShuYou API key in the [console](https://shuyou.ai/signin).
+
+## Option A: OpenAI-compatible (Chat Completions / Responses)
+
+Best for GPT and other models exposed via ShuYou's OpenAI protocol.
+
+1. Open **Cursor Settings → Models**.
+2. Enable **Override OpenAI Base URL** (or equivalent custom endpoint option).
+3. Set:
+   - **Base URL:** `https://api.shuyou.ai/v1`
+   - **API Key:** your ShuYou API key
+4. Add or select a model slug from the [ShuYou model catalog](https://shuyou.ai/models), for example `openai/gpt-4o`.
+
+Reference: [Create Chat Completion](/en/api-reference/language-series/openai/create-chat-completion).
+
+## Option B: Anthropic-compatible (Claude models)
+
+Best for Claude-family models on ShuYou.
+
+1. Open **Cursor Settings → Models**.
+2. Configure the Anthropic / Claude provider override if available:
+   - **Base URL:** `https://api.shuyou.ai`
+   - **API Key:** your ShuYou API key
+3. Choose a model slug that supports **Anthropic API Compatible** on ShuYou, for example `anthropic/claude-sonnet-4.5`.
+
+Reference: [Create Messages](/en/api-reference/language-series/anthropic/create-messages).
+
+## Verify
+
+1. Open a project in Cursor.
+2. Start an inline chat or Agent session with your configured model.
+3. Confirm responses return without `401` / `403` errors.
+
+## FAQ
+
+**Model not found:** Use the exact slug from [shuyou.ai/models](https://shuyou.ai/models), including provider prefix when required.
+
+**401 / 403:** Verify the API key, billing balance, and that the model is available on your plan.
+
+**Wrong protocol:** OpenAI slugs need base URL `https://api.shuyou.ai/v1`; Anthropic slugs need `https://api.shuyou.ai`.
+
+<Tip>
+Cursor UI labels change between releases. If you cannot find override fields, check Cursor's latest docs for "custom API" or "bring your own key" settings.
+</Tip>

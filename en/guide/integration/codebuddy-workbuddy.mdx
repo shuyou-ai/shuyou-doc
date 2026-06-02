@@ -1,0 +1,175 @@
+---
+title: CodeBuddy / WorkBuddy
+sidebarTitle: CodeBuddy / WorkBuddy
+description: Connect CodeBuddy and WorkBuddy to ShuYou via models.json and the OpenAI-compatible API.
+icon: /images/icons/openclaw.svg
+---
+
+# CodeBuddy / WorkBuddy
+
+[CodeBuddy](https://www.codebuddy.cn/) and WorkBuddy are AI coding tools from Tencent Cloud. Both support custom model providers through a `models.json` configuration file. Connect them to **ShuYou** to use ShuYou's model catalog with a single API key.
+
+<Info title="Applies to both tools">
+CodeBuddy and WorkBuddy use the same configuration format. The steps below apply to both.
+</Info>
+
+## Prerequisites
+
+1. Install [CodeBuddy](https://www.codebuddy.cn/setup/) or WorkBuddy.
+2. Create a ShuYou API key in the [console](https://shuyou.ai/signin).
+
+ShuYou OpenAI-compatible chat completions endpoint: **`https://api.shuyou.ai/v1/chat/completions`**
+
+<Note>
+Currently, CodeBuddy / WorkBuddy integration with ShuYou uses the **OpenAI SDK format** (Chat Completions). Use model slugs from the [ShuYou model list](https://shuyou.ai/models) that are labeled **OpenAI API Compatible**.
+</Note>
+
+## Configuration
+
+### Step 1: Open the configuration file
+
+**CodeBuddy:** `~/.codebuddy/models.json`
+
+**WorkBuddy:** `~/.workbuddy/models.json`
+
+On Windows:
+
+- CodeBuddy: `C:\Users\<username>\.codebuddy\models.json`
+- WorkBuddy: `C:\Users\<username>\.workbuddy\models.json`
+
+### Step 2: Add ShuYou model entries
+
+Edit `models.json` and add entries like the following:
+
+```json
+{
+  "models": [
+    {
+      "id": "ShuYou/auto",
+      "name": "ShuYou Auto (Smart Routing)",
+      "vendor": "ShuYou",
+      "apiKey": "YOUR_SHUYOU_API_KEY",
+      "url": "https://api.shuyou.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    },
+    {
+      "id": "openai/gpt-5",
+      "name": "ShuYou GPT-5",
+      "vendor": "OpenAI",
+      "apiKey": "YOUR_SHUYOU_API_KEY",
+      "url": "https://api.shuyou.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    },
+    {
+      "id": "anthropic/claude-sonnet-4.5",
+      "name": "ShuYou Claude Sonnet 4.5",
+      "vendor": "Anthropic",
+      "apiKey": "YOUR_SHUYOU_API_KEY",
+      "url": "https://api.shuyou.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    }
+  ]
+}
+```
+
+<Warning title="Replace the API Key">
+Replace `YOUR_SHUYOU_API_KEY` with your real ShuYou API key from the [console](https://shuyou.ai/signin).
+</Warning>
+
+| Field | Description |
+| --- | --- |
+| `id` | Model slug from [ShuYou models](https://shuyou.ai/models) |
+| `name` | Display name in the model dropdown |
+| `url` | Must be `https://api.shuyou.ai/v1/chat/completions` |
+| `supportsToolCall` / `supportsImages` | Set based on the model's capabilities |
+
+### More available models
+
+Add more objects to the `models` array using the same format. Example slugs (verify availability on ShuYou):
+
+**GPT series:** `openai/gpt-5`, `openai/gpt-4o`
+
+**Claude series:** `anthropic/claude-sonnet-4.5`, `anthropic/claude-haiku-4.5`
+
+**Gemini series:** `google/gemini-2.5-pro`, `google/gemini-2.5-flash`
+
+**Other:** `deepseek/deepseek-chat`, `qwen/qwen3-coder-plus`
+
+See the full list on [shuyou.ai/models](https://shuyou.ai/models).
+
+### Step 3: Save and reload
+
+After saving `models.json`, the tool detects changes and reloads automatically (about 1 second debounce). Select a ShuYou model from the model dropdown to start.
+
+## Using ShuYou Auto smart routing
+
+### What is ShuYou Auto?
+
+`ShuYou/auto` is ShuYou's intelligent routing model. The platform selects a suitable model based on request content and your routing configuration.
+
+### Benefits
+
+- **Smart matching** — Analyzes the task and picks an appropriate model
+- **Cost optimization** — Balances quality and price
+- **Load balancing** — Distributes traffic across the model pool
+- **Transparent** — The response includes the actual model used
+
+### Usage
+
+Add an entry with `"id": "ShuYou/auto"` as shown above, then select **ShuYou Auto (Smart Routing)** in the model dropdown.
+
+For advanced routing options, see [Model Routing](/en/guide/advanced/model-routing).
+
+## Limit the model dropdown
+
+To show only specific models, use `availableModels`:
+
+```json
+{
+  "models": [
+    // ... model entries
+  ],
+  "availableModels": [
+    "ShuYou/auto",
+    "openai/gpt-5",
+    "anthropic/claude-sonnet-4.5"
+  ]
+}
+```
+
+## Project-level configuration
+
+In addition to user-level config, you can add project-scoped files:
+
+- **CodeBuddy:** `<project-root>/.codebuddy/models.json`
+- **WorkBuddy:** `<project-root>/.workbuddy/models.json`
+
+<Info title="Priority">
+Project-level configuration overrides user-level settings. Use user-level config for global models and project-level config for repo-specific models.
+</Info>
+
+## FAQ
+
+### Configuration not applied?
+
+1. Validate JSON syntax (use a JSON linter).
+2. Confirm the API key and model slugs are correct.
+3. Restart the application if changes are not picked up.
+
+### Which models are supported?
+
+Any model on ShuYou that supports the OpenAI Chat Completions protocol. Filter **OpenAI API Compatible** on the [model list](https://shuyou.ai/models).
+
+### Is the API key secure?
+
+The key is stored locally in `models.json`. Restrict file permissions so other users on the machine cannot read it.
+
+## Related links
+
+- [ShuYou console](https://shuyou.ai/signin)
+- [ShuYou model list](https://shuyou.ai/models)
+- [Create Chat Completion](/en/api-reference/language-series/openai/create-chat-completion)
+- [CodeBuddy documentation](https://www.codebuddy.cn/docs)

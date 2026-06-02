@@ -145,20 +145,28 @@
           },
           {
             "tab": "Integration Guide",
-            "pages": [
-              "en/guide/quickstart",
-              "en/guide/pay-as-you-go",
-              "en/guide/subscription",
-              "en/guide/invoice"
+            "groups": [
+              {
+                "group": "AI Coding Tools",
+                "pages": [
+                  "en/guide/integration/cherry-studio",
+                  "en/guide/integration/claude-code",
+                  "en/guide/integration/codebuddy-workbuddy",
+                  "en/guide/integration/codex-cli",
+                  "en/guide/integration/cursor",
+                  "en/guide/integration/gemini-cli",
+                  "en/guide/integration/opencode"
+                ]
+              }
             ]
           },
           {
             "tab": "User Guide",
             "groups": [
               {
-                "group": "Studio",
+                "group": "About Us",
                 "pages": [
-                  "en/guide/studio/studio-chat"
+                  "en/guide/about/about-us"
                 ]
               },
               {
@@ -293,20 +301,28 @@
           },
           {
             "tab": "接入指南",
-            "pages": [
-              "zh/guide/quickstart",
-              "zh/guide/pay-as-you-go",
-              "zh/guide/subscription",
-              "zh/guide/invoice"
+            "groups": [
+              {
+                "group": "AI 编程工具",
+                "pages": [
+                  "zh/guide/integration/cherry-studio",
+                  "zh/guide/integration/claude-code",
+                  "zh/guide/integration/codebuddy-workbuddy",
+                  "zh/guide/integration/codex-cli",
+                  "zh/guide/integration/cursor",
+                  "zh/guide/integration/gemini-cli",
+                  "zh/guide/integration/opencode"
+                ]
+              }
             ]
           },
           {
             "tab": "用户指南",
             "groups": [
               {
-                "group": "Studio",
+                "group": "关于 ShuYou",
                 "pages": [
-                  "zh/guide/studio/studio-chat"
+                  "zh/guide/about/about-us"
                 ]
               },
               {
@@ -440,6 +456,14 @@
     {
       "source": "/zh/api-reference/video-series/seedance/seedance-2-video-generate",
       "destination": "/zh/api-reference/video-series/seedance/doubao-seedance-2.0-video-generate"
+    },
+    {
+      "source": "/en/guide/integration/claude-code-cli",
+      "destination": "/en/guide/integration/claude-code"
+    },
+    {
+      "source": "/zh/guide/integration/claude-code-cli",
+      "destination": "/zh/guide/integration/claude-code"
     }
   ],
   "footer": {

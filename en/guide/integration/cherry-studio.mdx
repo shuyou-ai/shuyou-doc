@@ -1,0 +1,135 @@
+---
+title: Cherry Studio
+description: Connect Cherry Studio to ShuYou via the OpenAI-compatible API.
+icon: /images/icons/cherry-studio.svg
+---
+
+# Cherry Studio
+
+[Cherry Studio](https://cherry-ai.com/) is a cross-platform AI desktop client that supports multiple LLM providers. By connecting it to **ShuYou**, you can use ShuYou's aggregated model catalog in Cherry Studio with flexible model selection and unified billing.
+
+<Info title="Compatibility">
+ShuYou fully supports the [OpenAI Chat Completions API](/en/api-reference/language-series/openai/create-chat-completion). Add ShuYou as a custom OpenAI-compatible provider in Cherry Studio to use all models labeled **OpenAI API Compatible**.
+
+OpenAI protocol base URL: **`https://api.shuyou.ai/v1`**
+</Info>
+
+## Configuration
+
+### Step 1: Download and install Cherry Studio
+
+Download the client for your OS from the [Cherry Studio download page](https://cherry-ai.com/download) and complete installation.
+
+### Step 2: Add the ShuYou model provider
+
+1. Open Cherry Studio and go to **Settings → Model Provider**.
+2. Click **Add** to create a new provider.
+3. Fill in the configuration dialog:
+
+| Field | Value |
+| --- | --- |
+| **Provider Name** | `ShuYou` (or any name you prefer) |
+| **Provider Type** | `OpenAI` |
+| **API Key** | Your ShuYou API Key |
+| **API Host** | `https://api.shuyou.ai/v1/` |
+
+<Warning title="Important">
+Replace the placeholder with your real ShuYou API Key from the [console](https://shuyou.ai/signin). The **API Host** must end with a trailing slash (`/`).
+</Warning>
+
+**Configuration notes:**
+
+- **Provider Name** — Customizable; `ShuYou` is recommended for clarity.
+- **Provider Type** — Must be `OpenAI`; ShuYou exposes models via the OpenAI Chat Completions protocol.
+- **API Key** — Used for authentication and billing on ShuYou.
+- **API Host** — ShuYou's OpenAI-compatible endpoint.
+
+### Step 3: Fetch the available model list
+
+After saving the provider, click **Manager**. Cherry Studio will call ShuYou's [`/v1/models`](/en/api-reference/language-series/openai/openai-list-models) endpoint and list all OpenAI-compatible models—no manual slug entry required.
+
+### Step 4: Add the models you need
+
+From the fetched list, select models to add to your library.
+
+**Model recommendations** (adjust to your workload and budget):
+
+- **High performance:** `openai/gpt-5`, `anthropic/claude-sonnet-4.5`
+- **Balanced:** `google/gemini-2.5-pro`, `x-ai/grok-4-fast`
+- **Cost-effective:** `deepseek/deepseek-chat`, `qwen/qwen3-coder-plus`
+
+See the full catalog on the [ShuYou model list](https://shuyou.ai/models).
+
+### Step 5: Start a conversation
+
+Open the chat interface, select a model under the ShuYou provider, and send a message.
+
+<Tip>
+You can switch models mid-conversation. Cherry Studio keeps chat history, which makes it easy to compare outputs across models.
+</Tip>
+
+## Supported models
+
+ShuYou offers a large and growing set of **OpenAI API Compatible** models. To explore them:
+
+- Filter **OpenAI API Compatible** on the [ShuYou model list](https://shuyou.ai/models)
+- Or check protocol support on each model's detail page
+
+## Usage experience
+
+Once configured, you can use ShuYou models in Cherry Studio with:
+
+- A unified chat UI without switching clients
+- Real-time model switching
+- Chat history management and export
+- File uploads and multimodal input (when the selected model supports them)
+
+<Info title="Feature support">
+Capabilities such as vision and function calling vary by model. Check each model's detail page before relying on a specific feature.
+</Info>
+
+## Troubleshooting
+
+### API Key error
+
+**Issue:** Invalid or unauthorized API Key when adding the provider.
+
+**Solutions:**
+
+- Copy the key carefully—avoid extra spaces or line breaks.
+- Confirm the key is active and your account has sufficient balance.
+- Verify the key in the [ShuYou console](https://shuyou.ai/signin).
+
+### Unable to fetch model list
+
+**Issue:** No models appear after clicking **Manager**.
+
+**Solutions:**
+
+- Set **API Host** to `https://api.shuyou.ai/v1/` (with trailing slash).
+- Check network access to `https://api.shuyou.ai`.
+- Ensure firewall or proxy settings are not blocking requests.
+- Update Cherry Studio to the latest version.
+
+### Model invocation failed
+
+**Issue:** Errors after selecting a model and sending a message.
+
+**Solutions:**
+
+- Confirm the model is still available on ShuYou.
+- Check account balance and plan limits.
+- Verify request parameters (`temperature`, `max_tokens`, etc.) are supported by the model.
+- Read the error message and adjust parameters.
+- Try another model to isolate provider-specific issues.
+
+### Slow response
+
+**Issue:** Long latency or stalled replies.
+
+**Solutions:**
+
+- Check network quality.
+- Try a faster model slug (for example `x-ai/grok-4-fast`).
+- Lower `max_tokens` to reduce generation time.
+- Retry during off-peak hours or choose a less loaded model.

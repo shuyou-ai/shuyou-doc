@@ -1,0 +1,175 @@
+---
+title: CodeBuddy / WorkBuddy
+sidebarTitle: CodeBuddy / WorkBuddy
+description: 通过 models.json 与 OpenAI 兼容 API 将 CodeBuddy / WorkBuddy 接入 ShuYou。
+icon: /images/icons/openclaw.svg
+---
+
+# CodeBuddy / WorkBuddy
+
+[CodeBuddy](https://www.codebuddy.cn/) 与 WorkBuddy 是腾讯云推出的 AI 编程工具，均支持通过 `models.json` 配置文件接入自定义模型。接入 **ShuYou** 后，可使用 ShuYou 模型目录与统一 API Key 调用多种大模型能力。
+
+<Info title="适用两者">
+CodeBuddy 与 WorkBuddy 使用相同的配置方式，下文步骤对两者均适用。
+</Info>
+
+## 使用前准备
+
+1. 安装 [CodeBuddy](https://www.codebuddy.cn/setup/) 或 WorkBuddy。
+2. 在 [ShuYou 控制台](https://shuyou.ai/signin) 创建 API Key。
+
+ShuYou OpenAI 兼容 Chat Completions 端点：**`https://api.shuyou.ai/v1/chat/completions`**
+
+<Note>
+当前 CodeBuddy / WorkBuddy 通过 ShuYou 接入时，使用 **OpenAI SDK 格式**（Chat Completions）。请在 [ShuYou 模型列表](https://shuyou.ai/models) 中选择标注 **OpenAI API Compatible** 的模型 slug。
+</Note>
+
+## 配置步骤
+
+### 步骤 1：打开配置文件
+
+**CodeBuddy：** `~/.codebuddy/models.json`
+
+**WorkBuddy：** `~/.workbuddy/models.json`
+
+Windows 路径：
+
+- CodeBuddy：`C:\Users\<用户名>\.codebuddy\models.json`
+- WorkBuddy：`C:\Users\<用户名>\.workbuddy\models.json`
+
+### 步骤 2：添加 ShuYou 模型配置
+
+编辑 `models.json`，添加如下配置示例：
+
+```json
+{
+  "models": [
+    {
+      "id": "ShuYou/auto",
+      "name": "ShuYou Auto（智能路由）",
+      "vendor": "ShuYou",
+      "apiKey": "YOUR_SHUYOU_API_KEY",
+      "url": "https://api.shuyou.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    },
+    {
+      "id": "openai/gpt-5",
+      "name": "ShuYou GPT-5",
+      "vendor": "OpenAI",
+      "apiKey": "YOUR_SHUYOU_API_KEY",
+      "url": "https://api.shuyou.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    },
+    {
+      "id": "anthropic/claude-sonnet-4.5",
+      "name": "ShuYou Claude Sonnet 4.5",
+      "vendor": "Anthropic",
+      "apiKey": "YOUR_SHUYOU_API_KEY",
+      "url": "https://api.shuyou.ai/v1/chat/completions",
+      "supportsToolCall": true,
+      "supportsImages": true
+    }
+  ]
+}
+```
+
+<Warning title="替换 API Key">
+请将 `YOUR_SHUYOU_API_KEY` 替换为 [ShuYou 控制台](https://shuyou.ai/signin) 中的真实 API Key。
+</Warning>
+
+| 字段 | 说明 |
+| --- | --- |
+| `id` | [ShuYou 模型列表](https://shuyou.ai/models) 中的模型 slug |
+| `name` | 模型下拉框中的显示名称 |
+| `url` | 固定为 `https://api.shuyou.ai/v1/chat/completions` |
+| `supportsToolCall` / `supportsImages` | 按模型实际能力设置 |
+
+### 更多可用模型
+
+按相同格式向 `models` 数组追加条目。示例 slug（请以 ShuYou 平台为准）：
+
+**GPT 系列：** `openai/gpt-5`、`openai/gpt-4o`
+
+**Claude 系列：** `anthropic/claude-sonnet-4.5`、`anthropic/claude-haiku-4.5`
+
+**Gemini 系列：** `google/gemini-2.5-pro`、`google/gemini-2.5-flash`
+
+**其他：** `deepseek/deepseek-chat`、`qwen/qwen3-coder-plus`
+
+完整列表见 [shuyou.ai/models](https://shuyou.ai/models)。
+
+### 步骤 3：保存并重载
+
+保存 `models.json` 后，工具会自动检测变更并重载（约 1 秒 debounce）。在模型下拉框中选择 ShuYou 模型即可使用。
+
+## 使用 ShuYou Auto 智能路由
+
+### 什么是 ShuYou Auto？
+
+`ShuYou/auto` 是 ShuYou 的智能路由模型，系统会根据请求内容与路由配置自动选择合适模型。
+
+### 核心优势
+
+- **智能匹配** — 分析任务并选择合适模型
+- **成本优化** — 在质量与价格间取得平衡
+- **负载均衡** — 在模型池中分配请求
+- **透明可观测** — 响应中返回实际使用的模型
+
+### 使用方法
+
+按上文示例添加 `"id": "ShuYou/auto"` 的条目，在下拉框中选择 **ShuYou Auto（智能路由）**。
+
+高级路由配置见 [模型路由](/zh/guide/advanced/model-routing)。
+
+## 限制下拉框中的模型
+
+若仅展示部分模型，可使用 `availableModels`：
+
+```json
+{
+  "models": [
+    // ... 模型配置
+  ],
+  "availableModels": [
+    "ShuYou/auto",
+    "openai/gpt-5",
+    "anthropic/claude-sonnet-4.5"
+  ]
+}
+```
+
+## 项目级配置
+
+除用户级配置外，可在项目根目录创建：
+
+- **CodeBuddy：** `<项目根目录>/.codebuddy/models.json`
+- **WorkBuddy：** `<项目根目录>/.workbuddy/models.json`
+
+<Info title="优先级">
+项目级配置优先于用户级配置。建议在用户级配置全局模型，在项目级配置仓库专用模型。
+</Info>
+
+## 常见问题
+
+### 配置不生效怎么办？
+
+1. 检查 JSON 格式是否正确（可用 JSON 校验工具）。
+2. 确认 API Key 与模型 slug 正确。
+3. 若未自动重载，尝试重启应用。
+
+### 支持哪些模型？
+
+ShuYou 上所有支持 OpenAI Chat Completions 协议的模型。在 [模型列表](https://shuyou.ai/models) 筛选 **OpenAI API Compatible**。
+
+### API Key 是否安全？
+
+Key 保存在本地 `models.json` 中，不会上传至第三方。建议限制文件权限，防止本机其他用户读取。
+
+## 相关链接
+
+- [ShuYou 控制台](https://shuyou.ai/signin)
+- [ShuYou 模型列表](https://shuyou.ai/models)
+- [Create Chat Completion](/zh/api-reference/language-series/openai/create-chat-completion)
+- [CodeBuddy 官方文档](https://www.codebuddy.cn/docs)

@@ -1,0 +1,121 @@
+---
+title: OpenCode
+description: 将 OpenCode 连接到 ShuYou，在终端使用多模型 AI 编程助手。
+icon: /images/icons/opencode.svg
+---
+
+# OpenCode
+
+将 [OpenCode](https://opencode.ai/) 接入 **ShuYou**，在同一终端界面中使用 Claude、GPT、Gemini 等模型。
+
+## 使用前准备
+
+1. 使用现代终端（Windows Terminal、iTerm2 等）。
+2. 在 [ShuYou 控制台](https://shuyou.ai/signin) 创建 API Key。
+
+## 第一步：安装 OpenCode
+
+<Tabs>
+  <Tab title="macOS / Linux">
+    ```bash
+    curl -fsSL https://opencode.ai/install | bash
+    ```
+    或：`brew install anomalyco/tap/opencode`
+  </Tab>
+  <Tab title="Windows">
+    ```bash
+    npm i -g opencode-ai@latest
+    ```
+  </Tab>
+</Tabs>
+
+```bash
+opencode --version
+```
+
+## 第二步：配置 ShuYou
+
+注册自定义 Provider：
+
+```bash
+opencode auth login
+```
+
+1. 在 Provider 列表选择 **other**。
+2. Provider ID 填写 `shuyou-anthropic`（可按需再注册 `shuyou-openai`、`shuyou-google`）。
+3. Token 可填任意占位值（真实 Key 写在 `opencode.json` 中）。
+
+编辑 `~/.config/opencode/opencode.json`（Windows：`%USERPROFILE%\.config\opencode\opencode.json`）：
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "shuyou-anthropic": {
+      "npm": "@ai-sdk/anthropic",
+      "name": "ShuYou Claude",
+      "options": {
+        "baseURL": "https://api.shuyou.ai",
+        "apiKey": "你的 ShuYou API Key"
+      },
+      "models": {
+        "anthropic/claude-sonnet-4.5": {
+          "name": "Claude Sonnet 4.5",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "shuyou-openai": {
+      "npm": "@ai-sdk/openai",
+      "name": "ShuYou GPT",
+      "options": {
+        "baseURL": "https://api.shuyou.ai/v1",
+        "apiKey": "你的 ShuYou API Key"
+      },
+      "models": {
+        "openai/gpt-4o": {
+          "name": "GPT-4o",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "shuyou-google": {
+      "npm": "@ai-sdk/google",
+      "name": "ShuYou Gemini",
+      "options": {
+        "baseURL": "https://api.shuyou.ai/v1beta",
+        "apiKey": "你的 ShuYou API Key"
+      },
+      "models": {
+        "google/gemini-3.1-pro-preview": {
+          "name": "Gemini 3.1 Pro",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    }
+  }
+}
+```
+
+请将 `你的 ShuYou API Key` 替换为实际 Key，并根据 [ShuYou 模型列表](https://shuyou.ai/models) 补充 `models` 中的 slug。
+
+## 第三步：验证
+
+```bash
+cd 你的工作目录
+opencode
+```
+
+在 TUI 中执行 `/models`，选择 ShuYou 下的模型即可使用。
+
+## 常见问题
+
+**401 / 403：** 检查 `opencode.json` 中的 `apiKey` 与模型 slug。
+
+**配置文件路径：** `~/.config/opencode/opencode.json`（Windows：`%USERPROFILE%\.config\opencode\`）。
+
+**切换模型：** 在 OpenCode 内输入 `/models`。
+
+<Warning>
+请在可信的项目目录中使用 OpenCode，保存前请校验 JSON 格式。
+</Warning>

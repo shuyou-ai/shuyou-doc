@@ -1,0 +1,135 @@
+---
+title: Cherry Studio
+description: 通过 OpenAI 兼容 API 将 Cherry Studio 接入 ShuYou。
+icon: /images/icons/cherry-studio.svg
+---
+
+# Cherry Studio
+
+[Cherry Studio](https://cherry-ai.com/) 是一款优雅的跨平台 AI 桌面客户端，支持多家主流大模型服务。接入 **ShuYou** 后，可在 Cherry Studio 中使用 ShuYou 聚合的模型目录，享受更灵活的模型选择与统一计费。
+
+<Info title="兼容性说明">
+ShuYou 完整支持 [OpenAI Chat Completions API](/zh/api-reference/language-series/openai/create-chat-completion)。在 Cherry Studio 中将 ShuYou 添加为 OpenAI 兼容服务商，即可使用所有标注 **OpenAI API Compatible** 的模型。
+
+OpenAI 协议 Base URL：**`https://api.shuyou.ai/v1`**
+</Info>
+
+## 配置步骤
+
+### 步骤 1：下载并安装 Cherry Studio
+
+前往 [Cherry Studio 下载页](https://cherry-ai.com/download) 下载对应操作系统版本并完成安装。
+
+### 步骤 2：添加 ShuYou 模型服务商
+
+1. 打开 Cherry Studio，进入 **设置 → 模型服务商（Model Provider）**。
+2. 点击 **添加（Add）** 新建服务商。
+3. 在配置对话框中填写：
+
+| 字段 | 填写内容 |
+| --- | --- |
+| **服务商名称（Provider Name）** | `ShuYou`（或任意自定义名称） |
+| **服务商类型（Provider Type）** | 选择 `OpenAI` |
+| **API Key** | 你的 ShuYou API Key |
+| **API Host** | `https://api.shuyou.ai/v1/` |
+
+<Warning title="重要提示">
+请将 API Key 替换为 [ShuYou 控制台](https://shuyou.ai/signin) 中的真实 Key。**API Host** 必须以 `/` 结尾。
+</Warning>
+
+**配置说明：**
+
+- **服务商名称** — 可自定义，建议使用 `ShuYou` 便于识别。
+- **服务商类型** — 必须选择 `OpenAI`，ShuYou 通过 OpenAI Chat Completions 协议提供模型。
+- **API Key** — 用于 ShuYou 鉴权与计费。
+- **API Host** — ShuYou 的 OpenAI 兼容端点地址。
+
+### 步骤 3：获取可用模型列表
+
+保存配置后，点击 **管理（Manager）** 按钮。Cherry Studio 会调用 ShuYou 的 [`/v1/models`](/zh/api-reference/language-series/openai/openai-list-models) 接口，自动拉取所有 OpenAI 兼容模型，无需手动添加 slug。
+
+### 步骤 4：添加所需模型
+
+在拉取到的模型列表中，选择要使用的模型并添加到模型库。
+
+**模型推荐**（按场景与预算调整）：
+
+- **高性能：** `openai/gpt-5`、`anthropic/claude-sonnet-4.5`
+- **均衡：** `google/gemini-2.5-pro`、`x-ai/grok-4-fast`
+- **高性价比：** `deepseek/deepseek-chat`、`qwen/qwen3-coder-plus`
+
+完整列表见 [ShuYou 模型列表](https://shuyou.ai/models)。
+
+### 步骤 5：开始对话
+
+进入聊天界面，选择 ShuYou 服务商下的任意模型即可开始使用。
+
+<Tip>
+对话过程中可随时切换模型。Cherry Studio 会保留聊天记录，便于对比不同模型的输出效果。
+</Tip>
+
+## 支持的模型
+
+ShuYou 提供大量且持续增长的 **OpenAI API Compatible** 模型。查看方式：
+
+- 在 [ShuYou 模型列表](https://shuyou.ai/models) 筛选 **OpenAI API Compatible**
+- 或在各模型详情页查看协议支持情况
+
+## 使用体验
+
+配置完成后，可在 Cherry Studio 中：
+
+- 使用统一聊天界面，无需切换多个客户端
+- 实时切换模型并对比输出质量
+- 管理并导出完整聊天记录
+- 使用文件上传、多模态输入等高级功能（取决于所选模型是否支持）
+
+<Info title="功能支持">
+视觉理解、Function Calling 等能力因模型而异，使用前请查阅对应模型详情页。
+</Info>
+
+## 故障排查
+
+### API Key 错误
+
+**现象：** 添加服务商时提示 Key 无效或未授权。
+
+**处理方式：**
+
+- 检查 Key 是否完整复制，避免多余空格或换行。
+- 确认 Key 已启用且账户余额充足。
+- 在 [ShuYou 控制台](https://shuyou.ai/signin) 核对 Key 状态。
+
+### 无法获取模型列表
+
+**现象：** 点击 **Manager** 后没有模型列表。
+
+**处理方式：**
+
+- 确认 **API Host** 为 `https://api.shuyou.ai/v1/`（注意末尾 `/`）。
+- 检查网络能否访问 `https://api.shuyou.ai`。
+- 确认防火墙或代理未拦截请求。
+- 将 Cherry Studio 更新至最新版本。
+
+### 模型调用失败
+
+**现象：** 选择模型发送消息后出现错误。
+
+**处理方式：**
+
+- 确认所选模型在 ShuYou 平台仍可用。
+- 检查账户余额与套餐限制。
+- 确认请求参数（如 `temperature`、`max_tokens`）被该模型支持。
+- 根据错误信息调整参数。
+- 尝试切换其他模型，判断是否为单个模型问题。
+
+### 响应缓慢
+
+**现象：** 模型回复延迟较高或卡顿。
+
+**处理方式：**
+
+- 检查网络质量。
+- 尝试切换为标注为 fast 的模型（如 `x-ai/grok-4-fast`）。
+- 降低 `max_tokens` 减少单次生成长度。
+- 避开高峰时段或选择负载较低的模型。

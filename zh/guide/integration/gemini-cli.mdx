@@ -1,0 +1,78 @@
+---
+title: Gemini CLI
+description: 将 Google Gemini CLI 连接到 ShuYou Gemini 兼容 API。
+icon: /images/icons/gemini-cli.svg
+---
+
+# Gemini CLI
+
+将 Google 官方 [Gemini CLI](https://github.com/google-gemini/gemini-cli) 接入 **ShuYou**，通过 ShuYou 的 Google 兼容端点调用 Gemini 模型。
+
+## 使用前准备
+
+1. 安装 [Node.js LTS](https://nodejs.org/)（建议 v20+）。
+2. 在 [ShuYou 控制台](https://shuyou.ai/signin) 创建 API Key。
+
+ShuYou Gemini / Vertex 兼容 Base URL：**`https://api.shuyou.ai`**
+
+<Warning>
+Gemini CLI 需修改已安装的 `@google/genai` 包中的默认 Google 端点。编辑前请备份文件；若希望更简单，可优先使用 [Claude Code](/zh/guide/integration/claude-code) 或 [Codex CLI](/zh/guide/integration/codex-cli)。
+</Warning>
+
+## 第一步：安装 Gemini CLI
+
+```bash
+npm install -g @google/gemini-cli
+gemini --version
+```
+
+## 第二步：将 API 指向 ShuYou
+
+查看全局 npm 模块路径：
+
+```bash
+npm root -g
+```
+
+在 `{npm_root}/@google/gemini-cli/node_modules/@google/genai/dist/node/` 下，分别编辑 **`index.mjs`** 与 **`index.cjs`**，找到默认 Base URL：
+
+```javascript
+// 修改前
+initHttpOptions.baseUrl = `https://generativelanguage.googleapis.com/`;
+
+// 修改后
+initHttpOptions.baseUrl = `https://api.shuyou.ai/`;
+```
+
+设置 API Key：
+
+<Tabs>
+  <Tab title="macOS / Linux">
+    ```bash
+    export GEMINI_API_KEY="你的 ShuYou API Key"
+    ```
+  </Tab>
+  <Tab title="Windows">
+    ```powershell
+    $env:GEMINI_API_KEY = "你的 ShuYou API Key"
+    ```
+  </Tab>
+</Tabs>
+
+## 第三步：验证
+
+```bash
+gemini "你是谁"
+```
+
+交互模式输入 `/model` 切换模型，请从 [ShuYou 模型列表](https://shuyou.ai/models) 选择 Google / Vertex 协议支持的 slug。
+
+## 常见问题
+
+**401 / 403：** 检查 `GEMINI_API_KEY`，并确认 `index.mjs` 与 `index.cjs` 均已修改。
+
+**升级后失效：** 更新 `@google/gemini-cli` 后需重新打补丁。
+
+<Warning>
+建议在专门的项目目录中使用 Gemini CLI。
+</Warning>

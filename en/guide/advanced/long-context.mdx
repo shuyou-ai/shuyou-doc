@@ -125,7 +125,7 @@ curl "https://api.shuyou.ai/v1/chat/completions" \
 import anthropic
 
 client = anthropic.Anthropic(
-    base_url="https://shuyou.ai",
+    base_url="https://api.shuyou.ai",
     api_key="<your ShuYou_API_KEY>", # [!code highlight]
 )
 
@@ -148,7 +148,7 @@ print(response.content[0].text)
 import Anthropic from "@anthropic-ai/sdk";
 
 const client = new Anthropic({
-  baseURL: "https://shuyou.ai",
+  baseURL: "https://api.shuyou.ai",
   apiKey: "<your ShuYou_API_KEY>", // [!code highlight]
 });
 
