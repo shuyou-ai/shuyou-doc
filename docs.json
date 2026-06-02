@@ -64,7 +64,12 @@
     ]
   },
   "footer": {
-    "socials": {}
+    "socials": {
+      "website": "https://shuyou.ai"
+    }
   },
-  "description": "ShuYou AI API"
+  "description": "ShuYou AI API Docs",
+  "markdown": {
+    "schema": true
+  }
 }
