@@ -1,0 +1,41 @@
+---
+title: Files API 概览
+description: 为 Chat Completions 与 Responses API 多模态调用上传和管理文件。
+---
+
+> ShuYou 提供 **OpenAI 兼容的 Files API**（`/v1/files`）。
+> 上传一次即可获得 `file_id`，在多次推理请求中复用。
+
+## 调用流程
+
+<Steps>
+  <Step title="上传">
+    通过 [上传文件](/zh/api-reference/file-series/upload-stream) 使用 `multipart/form-data` 上传。
+  </Step>
+  <Step title="推理引用">
+    在 Chat Completions 或 Responses API 消息中传入 `file_id`。详见[多模态指南](/zh/guide/advanced/multimodal)。
+  </Step>
+  <Step title="管理">
+    使用 [列出文件](/zh/api-reference/file-series/list-files) 与 [删除文件](/zh/api-reference/file-series/delete-file)。
+  </Step>
+</Steps>
+
+## 上传 vs 内联
+
+| 方式 | 适用场景 |
+| --- | --- |
+| **Files API 上传** | 大文件、多次复用、Responses API `input_file` |
+| **消息内 URL** | 公网可访问资源，无需在 ShuYou 存储 |
+| **消息内 Base64** | 小文件、一次性请求 |
+
+<Tip title="OpenAI SDK">
+设置 `base_url="https://api.shuyou.ai/v1"` 后使用 `openai.files.create()`。
+</Tip>
+
+## 接口列表
+
+| 接口 | 说明 |
+| --- | --- |
+| [上传文件](/zh/api-reference/file-series/upload-stream) | `POST /v1/files` |
+| [列出文件](/zh/api-reference/file-series/list-files) | `GET /v1/files` |
+| [删除文件](/zh/api-reference/file-series/delete-file) | `DELETE /v1/files/{file_id}` |

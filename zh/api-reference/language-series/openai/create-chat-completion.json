@@ -1,0 +1,1267 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Create Chat Completion",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/chat/completions": {
+      "post": {
+        "tags": [
+          "OpenAI Compatible API"
+        ],
+        "summary": "Create Chat Completion",
+        "operationId": "createChatCompletion",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              },
+              "examples": {
+                "simple": {
+                  "summary": "Simple chat",
+                  "value": {
+                    "model": "openai/gpt-5.5-pro",
+                    "messages": [
+                      {
+                        "role": "developer",
+                        "content": "You are a helpful assistant."
+                      },
+                      {
+                        "role": "user",
+                        "content": "Hello!"
+                      }
+                    ]
+                  }
+                },
+                "stream": {
+                  "summary": "Streaming",
+                  "value": {
+                    "model": "openai/gpt-5.5-pro",
+                    "messages": [
+                      {
+                        "role": "user",
+                        "content": "Hello!"
+                      }
+                    ],
+                    "stream": true
+                  }
+                },
+                "tools": {
+                  "summary": "Function calling",
+                  "value": {
+                    "model": "openai/gpt-5.5-pro",
+                    "messages": [
+                      {
+                        "role": "user",
+                        "content": "What is the weather like in Boston today?"
+                      }
+                    ],
+                    "tools": [
+                      {
+                        "type": "function",
+                        "function": {
+                          "name": "get_current_weather",
+                          "description": "Get the current weather in a given location",
+                          "parameters": {
+                            "type": "object",
+                            "properties": {
+                              "location": {
+                                "type": "string",
+                                "description": "The city and state, e.g. San Francisco, CA"
+                              },
+                              "unit": {
+                                "type": "string",
+                                "enum": [
+                                  "celsius",
+                                  "fahrenheit"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "location"
+                            ]
+                          }
+                        }
+                      }
+                    ],
+                    "tool_choice": "auto"
+                  }
+                },
+                "vision": {
+                  "summary": "Vision (multimodal)",
+                  "value": {
+                    "model": "openai/gpt-5.5-pro",
+                    "messages": [
+                      {
+                        "role": "user",
+                        "content": [
+                          {
+                            "type": "text",
+                            "text": "What is in this image?"
+                          },
+                          {
+                            "type": "image_url",
+                            "image_url": {
+                              "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+                              "detail": "auto"
+                            }
+                          }
+                        ]
+                      }
+                    ],
+                    "max_completion_tokens": 300
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chat completion object, or SSE stream when `stream` is true",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletion"
+                },
+                "example": {
+                  "id": "chatcmpl-example",
+                  "object": "chat.completion",
+                  "created": 1741569952,
+                  "model": "openai/gpt-5.5-pro",
+                  "choices": [
+                    {
+                      "index": 0,
+                      "message": {
+                        "role": "assistant",
+                        "content": "Hello! How can I assist you today?",
+                        "refusal": null,
+                        "annotations": []
+                      },
+                      "logprobs": null,
+                      "finish_reason": "stop"
+                    }
+                  ],
+                  "usage": {
+                    "prompt_tokens": 19,
+                    "completion_tokens": 10,
+                    "total_tokens": 29,
+                    "prompt_tokens_details": {
+                      "cached_tokens": 0,
+                      "audio_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                      "reasoning_tokens": 0,
+                      "audio_tokens": 0,
+                      "accepted_prediction_tokens": 0,
+                      "rejected_prediction_tokens": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "ChatCompletionRequest": {
+        "type": "object",
+        "required": [
+          "model",
+          "messages"
+        ],
+        "properties": {
+          "messages": {
+            "type": "array",
+            "description": "A list of messages comprising the conversation so far. Supports text, images, audio, and file content parts depending on the model.",
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionMessageParam"
+            },
+            "minItems": 1
+          },
+          "model": {
+            "type": "string",
+            "description": "Model ID (`provider/model_name`). Use the `slug` from List Models.",
+            "example": "openai/gpt-5.5-pro"
+          },
+          "max_completion_tokens": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Upper bound for generated tokens, including visible output and reasoning tokens."
+          },
+          "temperature": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2,
+            "default": 1,
+            "description": "Sampling temperature. Higher values are more random; lower values are more deterministic."
+          },
+          "top_p": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1,
+            "description": "Nucleus sampling: only tokens within the top_p probability mass are considered."
+          },
+          "n": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 128,
+            "default": 1,
+            "description": "Number of chat completion choices per input message. ShuYou currently supports `n=1` only."
+          },
+          "frequency_penalty": {
+            "type": "number",
+            "minimum": -2,
+            "maximum": 2,
+            "default": 0,
+            "description": "Penalize tokens based on existing frequency in the text so far."
+          },
+          "presence_penalty": {
+            "type": "number",
+            "minimum": -2,
+            "maximum": 2,
+            "default": 0,
+            "description": "Penalize tokens based on whether they appear in the text so far."
+          },
+          "stop": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 4
+              }
+            ],
+            "nullable": true,
+            "description": "Up to 4 sequences where the API stops generating. Not supported on some reasoning models."
+          },
+          "logit_bias": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "minimum": -100,
+              "maximum": 100
+            },
+            "description": "Maps token IDs to bias values (-100 to 100) applied before sampling."
+          },
+          "logprobs": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false,
+            "description": "Return log probabilities of output tokens."
+          },
+          "top_logprobs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 20,
+            "description": "Number of most likely tokens per position. Requires `logprobs: true`."
+          },
+          "tools": {
+            "type": "array",
+            "description": "Tools the model may call (function or custom tools).",
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionTool"
+            }
+          },
+          "tool_choice": {
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "auto",
+                  "required"
+                ]
+              },
+              {
+                "$ref": "#/components/schemas/ChatCompletionNamedToolChoice"
+              },
+              {
+                "$ref": "#/components/schemas/ChatCompletionAllowedToolChoice"
+              }
+            ],
+            "description": "Controls which tool(s) the model calls. Default: `auto` when tools are present, else `none`."
+          },
+          "parallel_tool_calls": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether to allow parallel tool calls in a single response."
+          },
+          "reasoning_effort": {
+            "type": "string",
+            "enum": [
+              "none",
+              "minimal",
+              "low",
+              "medium",
+              "high",
+              "xhigh"
+            ],
+            "description": "Reasoning effort for reasoning models. Supported values vary by model."
+          },
+          "verbosity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "description": "Constrains response verbosity."
+          },
+          "web_search_options": {
+            "type": "object",
+            "description": "Configuration for the web search tool.",
+            "properties": {
+              "search_context_size": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ],
+                "description": "Amount of context window space for search. Default: `medium`."
+              },
+              "user_location": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "approximate"
+                    ]
+                  },
+                  "approximate": {
+                    "type": "object",
+                    "properties": {
+                      "city": {
+                        "type": "string"
+                      },
+                      "country": {
+                        "type": "string",
+                        "description": "Two-letter ISO country code"
+                      },
+                      "region": {
+                        "type": "string"
+                      },
+                      "timezone": {
+                        "type": "string",
+                        "description": "IANA timezone"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "maxLength": 512
+            },
+            "description": "Up to 16 key-value pairs (keys max 64 chars) for structured metadata."
+          },
+          "response_format": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ResponseFormatText"
+              },
+              {
+                "$ref": "#/components/schemas/ResponseFormatJSONObject"
+              },
+              {
+                "$ref": "#/components/schemas/ResponseFormatJSONSchema"
+              }
+            ],
+            "description": "Output format: `text`, `json_object`, or structured `json_schema`."
+          },
+          "stream": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false,
+            "description": "Stream the response via server-sent events."
+          },
+          "stream_options": {
+            "type": "object",
+            "description": "Options when `stream` is true.",
+            "properties": {
+              "include_usage": {
+                "type": "boolean",
+                "description": "Include a final chunk with token usage before `[DONE]`."
+              },
+              "include_obfuscation": {
+                "type": "boolean",
+                "description": "Include obfuscation fields on streaming deltas."
+              }
+            }
+          },
+          "reasoning": {
+            "type": "object",
+            "description": "ShuYou: configure reasoning trace behavior.",
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "effort": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              },
+              "max_tokens": {
+                "type": "number"
+              },
+              "exclude": {
+                "type": "boolean"
+              },
+              "usage": {
+                "type": "object",
+                "properties": {
+                  "include": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "include"
+                ]
+              }
+            },
+            "required": [
+              "enabled"
+            ]
+          },
+          "provider": {
+            "type": "object",
+            "description": "ShuYou: multi-provider routing configuration.",
+            "properties": {
+              "routing": {
+                "$ref": "#/components/schemas/ProviderRouting"
+              },
+              "fallback": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "routing"
+            ]
+          },
+          "model_routing_config": {
+            "type": "object",
+            "description": "ShuYou: model selection within a provider.",
+            "properties": {
+              "available_models": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "preference": {
+                "type": "string"
+              },
+              "task_info": {
+                "type": "object",
+                "properties": {
+                  "task_type": {
+                    "type": "string",
+                    "enum": [
+                      "chat",
+                      "completion",
+                      "embedding"
+                    ]
+                  },
+                  "complexity": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ]
+                  }
+                }
+              }
+            },
+            "required": [
+              "available_models"
+            ]
+          }
+        }
+      },
+      "ChatCompletionMessageParam": {
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "developer",
+              "system",
+              "user",
+              "assistant",
+              "tool"
+            ],
+            "description": "Message author role."
+          },
+          "content": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionContentPart"
+                }
+              }
+            ],
+            "description": "Message content as text or multimodal content parts."
+          },
+          "name": {
+            "type": "string",
+            "description": "Optional participant name to distinguish same-role participants."
+          },
+          "tool_call_id": {
+            "type": "string",
+            "description": "Required for `tool` role: ID of the tool call this message responds to."
+          },
+          "tool_calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionMessageToolCall"
+            },
+            "description": "Tool calls generated by the assistant."
+          },
+          "refusal": {
+            "type": "string",
+            "nullable": true,
+            "description": "Assistant refusal message."
+          },
+          "reasoning": {
+            "type": "string",
+            "description": "Reasoning text when reasoning is enabled (pass back in multi-turn)."
+          },
+          "reasoning_details": {
+            "type": "array",
+            "description": "Detailed reasoning segments; pass back unchanged in multi-turn tool calls.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "signature": {
+                  "type": "string"
+                },
+                "format": {
+                  "type": "string"
+                },
+                "index": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ChatCompletionContentPart": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ContentPartText"
+          },
+          {
+            "$ref": "#/components/schemas/ContentPartImage"
+          },
+          {
+            "$ref": "#/components/schemas/ContentPartInputAudio"
+          },
+          {
+            "$ref": "#/components/schemas/ContentPartFile"
+          },
+          {
+            "$ref": "#/components/schemas/ContentPartRefusal"
+          }
+        ]
+      },
+      "ContentPartText": {
+        "type": "object",
+        "required": [
+          "type",
+          "text"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "text"
+            ]
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "ContentPartImage": {
+        "type": "object",
+        "required": [
+          "type",
+          "image_url"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "image_url"
+            ]
+          },
+          "image_url": {
+            "type": "object",
+            "required": [
+              "url"
+            ],
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "Image URL or base64 data URL."
+              },
+              "detail": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "low",
+                  "high"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "ContentPartInputAudio": {
+        "type": "object",
+        "required": [
+          "type",
+          "input_audio"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "input_audio"
+            ]
+          },
+          "input_audio": {
+            "type": "object",
+            "required": [
+              "data",
+              "format"
+            ],
+            "properties": {
+              "data": {
+                "type": "string",
+                "description": "Base64-encoded audio."
+              },
+              "format": {
+                "type": "string",
+                "enum": [
+                  "wav",
+                  "mp3"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "ContentPartFile": {
+        "type": "object",
+        "required": [
+          "type",
+          "file"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "file"
+            ]
+          },
+          "file": {
+            "type": "object",
+            "properties": {
+              "file_id": {
+                "type": "string"
+              },
+              "file_data": {
+                "type": "string",
+                "description": "Base64-encoded file data."
+              },
+              "filename": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ContentPartRefusal": {
+        "type": "object",
+        "required": [
+          "type",
+          "refusal"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "refusal"
+            ]
+          },
+          "refusal": {
+            "type": "string"
+          }
+        }
+      },
+      "ChatCompletionTool": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ChatCompletionFunctionTool"
+          },
+          {
+            "$ref": "#/components/schemas/ChatCompletionCustomTool"
+          }
+        ]
+      },
+      "ChatCompletionFunctionTool": {
+        "type": "object",
+        "required": [
+          "type",
+          "function"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "function"
+            ]
+          },
+          "function": {
+            "$ref": "#/components/schemas/FunctionDefinition"
+          }
+        }
+      },
+      "ChatCompletionCustomTool": {
+        "type": "object",
+        "required": [
+          "type",
+          "custom"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "custom"
+            ]
+          },
+          "custom": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "format": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "enum": [
+                          "text"
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "enum": [
+                          "grammar"
+                        ]
+                      },
+                      "grammar": {
+                        "type": "object",
+                        "properties": {
+                          "definition": {
+                            "type": "string"
+                          },
+                          "syntax": {
+                            "type": "string",
+                            "enum": [
+                              "lark",
+                              "regex"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "FunctionDefinition": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "description": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object",
+            "description": "JSON Schema for function parameters."
+          },
+          "strict": {
+            "type": "boolean",
+            "description": "Enable strict schema adherence for function calls."
+          }
+        }
+      },
+      "ChatCompletionNamedToolChoice": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "function",
+              "custom"
+            ]
+          },
+          "function": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "custom": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        }
+      },
+      "ChatCompletionAllowedToolChoice": {
+        "type": "object",
+        "required": [
+          "type",
+          "allowed_tools"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "allowed_tools"
+            ]
+          },
+          "allowed_tools": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "required"
+                ]
+              },
+              "tools": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ChatCompletionMessageToolCall": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/FunctionToolCall"
+          },
+          {
+            "$ref": "#/components/schemas/CustomToolCall"
+          }
+        ]
+      },
+      "FunctionToolCall": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "function"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "function"
+            ]
+          },
+          "function": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "arguments": {
+                "type": "string",
+                "description": "JSON string of arguments."
+              }
+            }
+          }
+        }
+      },
+      "CustomToolCall": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "custom"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "custom"
+            ]
+          },
+          "custom": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "input": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ResponseFormatText": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "text"
+            ]
+          }
+        }
+      },
+      "ResponseFormatJSONObject": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "json_object"
+            ]
+          }
+        }
+      },
+      "ResponseFormatJSONSchema": {
+        "type": "object",
+        "required": [
+          "type",
+          "json_schema"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "json_schema"
+            ]
+          },
+          "json_schema": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 64
+              },
+              "description": {
+                "type": "string"
+              },
+              "schema": {
+                "type": "object"
+              },
+              "strict": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "ProviderRouting": {
+        "type": "object",
+        "required": [
+          "type",
+          "providers"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "priority",
+              "round_robin",
+              "least_latency"
+            ],
+            "description": "Routing strategy across providers."
+          },
+          "primary_factor": {
+            "type": "string",
+            "enum": [
+              "cost",
+              "speed",
+              "quality"
+            ]
+          },
+          "providers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "openai",
+              "anthropic",
+              "google"
+            ]
+          }
+        }
+      },
+      "ChatCompletion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string",
+            "enum": [
+              "chat.completion"
+            ]
+          },
+          "created": {
+            "type": "integer",
+            "description": "Unix timestamp (seconds)."
+          },
+          "model": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionChoice"
+            }
+          },
+          "usage": {
+            "$ref": "#/components/schemas/CompletionUsage"
+          },
+          "system_fingerprint": {
+            "type": "string"
+          }
+        }
+      },
+      "ChatCompletionChoice": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer"
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatCompletionMessage"
+          },
+          "finish_reason": {
+            "type": "string",
+            "enum": [
+              "stop",
+              "length",
+              "tool_calls",
+              "content_filter",
+              "function_call"
+            ]
+          },
+          "logprobs": {
+            "type": "object",
+            "nullable": true
+          }
+        }
+      },
+      "ChatCompletionMessage": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "assistant"
+            ]
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "refusal": {
+            "type": "string",
+            "nullable": true
+          },
+          "tool_calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionMessageToolCall"
+            }
+          },
+          "annotations": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "reasoning": {
+            "type": "string"
+          },
+          "reasoning_details": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "CompletionUsage": {
+        "type": "object",
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer"
+          },
+          "completion_tokens": {
+            "type": "integer"
+          },
+          "total_tokens": {
+            "type": "integer"
+          },
+          "prompt_tokens_details": {
+            "type": "object",
+            "properties": {
+              "cached_tokens": {
+                "type": "integer"
+              },
+              "audio_tokens": {
+                "type": "integer"
+              }
+            }
+          },
+          "completion_tokens_details": {
+            "type": "object",
+            "properties": {
+              "reasoning_tokens": {
+                "type": "integer"
+              },
+              "audio_tokens": {
+                "type": "integer"
+              },
+              "accepted_prediction_tokens": {
+                "type": "integer"
+              },
+              "rejected_prediction_tokens": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

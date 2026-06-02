@@ -20,10 +20,9 @@ Banana is a series of image generation models from Google that can produce high-
 
 The currently supported image generation models include (continuously updated):
 
-- `google/gemini-3-pro-image-preview`
-- `google/gemini-3-pro-image-preview-free`
-- `google/gemini-2.5-flash-image`
-- `google/gemini-2.5-flash-image-free`
+- `gemini-3.1-flash-image-preview` (Nano Banana 2)
+- `gemini-3-pro-image-preview` (Nano Banana Pro)
+- `gemini-2.5-flash-image` (Nano Banana)
 
 <Tip title="📚 More Models">
 Visit the [ShuYou model catalog](https://shuyou.ai/models) to search and view all available image generation models.
@@ -31,11 +30,12 @@ Visit the [ShuYou model catalog](https://shuyou.ai/models) to search and view al
 
 ## API reference
 
-OpenAI-compatible image APIs (`POST /v1/images/generations`) with interactive playgrounds:
+Image generation APIs with interactive playgrounds:
 
-- [Gemini Flash](/en/api-manual/image-series/gemini/gemini-flash-image-generate)
-- [Gemini Flash (Free)](/en/api-manual/image-series/gemini/gemini-flash-image-free-generate)
-- [Gemini Pro](/en/api-manual/image-series/gemini/gemini-pro-image-generate)
+- [GPT Image 2](/en/api-reference/image-series/openai/gpt-image-2-generate) — `POST /v1/predictions`
+- [Gemini 3.1 Flash Image Preview (Nano Banana 2)](/en/api-reference/image-series/gemini/gemini-3.1-flash-image-preview-generate) — `POST /v1/predictions`
+- [Gemini 3 Pro Image Preview (Nano Banana Pro)](/en/api-reference/image-series/gemini/gemini-3-pro-image-preview-generate) — `POST /v1/predictions`
+- [Gemini 2.5 Flash Image (Nano Banana)](/en/api-reference/image-series/gemini/gemini-2.5-flash-image-generate) — `POST /v1/predictions`
 
 ## Reference Documentation
 

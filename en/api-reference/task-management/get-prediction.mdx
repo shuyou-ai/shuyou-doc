@@ -1,0 +1,51 @@
+---
+title: Get Prediction
+description: Poll an asynchronous prediction task by task_id via GET /v1/predictions/{prediction_id}.
+openapi: en/api-reference/task-management/get-prediction.json GET /v1/predictions/{prediction_id}
+---
+
+Use the `data.task_id` returned from [Create Prediction](/en/api-reference/task-management/create-prediction) as the path parameter `prediction_id`.
+
+## Response fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `code` | string | Response status code. `"0"` indicates success. |
+| `usage` | object | Billing summary. May be omitted while the task is still processing. |
+| `usage.upstream_cost` | number | Upstream cost before discount (USD). |
+| `usage.discount` | number | Discount amount (USD). |
+| `usage.discount_percent` | number | Discount rate as a decimal (e.g. `0.75` = 75% off). |
+| `usage.cost` | number | Final billed cost after discount (USD). |
+| `data.task_id` | string | Async task ID. |
+| `data.task_status` | string | Task status, e.g. `processing`, `success`, or `failed`. |
+| `data.output` | array | Generated outputs when the task succeeds. |
+| `data.output[].type` | string | Output media type, e.g. `image` or `video`. |
+| `data.output[].image` | string | Image URL when `type` is `image`. URLs may be time-limited. |
+| `request_id` | string | Unique request identifier for support and debugging. |
+
+<ResponseExample>
+
+```json Response
+{
+  "code": "0",
+  "usage": {
+    "upstream_cost": 0.039,
+    "discount": 0.00975,
+    "discount_percent": 0.75,
+    "cost": 0.02925
+  },
+  "data": {
+    "task_id": "fa746cb19082452b82fea4f496f4065a",
+    "task_status": "success",
+    "output": [
+      {
+        "type": "image",
+        "image": "https://cdn.shuyou.ai/model/20a60c33ba954d85a669ee0f24da8e38.png?e=1778427598&token=Lk3Kb36M3K8oq2d5pU6CaYyoud2Au-APFP-ThE8B:cZUtU2t4yclXCeW0X3j0gJ8Oc58="
+      }
+    ]
+  },
+  "request_id": "8bd6b5784a1e42b79bf172607f476f56"
+}
+```
+
+</ResponseExample>

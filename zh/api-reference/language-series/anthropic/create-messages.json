@@ -1,0 +1,538 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Create a Message", "version": "1.0.0" },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/messages": {
+      "post": {
+        "tags": ["Anthropic Compatible API"],
+        "summary": "Create a Message",
+        "operationId": "createAnthropicMessage",
+        "parameters": [
+          {
+            "name": "anthropic-version",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "example": "2023-06-01" },
+            "description": "Anthropic API version. Currently only `2023-06-01` is supported."
+          },
+          {
+            "name": "anthropic-beta",
+            "in": "header",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Optional beta features (comma-separated). `code-execution-2025-08-25` is not supported on ShuYou."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateMessageRequest" },
+              "examples": {
+                "simple": {
+                  "summary": "Simple message",
+                  "value": {
+                    "model": "anthropic/claude-sonnet-4.6",
+                    "max_tokens": 1024,
+                    "messages": [{ "role": "user", "content": "Hello, Claude" }]
+                  }
+                },
+                "system": {
+                  "summary": "With system prompt",
+                  "value": {
+                    "model": "anthropic/claude-sonnet-4.6",
+                    "max_tokens": 1024,
+                    "system": "You are a helpful assistant.",
+                    "messages": [{ "role": "user", "content": "Hello!" }]
+                  }
+                },
+                "stream": {
+                  "summary": "Streaming",
+                  "value": {
+                    "model": "anthropic/claude-sonnet-4.6",
+                    "max_tokens": 1024,
+                    "messages": [{ "role": "user", "content": "Hello!" }],
+                    "stream": true
+                  }
+                },
+                "tools": {
+                  "summary": "Tool use",
+                  "value": {
+                    "model": "anthropic/claude-sonnet-4.6",
+                    "max_tokens": 1024,
+                    "messages": [
+                      { "role": "user", "content": "What is the weather in San Francisco?" }
+                    ],
+                    "tools": [
+                      {
+                        "name": "get_weather",
+                        "description": "Get the current weather for a location",
+                        "input_schema": {
+                          "type": "object",
+                          "properties": {
+                            "location": { "type": "string" }
+                          },
+                          "required": ["location"]
+                        }
+                      }
+                    ],
+                    "tool_choice": { "type": "auto" }
+                  }
+                },
+                "thinking": {
+                  "summary": "Extended thinking",
+                  "value": {
+                    "model": "anthropic/claude-sonnet-4.6",
+                    "max_tokens": 16000,
+                    "messages": [{ "role": "user", "content": "Solve this step by step: 17 * 24" }],
+                    "thinking": { "type": "enabled", "budget_tokens": 4096 }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message object, or SSE stream when `stream` is true",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Message" },
+                "example": {
+                  "id": "msg_example",
+                  "type": "message",
+                  "role": "assistant",
+                  "model": "anthropic/claude-sonnet-4.6",
+                  "content": [{ "type": "text", "text": "Hello! How can I help you today?" }],
+                  "stop_reason": "end_turn",
+                  "stop_sequence": null,
+                  "usage": {
+                    "input_tokens": 12,
+                    "output_tokens": 15
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid request" },
+          "401": { "description": "Unauthorized" },
+          "429": { "description": "Rate limit exceeded" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "ShuYou API key sent as `x-api-key` (Anthropic-compatible)."
+      }
+    },
+    "schemas": {
+      "CreateMessageRequest": {
+        "type": "object",
+        "required": ["model", "max_tokens", "messages"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model ID (`provider/model_name`), e.g. from List Models.",
+            "example": "anthropic/claude-sonnet-4.6"
+          },
+          "max_tokens": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Maximum tokens to generate (including thinking tokens when enabled).",
+            "example": 1024
+          },
+          "messages": {
+            "type": "array",
+            "description": "Conversation history. Roles alternate `user` / `assistant`; up to 100,000 messages.",
+            "items": { "$ref": "#/components/schemas/MessageParam" },
+            "minItems": 1
+          },
+          "system": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/TextBlockParam" }
+              }
+            ],
+            "description": "System prompt (no `system` role in `messages`)."
+          },
+          "metadata": {
+            "type": "object",
+            "deprecated": true,
+            "description": "Not supported on ShuYou.",
+            "properties": {
+              "user_id": { "type": "string" }
+            }
+          },
+          "stop_sequences": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Custom sequences that stop generation (`stop_reason`: `stop_sequence`)."
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false,
+            "description": "Stream the response via server-sent events."
+          },
+          "temperature": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1,
+            "description": "Sampling temperature (0 = more deterministic, 1 = more creative)."
+          },
+          "top_p": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Nucleus sampling. Prefer tuning either `temperature` or `top_p`."
+          },
+          "top_k": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Sample only from the top K tokens (advanced)."
+          },
+          "thinking": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": ["type", "budget_tokens"],
+                "properties": {
+                  "type": { "enum": ["enabled"] },
+                  "budget_tokens": {
+                    "type": "integer",
+                    "minimum": 1024,
+                    "description": "Reasoning token budget; must be < `max_tokens`."
+                  },
+                  "display": { "type": "string", "enum": ["summarized", "omitted"] }
+                }
+              },
+              {
+                "type": "object",
+                "required": ["type"],
+                "properties": {
+                  "type": { "enum": ["disabled"] }
+                }
+              },
+              {
+                "type": "object",
+                "required": ["type"],
+                "properties": {
+                  "type": { "enum": ["adaptive"] },
+                  "display": { "type": "string", "enum": ["summarized", "omitted"] }
+                }
+              }
+            ],
+            "description": "Extended thinking configuration."
+          },
+          "tool_choice": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": ["type"],
+                "properties": {
+                  "type": { "enum": ["auto", "any", "none"] },
+                  "disable_parallel_tool_use": { "type": "boolean" }
+                }
+              },
+              {
+                "type": "object",
+                "required": ["type", "name"],
+                "properties": {
+                  "type": { "enum": ["tool"] },
+                  "name": { "type": "string" },
+                  "disable_parallel_tool_use": { "type": "boolean" }
+                }
+              }
+            ]
+          },
+          "tools": {
+            "type": "array",
+            "description": "Tools the model may call (client tools and supported server tools).",
+            "items": { "$ref": "#/components/schemas/ToolUnion" }
+          },
+          "output_config": {
+            "type": "object",
+            "description": "Output configuration such as structured JSON.",
+            "properties": {
+              "format": {
+                "type": "object",
+                "required": ["type", "schema"],
+                "properties": {
+                  "type": { "enum": ["json_schema"] },
+                  "schema": { "type": "object" }
+                }
+              },
+              "effort": {
+                "type": "string",
+                "enum": ["low", "medium", "high", "xhigh", "max"]
+              }
+            }
+          },
+          "cache_control": { "$ref": "#/components/schemas/CacheControlEphemeral" },
+          "container": {
+            "type": "string",
+            "description": "Container identifier for reuse across requests (e.g. code execution)."
+          },
+          "inference_geo": {
+            "type": "string",
+            "description": "Geographic region for inference processing."
+          },
+          "service_tier": {
+            "type": "string",
+            "enum": ["auto", "standard_only"],
+            "deprecated": true,
+            "description": "Not supported on ShuYou."
+          }
+        }
+      },
+      "MessageParam": {
+        "type": "object",
+        "required": ["role", "content"],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": ["user", "assistant"]
+          },
+          "content": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/ContentBlockParam" }
+              }
+            ]
+          }
+        }
+      },
+      "ContentBlockParam": {
+        "oneOf": [
+          { "$ref": "#/components/schemas/TextBlockParam" },
+          { "$ref": "#/components/schemas/ImageBlockParam" },
+          { "$ref": "#/components/schemas/DocumentBlockParam" },
+          { "$ref": "#/components/schemas/ToolUseBlockParam" },
+          { "$ref": "#/components/schemas/ToolResultBlockParam" },
+          { "$ref": "#/components/schemas/ThinkingBlockParam" }
+        ]
+      },
+      "TextBlockParam": {
+        "type": "object",
+        "required": ["type", "text"],
+        "properties": {
+          "type": { "enum": ["text"] },
+          "text": { "type": "string" },
+          "cache_control": { "$ref": "#/components/schemas/CacheControlEphemeral" }
+        }
+      },
+      "ImageBlockParam": {
+        "type": "object",
+        "required": ["type", "source"],
+        "properties": {
+          "type": { "enum": ["image"] },
+          "source": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": ["type", "media_type", "data"],
+                "properties": {
+                  "type": { "enum": ["base64"] },
+                  "media_type": {
+                    "enum": ["image/jpeg", "image/png", "image/gif", "image/webp"]
+                  },
+                  "data": { "type": "string" }
+                }
+              },
+              {
+                "type": "object",
+                "required": ["type", "url"],
+                "properties": {
+                  "type": { "enum": ["url"] },
+                  "url": { "type": "string" }
+                }
+              }
+            ]
+          },
+          "cache_control": { "$ref": "#/components/schemas/CacheControlEphemeral" }
+        }
+      },
+      "DocumentBlockParam": {
+        "type": "object",
+        "required": ["type", "source"],
+        "properties": {
+          "type": { "enum": ["document"] },
+          "source": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": ["type", "media_type", "data"],
+                "properties": {
+                  "type": { "enum": ["base64"] },
+                  "media_type": { "enum": ["application/pdf"] },
+                  "data": { "type": "string" }
+                }
+              },
+              {
+                "type": "object",
+                "required": ["type", "url"],
+                "properties": {
+                  "type": { "enum": ["url"] },
+                  "url": { "type": "string" }
+                }
+              },
+              {
+                "type": "object",
+                "required": ["type", "media_type", "data"],
+                "properties": {
+                  "type": { "enum": ["text"] },
+                  "media_type": { "enum": ["text/plain"] },
+                  "data": { "type": "string" }
+                }
+              }
+            ]
+          },
+          "title": { "type": "string" },
+          "cache_control": { "$ref": "#/components/schemas/CacheControlEphemeral" }
+        }
+      },
+      "ToolUseBlockParam": {
+        "type": "object",
+        "required": ["type", "id", "name", "input"],
+        "properties": {
+          "type": { "enum": ["tool_use"] },
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "input": { "type": "object" }
+        }
+      },
+      "ToolResultBlockParam": {
+        "type": "object",
+        "required": ["type", "tool_use_id"],
+        "properties": {
+          "type": { "enum": ["tool_result"] },
+          "tool_use_id": { "type": "string" },
+          "content": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "$ref": "#/components/schemas/ContentBlockParam" } }
+            ]
+          },
+          "is_error": { "type": "boolean" }
+        }
+      },
+      "ThinkingBlockParam": {
+        "type": "object",
+        "required": ["type", "thinking", "signature"],
+        "properties": {
+          "type": { "enum": ["thinking"] },
+          "thinking": { "type": "string" },
+          "signature": { "type": "string" }
+        }
+      },
+      "CacheControlEphemeral": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": { "enum": ["ephemeral"] },
+          "ttl": { "type": "string", "enum": ["5m", "1h"], "default": "5m" }
+        }
+      },
+      "ToolUnion": {
+        "oneOf": [
+          { "$ref": "#/components/schemas/CustomTool" },
+          { "$ref": "#/components/schemas/WebSearchTool" }
+        ]
+      },
+      "CustomTool": {
+        "type": "object",
+        "required": ["name", "input_schema"],
+        "properties": {
+          "type": { "enum": ["custom"] },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string", "enum": ["object"] },
+              "properties": { "type": "object" },
+              "required": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "strict": { "type": "boolean" },
+          "cache_control": { "$ref": "#/components/schemas/CacheControlEphemeral" }
+        }
+      },
+      "WebSearchTool": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": { "enum": ["web_search"] },
+          "type": {
+            "enum": ["web_search_20250305", "web_search_20260209"]
+          },
+          "max_uses": { "type": "integer" },
+          "allowed_domains": { "type": "array", "items": { "type": "string" } },
+          "blocked_domains": { "type": "array", "items": { "type": "string" } },
+          "user_location": {
+            "type": "object",
+            "properties": {
+              "type": { "enum": ["approximate"] },
+              "city": { "type": "string" },
+              "country": { "type": "string" },
+              "region": { "type": "string" },
+              "timezone": { "type": "string" }
+            }
+          }
+        }
+      },
+      "Message": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "enum": ["message"] },
+          "role": { "enum": ["assistant"] },
+          "model": { "type": "string" },
+          "content": {
+            "type": "array",
+            "items": { "type": "object", "additionalProperties": true }
+          },
+          "stop_reason": {
+            "type": "string",
+            "enum": ["end_turn", "max_tokens", "stop_sequence", "tool_use", "pause_turn", "refusal"]
+          },
+          "stop_sequence": { "type": "string", "nullable": true },
+          "usage": { "$ref": "#/components/schemas/Usage" }
+        }
+      },
+      "Usage": {
+        "type": "object",
+        "properties": {
+          "input_tokens": { "type": "integer" },
+          "output_tokens": { "type": "integer" },
+          "cache_creation_input_tokens": { "type": "integer" },
+          "cache_read_input_tokens": { "type": "integer" },
+          "cache_creation": {
+            "type": "object",
+            "properties": {
+              "ephemeral_5m_input_tokens": { "type": "integer" },
+              "ephemeral_1h_input_tokens": { "type": "integer" }
+            }
+          },
+          "output_tokens_details": {
+            "type": "object",
+            "properties": {
+              "thinking_tokens": { "type": "integer" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

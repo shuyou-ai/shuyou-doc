@@ -1,0 +1,101 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Get Credits",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/credits": {
+      "get": {
+        "tags": [
+          "Account Management"
+        ],
+        "summary": "Get Credits",
+        "operationId": "getCredits",
+        "description": "Query the current account credit balance, total usage, and remaining balance.",
+        "responses": {
+          "200": {
+            "description": "Credit balance response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCreditsResponse"
+                },
+                "example": {
+                  "data": {
+                    "total_credits": 100,
+                    "total_usage": 25,
+                    "balance": 75
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "GetCreditsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CreditsData"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "CreditsData": {
+        "type": "object",
+        "properties": {
+          "total_credits": {
+            "type": "number",
+            "format": "double",
+            "description": "Total credits allocated to the account.",
+            "example": 100
+          },
+          "total_usage": {
+            "type": "number",
+            "format": "double",
+            "description": "Total credits consumed.",
+            "example": 25
+          },
+          "balance": {
+            "type": "number",
+            "format": "double",
+            "description": "Remaining credit balance (`total_credits` − `total_usage`).",
+            "example": 75
+          }
+        },
+        "required": [
+          "total_credits",
+          "total_usage",
+          "balance"
+        ]
+      }
+    }
+  }
+}

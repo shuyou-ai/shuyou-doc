@@ -1,0 +1,268 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "创建预测任务",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": [
+          "任务管理"
+        ],
+        "summary": "创建预测任务",
+        "operationId": "createPrediction",
+        "description": "提交异步图片、视频或音频预测任务。所有能力共用相同的顶层请求结构；`input` 随 `function` 变化。使用 `data.task_id` 查询 [Get a prediction](/zh/api-reference/task-management/get-prediction)，或配置顶层 `webhook`。",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictionRequest"
+              },
+              "examples": {
+                "image": {
+                  "summary": "图片生成",
+                  "value": {
+                    "model": "gemini-2.5-flash-image",
+                    "function": "image",
+                    "input": {
+                      "prompt": "生成一个 ShuYou AI logo",
+                      "aspect_ratio": "1:1",
+                      "resolution": "1K",
+                      "image_urls": [],
+                      "num_images": 1,
+                      "output_format": "png"
+                    },
+                    "webhook": "https://api.shuyou.ai/api/callback"
+                  }
+                },
+                "video": {
+                  "summary": "视频生成",
+                  "value": {
+                    "model": "veo-3.1-lite-generate-preview",
+                    "function": "video",
+                    "input": {
+                      "prompt": "A cinematic shot of a majestic lion in the savannah.",
+                      "aspect_ratio": "16:9",
+                      "resolution": "720P",
+                      "duration": "4"
+                    },
+                    "webhook": "https://api.shuyou.ai/api/callback"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "异步任务已创建",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictionTaskResponse"
+                },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数错误"
+          },
+          "401": {
+            "description": "未认证"
+          },
+          "402": {
+            "description": "配额不足"
+          },
+          "403": {
+            "description": "无权限访问"
+          },
+          "429": {
+            "description": "请求频率超限"
+          },
+          "500": {
+            "description": "服务器内部错误"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "PredictionRequest": {
+        "type": "object",
+        "required": [
+          "model",
+          "function",
+          "input"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型 ID，见各模型详情页（可与平台约定的 `<供应商>/<模型名>` 形式一致）。",
+            "example": "gemini-2.5-flash-image"
+          },
+          "function": {
+            "type": "string",
+            "description": "任务类型：`image`（图片）、`video`（视频）、`audio`（音频）。",
+            "enum": [
+              "image",
+              "video",
+              "audio"
+            ],
+            "example": "image"
+          },
+          "input": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ImagePredictionInput"
+              },
+              {
+                "$ref": "#/components/schemas/VideoPredictionInput"
+              },
+              {
+                "$ref": "#/components/schemas/AudioPredictionInput"
+              }
+            ],
+            "description": "与当前 `function` 对应的输入参数，详见下文各节及模型详情页。"
+          },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "可选。任务状态或结果更新时，服务端回调的 HTTPS URL。",
+            "example": "https://api.shuyou.ai/api/callback"
+          }
+        }
+      },
+      "ImagePredictionInput": {
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "图像生成的文本描述（提示词）。",
+            "example": "生成一个 ShuYou AI logo"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "画幅比例，如 `1:1`、`16:9`、`9:16` 等。具体取值以所选模型文档为准。",
+            "example": "1:1"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "输出分辨率档位，如 `1K`、`2K` 等。具体取值以所选模型文档为准。",
+            "example": "1K"
+          },
+          "image_urls": {
+            "type": "array",
+            "description": "参考图或输入图 URL 列表，用于图生图或风格参考；不需要时可传空数组 `[]`。",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "default": []
+          },
+          "num_images": {
+            "type": "integer",
+            "description": "生成图片张数，默认 `1`。实际上限取决于模型与配额。",
+            "default": 1,
+            "example": 1
+          },
+          "output_format": {
+            "type": "string",
+            "description": "输出编码格式，如 `png`、`jpeg`、`webp` 等；未传时由平台或模型使用默认格式。",
+            "example": "png"
+          }
+        },
+        "additionalProperties": true
+      },
+      "VideoPredictionInput": {
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "视频内容与镜头的文本描述（提示词）。",
+            "example": "A cinematic shot of a majestic lion in the savannah."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "画幅比例，如 `16:9`、`9:16`、`1:1` 等。具体取值以所选模型文档为准。",
+            "example": "16:9"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "输出视频分辨率档位，如 `720P`、`1080P` 等。具体取值以所选模型文档为准。",
+            "example": "720P"
+          },
+          "duration": {
+            "type": "string",
+            "description": "生成视频时长，一般以字符串形式传入秒数或模型约定的枚举（例如 `\"4\"` 表示 4 秒）。支持的档位因模型而异。",
+            "example": "4"
+          }
+        },
+        "additionalProperties": true
+      },
+      "AudioPredictionInput": {
+        "type": "object",
+        "description": "音频能力的 input 字段（如文本转语音的音色、语速、采样率等）因模型而异，请以对应 model 详情页为准。",
+        "additionalProperties": true
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "异步任务 ID，用于查询预测任务或关联 webhook。",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "任务当前状态，如 `processing`。",
+                "example": "processing"
+              }
+            },
+            "required": [
+              "task_id",
+              "task_status"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "查询预测任务",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/predictions/{prediction_id}": {
+      "get": {
+        "tags": [
+          "任务管理"
+        ],
+        "summary": "查询预测任务",
+        "operationId": "getPrediction",
+        "description": "通过 [Create Prediction](/zh/api-reference/task-management/create-prediction) 返回的 `task_id` 轮询异步预测任务。",
+        "parameters": [
+          {
+            "name": "prediction_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "创建任务时返回的任务 ID（`data.task_id`）。",
+            "example": "fa746cb19082452b82fea4f496f4065a"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "预测任务详情",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPredictionResponse"
+                },
+                "example": {
+                  "code": "0",
+                  "usage": {
+                    "upstream_cost": 0.039,
+                    "discount": 0.00975,
+                    "discount_percent": 0.75,
+                    "cost": 0.02925
+                  },
+                  "data": {
+                    "task_id": "fa746cb19082452b82fea4f496f4065a",
+                    "task_status": "success",
+                    "output": [
+                      {
+                        "type": "image",
+                        "image": "https://cdn.shuyou.ai/model/20a60c33ba954d85a669ee0f24da8e38.png?e=1778427598&token=Lk3Kb36M3K8oq2d5pU6CaYyoud2Au-APFP-ThE8B:cZUtU2t4yclXCeW0X3j0gJ8Oc58="
+                      }
+                    ]
+                  },
+                  "request_id": "8bd6b5784a1e42b79bf172607f476f56"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数错误"
+          },
+          "401": {
+            "description": "未认证"
+          },
+          "404": {
+            "description": "预测任务不存在"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "GetPredictionResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "响应状态码，`\"0\"` 表示成功。",
+            "example": "0"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/PredictionUsage"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PredictionData"
+          },
+          "request_id": {
+            "type": "string",
+            "description": "唯一请求 ID，用于排查与支持。",
+            "example": "8bd6b5784a1e42b79bf172607f476f56"
+          }
+        },
+        "required": [
+          "code",
+          "data",
+          "request_id"
+        ]
+      },
+      "PredictionUsage": {
+        "type": "object",
+        "description": "本次预测任务的计费摘要；任务处理中时可能尚未返回。",
+        "properties": {
+          "upstream_cost": {
+            "type": "number",
+            "format": "double",
+            "description": "折扣前上游成本（USD）。",
+            "example": 0.039
+          },
+          "discount": {
+            "type": "number",
+            "format": "double",
+            "description": "折扣金额（USD）。",
+            "example": 0.00975
+          },
+          "discount_percent": {
+            "type": "number",
+            "format": "double",
+            "description": "折扣比例（小数，如 `0.75` 表示 75 折）。",
+            "example": 0.75
+          },
+          "cost": {
+            "type": "number",
+            "format": "double",
+            "description": "折扣后的最终计费金额（USD）。",
+            "example": 0.02925
+          }
+        }
+      },
+      "PredictionData": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "异步任务 ID。",
+            "example": "fa746cb19082452b82fea4f496f4065a"
+          },
+          "task_status": {
+            "type": "string",
+            "description": "任务状态，如 `processing`、`success`、`failed`。",
+            "example": "success"
+          },
+          "output": {
+            "type": "array",
+            "description": "任务成功时的生成结果列表；条目结构随 `type` 变化（如 `image` 为图片 URL）。",
+            "items": {
+              "$ref": "#/components/schemas/PredictionOutputItem"
+            }
+          }
+        },
+        "required": [
+          "task_id",
+          "task_status"
+        ]
+      },
+      "PredictionOutputItem": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "输出媒体类型，如 `image`、`video`。",
+            "example": "image"
+          },
+          "image": {
+            "type": "string",
+            "format": "uri",
+            "description": "当 `type` 为 `image` 时的图片 URL；链接可能有时效。",
+            "example": "https://cdn.shuyou.ai/model/20a60c33ba954d85a669ee0f24da8e38.png?e=1778427598&token=Lk3Kb36M3K8oq2d5pU6CaYyoud2Au-APFP-ThE8B:cZUtU2t4yclXCeW0X3j0gJ8Oc58="
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}

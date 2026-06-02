@@ -1,0 +1,27 @@
+---
+title: 查询账户余额
+description: 通过 GET /v1/credits 查询账户 credits 余额。
+openapi: zh/api-reference/account-management/get-credits.json GET /v1/credits
+---
+
+## 响应字段
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `data.total_credits` | number | 账户总 credits 额度。 |
+| `data.total_usage` | number | 已消耗的 credits 总量。 |
+| `data.balance` | number | 剩余 credits 余额（`total_credits` − `total_usage`）。 |
+
+<ResponseExample>
+
+```json 响应
+{
+  "data": {
+    "total_credits": 100,
+    "total_usage": 25,
+    "balance": 75
+  }
+}
+```
+
+</ResponseExample>

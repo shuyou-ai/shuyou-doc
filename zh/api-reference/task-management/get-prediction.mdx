@@ -1,0 +1,51 @@
+---
+title: 查询预测任务
+description: 通过 GET /v1/predictions/{prediction_id} 使用 task_id 轮询异步预测任务。
+openapi: zh/api-reference/task-management/get-prediction.json GET /v1/predictions/{prediction_id}
+---
+
+将 [Create Prediction](/zh/api-reference/task-management/create-prediction) 返回的 `data.task_id` 作为路径参数 `prediction_id` 传入。
+
+## 响应字段
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| `code` | string | 响应状态码，`"0"` 表示成功。 |
+| `usage` | object | 计费摘要；任务处理中时可能尚未返回。 |
+| `usage.upstream_cost` | number | 折扣前上游成本（USD）。 |
+| `usage.discount` | number | 折扣金额（USD）。 |
+| `usage.discount_percent` | number | 折扣比例（小数，如 `0.75` 表示 75 折）。 |
+| `usage.cost` | number | 折扣后的最终计费金额（USD）。 |
+| `data.task_id` | string | 异步任务 ID。 |
+| `data.task_status` | string | 任务状态，如 `processing`、`success`、`failed`。 |
+| `data.output` | array | 任务成功时的生成结果。 |
+| `data.output[].type` | string | 输出媒体类型，如 `image`、`video`。 |
+| `data.output[].image` | string | 当 `type` 为 `image` 时的图片 URL；链接可能有时效。 |
+| `request_id` | string | 唯一请求 ID，用于排查与支持。 |
+
+<ResponseExample>
+
+```json 响应
+{
+  "code": "0",
+  "usage": {
+    "upstream_cost": 0.039,
+    "discount": 0.00975,
+    "discount_percent": 0.75,
+    "cost": 0.02925
+  },
+  "data": {
+    "task_id": "fa746cb19082452b82fea4f496f4065a",
+    "task_status": "success",
+    "output": [
+      {
+        "type": "image",
+        "image": "https://cdn.shuyou.ai/model/20a60c33ba954d85a669ee0f24da8e38.png?e=1778427598&token=Lk3Kb36M3K8oq2d5pU6CaYyoud2Au-APFP-ThE8B:cZUtU2t4yclXCeW0X3j0gJ8Oc58="
+      }
+    ]
+  },
+  "request_id": "8bd6b5784a1e42b79bf172607f476f56"
+}
+```
+
+</ResponseExample>

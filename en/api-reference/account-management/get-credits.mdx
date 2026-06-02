@@ -1,0 +1,27 @@
+---
+title: Get Credits
+description: Query account credit balance via GET /v1/credits.
+openapi: en/api-reference/account-management/get-credits.json GET /v1/credits
+---
+
+## Response fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data.total_credits` | number | Total credits allocated to the account. |
+| `data.total_usage` | number | Total credits consumed. |
+| `data.balance` | number | Remaining credit balance (`total_credits` − `total_usage`). |
+
+<ResponseExample>
+
+```json Response
+{
+  "data": {
+    "total_credits": 100,
+    "total_usage": 25,
+    "balance": 75
+  }
+}
+```
+
+</ResponseExample>

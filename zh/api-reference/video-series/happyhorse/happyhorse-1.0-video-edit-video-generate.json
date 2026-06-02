@@ -1,0 +1,312 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HappyHorse 1.0 视频编辑",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": [
+          "视频生成"
+        ],
+        "summary": "HappyHorse 1.0 视频编辑",
+        "operationId": "createHappyhorse10VideoEditPrediction",
+        "description": "HappyHorse 1.0 视频编辑（`happyhorse-1.0-video-edit`）根据文本提示词，结合参考图与/或参考视频生成或编辑视频，保持主体外观一致。异步：用 `data.task_id` 查询预测任务，或配置顶层 `webhook`。",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Happyhorse10VideoEditPredictionRequest"
+              },
+              "examples": {
+                "video_edit_minimal": {
+                  "summary": "视频编辑（最简）",
+                  "value": {
+                    "model": "happyhorse-1.0-video-edit",
+                    "function": "video",
+                    "input": {
+                      "prompt": "将背景替换为雪山风景，主体保持不变",
+                      "reference_video_urls": [
+                        "https://example.com/source-video.mp4"
+                      ]
+                    }
+                  }
+                },
+                "video_edit_full": {
+                  "summary": "视频编辑（完整参数）",
+                  "value": {
+                    "model": "happyhorse-1.0-video-edit",
+                    "function": "video",
+                    "input": {
+                      "prompt": "应用电影感调色并保持角色外观一致",
+                      "reference_image_urls": [
+                        "https://example.com/character-ref-1.png",
+                        "https://example.com/character-ref-2.png"
+                      ],
+                      "reference_video_urls": [
+                        "https://example.com/source-video.mp4"
+                      ],
+                      "resolution": "1080P",
+                      "watermark": false
+                    }
+                  }
+                },
+                "with_watermark": {
+                  "summary": "含水印",
+                  "value": {
+                    "model": "happyhorse-1.0-video-edit",
+                    "function": "video",
+                    "input": {
+                      "prompt": "增强光照并为参考片段添加轻微运动模糊",
+                      "reference_video_urls": [
+                        "https://example.com/source-video.mp4"
+                      ],
+                      "reference_image_urls": [
+                        "https://example.com/style-ref.png"
+                      ],
+                      "resolution": "720P",
+                      "watermark": true
+                    },
+                    "webhook": "https://api.shuyou.ai/api/callback"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "异步任务已创建",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictionTaskResponse"
+                },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未认证",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "配额不足",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "无权限访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "Happyhorse10VideoEditPredictionRequest": {
+        "type": "object",
+        "required": [
+          "model",
+          "function",
+          "input"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型 ID。本接口请使用 `happyhorse-1.0-video-edit`。",
+            "enum": [
+              "happyhorse-1.0-video-edit"
+            ],
+            "default": "happyhorse-1.0-video-edit",
+            "example": "happyhorse-1.0-video-edit"
+          },
+          "function": {
+            "type": "string",
+            "description": "任务类型。视频生成必须为 `video`。",
+            "enum": [
+              "video"
+            ],
+            "example": "video"
+          },
+          "input": {
+            "$ref": "#/components/schemas/Happyhorse10VideoEditInput"
+          },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "可选。任务完成、失败或取消时的 HTTPS 回调地址（Predictions API 顶层字段）。"
+          }
+        }
+      },
+      "Happyhorse10VideoEditInput": {
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "描述要生成视频的文本提示词。",
+            "maxLength": 2500,
+            "example": "将背景替换为雪山风景，主体保持不变"
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "description": "参考图 URL 列表，用于保持主体外观一致，最多 5 张。",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "maxItems": 5,
+            "default": []
+          },
+          "reference_video_urls": {
+            "type": "array",
+            "description": "参考视频 URL 列表，用于保持主体外观一致，最多 1 个。",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "maxItems": 1,
+            "default": []
+          },
+          "resolution": {
+            "type": "string",
+            "description": "生成视频的分辨率档位，默认 `1080P`。",
+            "enum": [
+              "720P",
+              "1080P"
+            ],
+            "default": "1080P",
+            "example": "1080P"
+          },
+          "watermark": {
+            "type": "boolean",
+            "description": "是否添加水印。为 `true` 时，在画面右下角添加固定文案「Happy Horse」水印。默认 `false`。",
+            "default": false,
+            "example": false
+          }
+        }
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "异步任务 ID，用于查询预测任务或关联 webhook。",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "任务当前状态，如 `processing`。",
+                "example": "processing"
+              }
+            },
+            "required": [
+              "task_id",
+              "task_status"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

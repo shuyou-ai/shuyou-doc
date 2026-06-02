@@ -1,0 +1,129 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "List Models",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/models": {
+      "get": {
+        "tags": [
+          "OpenAI Compatible API"
+        ],
+        "summary": "List Models",
+        "operationId": "listOpenAIModels",
+        "responses": {
+          "200": {
+            "description": "Model list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelList"
+                },
+                "example": {
+                  "object": "list",
+                  "data": [
+                    {
+                      "id": "openai/gpt-5",
+                      "object": "model",
+                      "display_name": "GPT-5",
+                      "owned_by": "openai",
+                      "input_modalities": [
+                        "text",
+                        "image"
+                      ],
+                      "output_modalities": [
+                        "text"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY` — create keys in the [ShuYou console](https://shuyou.ai/signin)."
+      }
+    },
+    "schemas": {
+      "ModelList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "example": "list"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Model"
+            }
+          }
+        }
+      },
+      "Model": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Model ID (`provider/model_name`)"
+          },
+          "object": {
+            "type": "string",
+            "example": "model"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "created": {
+            "type": "integer"
+          },
+          "owned_by": {
+            "type": "string"
+          },
+          "input_modalities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "output_modalities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "context_length": {
+            "type": "integer"
+          },
+          "capabilities": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "pricings": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,318 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Gemini 3 Pro Image Preview (Nano Banana Pro)",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": ["Image Generation"],
+        "summary": "Gemini 3 Pro Image Preview (Nano Banana Pro)",
+        "operationId": "createGemini3ProImagePreviewPrediction",
+        "description": "Nano Banana Pro (`gemini-3-pro-image-preview`) supports text-to-image, image-to-image, and image editing. Use `input.aspect_ratio`, `input.resolution`, and other fields as documented. Async mode: poll with Get a prediction using `data.task_id`, or use top-level `webhook`. Generated image URLs are valid for 24 hours.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Gemini3ProImagePredictionRequest" },
+              "examples": {
+                "text_to_image": {
+                  "summary": "Text to image (minimal)",
+                  "value": {
+                    "model": "gemini-3-pro-image-preview",
+                    "function": "image",
+                    "input": {
+                      "prompt": "A cat playing on the grass"
+                    }
+                  }
+                },
+                "text_to_image_sized": {
+                  "summary": "Text to image (aspect_ratio & resolution)",
+                  "value": {
+                    "model": "gemini-3-pro-image-preview",
+                    "function": "image",
+                    "input": {
+                      "prompt": "Cinematic wide shot of a futuristic city at dusk",
+                      "aspect_ratio": "16:9",
+                      "resolution": "4K"
+                    }
+                  }
+                },
+                "image_edit": {
+                  "summary": "Image to image / edit",
+                  "value": {
+                    "model": "gemini-3-pro-image-preview",
+                    "function": "image",
+                    "input": {
+                      "prompt": "Turn the scene into watercolor style",
+                      "aspect_ratio": "1:1",
+                      "resolution": "2K",
+                      "image_urls": ["https://example.com/reference.png"]
+                    },
+                    "webhook": "https://your-domain.com/webhook/image-done"
+                  }
+                },
+                "with_model_params": {
+                  "summary": "With model_params",
+                  "value": {
+                    "model": "gemini-3-pro-image-preview",
+                    "function": "image",
+                    "input": {
+                      "prompt": "A photorealistic product shot on a clean studio background",
+                      "resolution": "2K",
+                      "model_params": {
+                        "web_search": true,
+                        "image_search": false,
+                        "thinking_level": "high"
+                      }
+                    }
+                  }
+                },
+                "with_output_format": {
+                  "summary": "With output_format",
+                  "value": {
+                    "model": "gemini-3-pro-image-preview",
+                    "function": "image",
+                    "input": {
+                      "prompt": "A minimalist ShuYou AI logo",
+                      "aspect_ratio": "1:1",
+                      "resolution": "2K",
+                      "num_images": 1,
+                      "output_format": "png",
+                      "image_urls": []
+                    },
+                    "webhook": "https://api.shuyou.ai/api/callback"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Async task created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PredictionTaskResponse" },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient quota",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "Model access denied",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "Gemini3ProImagePredictionRequest": {
+        "type": "object",
+        "required": ["model", "function", "input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model ID. Use `gemini-3-pro-image-preview` (alias Nano Banana Pro) for this endpoint.",
+            "enum": ["gemini-3-pro-image-preview"],
+            "default": "gemini-3-pro-image-preview",
+            "example": "gemini-3-pro-image-preview"
+          },
+          "function": {
+            "type": "string",
+            "description": "Task type. Must be `image` for image generation.",
+            "enum": ["image"],
+            "example": "image"
+          },
+          "input": { "$ref": "#/components/schemas/Gemini3ProImageInput" },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional HTTPS callback URL when the task completes, fails, or is cancelled (Predictions API)."
+          }
+        }
+      },
+      "Gemini3ProImageInput": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "Prompt describing the image to generate or how to edit reference images. Max 2,000 tokens.",
+            "maxLength": 2000,
+            "example": "A cat playing on the grass"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "Aspect ratio of the generated image. Default `auto`.",
+            "enum": [
+              "auto",
+              "1:1",
+              "2:3",
+              "3:2",
+              "3:4",
+              "4:3",
+              "4:5",
+              "5:4",
+              "9:16",
+              "16:9",
+              "21:9"
+            ],
+            "default": "auto",
+            "example": "auto"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "Output quality of the generated image. Default `2K`. Note: 4K quality incurs additional charges.",
+            "enum": ["1K", "2K", "4K"],
+            "default": "2K",
+            "example": "2K"
+          },
+          "image_urls": {
+            "type": "array",
+            "description": "Reference image URLs for image-to-image or editing. Up to 14 images per request; each up to 20MB; formats `.jpeg`, `.jpg`, `.png`, `.webp`. URLs must be directly accessible. At most 4 real-person images per request.",
+            "items": { "type": "string", "format": "uri" },
+            "minItems": 0,
+            "maxItems": 14,
+            "example": ["https://example.com/image1.png"]
+          },
+          "model_params": {
+            "$ref": "#/components/schemas/Gemini3ProModelParams",
+            "description": "Optional model extension parameters."
+          },
+          "num_images": {
+            "type": "integer",
+            "description": "**ShuYou platform.** Number of images to generate when the model supports batch output.",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 1,
+            "example": 1
+          },
+          "output_format": {
+            "type": "string",
+            "description": "**ShuYou platform.** Output encoding, e.g. `png`, `jpeg`, `webp`.",
+            "example": "png"
+          }
+        }
+      },
+      "Gemini3ProModelParams": {
+        "type": "object",
+        "description": "Model extension parameters.",
+        "properties": {
+          "web_search": {
+            "type": "boolean",
+            "description": "Enable web search to inform image generation.",
+            "example": true
+          },
+          "image_search": {
+            "type": "boolean",
+            "description": "Enable image search to inform image generation.",
+            "example": false
+          },
+          "thinking_level": {
+            "type": "string",
+            "description": "Reasoning depth before generation. `auto` (default), `min` (fastest), or `high` (best quality).",
+            "enum": ["auto", "min", "high"],
+            "default": "auto",
+            "example": "auto"
+          }
+        }
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "Async task ID. Use with Get a prediction or webhook correlation.",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "Current task status, e.g. `processing`.",
+                "example": "processing"
+              }
+            },
+            "required": ["task_id", "task_status"]
+          }
+        },
+        "required": ["data"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

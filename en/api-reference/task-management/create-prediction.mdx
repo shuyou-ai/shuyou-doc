@@ -1,0 +1,129 @@
+---
+title: Create Prediction
+description: Submit asynchronous image, video, or audio prediction tasks via POST /v1/predictions.
+openapi: en/api-reference/task-management/create-prediction.json POST /v1/predictions
+---
+
+## Common request body
+
+All capabilities share the following top-level fields. The shape of `input` varies by `function`.
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | Yes | Model ID as shown on each model page (may follow `<provider>/<model-name>`). |
+| `function` | string | Yes | Task type: `image` (image), `video` (video), or `audio` (audio). |
+| `input` | object | Yes | Input parameters for the selected `function`. See sections below. |
+| `webhook` | string | No | HTTPS URL for server callbacks on task status or result updates (e.g. `https://api.shuyou.ai/api/callback`). |
+
+## Image generation (`function: image`)
+
+Use for text-to-image, reference-image generation, and similar scenarios. The following fields are inside the `input` object.
+
+<ParamField body="input.prompt" type="string" required>
+  Text prompt describing the image to generate.
+</ParamField>
+
+<ParamField body="input.aspect_ratio" type="string">
+  Aspect ratio such as `1:1`, `16:9`, or `9:16`. Supported values depend on the selected model.
+</ParamField>
+
+<ParamField body="input.resolution" type="string">
+  Output resolution tier such as `1K` or `2K`. Supported values depend on the selected model.
+</ParamField>
+
+<ParamField body="input.image_urls" type="array">
+  Reference or input image URL list (string array) for image-to-image or style reference. Pass `[]` when not needed.
+</ParamField>
+
+<ParamField body="input.num_images" type="integer">
+  Number of images to generate. Default `1`. Actual limit depends on model and quota.
+</ParamField>
+
+<ParamField body="input.output_format" type="string">
+  Output encoding such as `png`, `jpeg`, or `webp`. Uses platform or model default when omitted.
+</ParamField>
+
+<Tip>
+  Different models may support different subsets of these fields. See each model page for details. Unsupported fields may be ignored or return a parameter error.
+</Tip>
+
+<RequestExample>
+
+```json Image request
+{
+  "model": "gemini-2.5-flash-image",
+  "function": "image",
+  "input": {
+    "prompt": "Generate a ShuYou AI logo",
+    "aspect_ratio": "1:1",
+    "resolution": "1K",
+    "image_urls": [],
+    "num_images": 1,
+    "output_format": "png"
+  },
+  "webhook": "https://api.shuyou.ai/api/callback"
+}
+```
+
+</RequestExample>
+
+## Video generation (`function: video`)
+
+Use for text-to-video and related scenarios. The following fields are inside the `input` object. Supported resolution tiers, duration options, and other values vary by model.
+
+<ParamField body="input.prompt" type="string" required>
+  Text prompt describing video content and camera motion.
+</ParamField>
+
+<ParamField body="input.aspect_ratio" type="string">
+  Aspect ratio such as `16:9`, `9:16`, or `1:1`. Supported values depend on the selected model.
+</ParamField>
+
+<ParamField body="input.resolution" type="string">
+  Output resolution tier such as `720P` or `1080P`. Supported values depend on the selected model.
+</ParamField>
+
+<ParamField body="input.duration" type="string">
+  Video duration, usually passed as a string seconds value or model-specific enum (e.g. `"4"` for 4 seconds). Supported values vary by model.
+</ParamField>
+
+<Tip>
+  If a field is invalid for the current model, it may be ignored or trigger a validation error. Extended fields (such as first-frame image URLs) are documented on each model page.
+</Tip>
+
+<RequestExample>
+
+```json Video request
+{
+  "model": "veo-3.1-lite-generate-preview",
+  "function": "video",
+  "input": {
+    "prompt": "A cinematic shot of a majestic lion in the savannah.",
+    "aspect_ratio": "16:9",
+    "resolution": "720P",
+    "duration": "4"
+  },
+  "webhook": "https://api.shuyou.ai/api/callback"
+}
+```
+
+</RequestExample>
+
+## Audio generation (`function: audio`)
+
+Audio `input` fields (voice, speed, sample rate, etc.) vary by model. Parameter details and examples will be added in a future release. Refer to the corresponding model page or console documentation when integrating.
+
+<ResponseExample>
+
+```json Response
+{
+  "data": {
+    "task_id": "2c4d50261173430290971a2395a3b607",
+    "task_status": "processing"
+  }
+}
+```
+
+</ResponseExample>
+
+Poll task status with [Get a prediction](/en/api-reference/task-management/get-prediction) using `data.task_id`.

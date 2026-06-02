@@ -1,0 +1,212 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "List Models",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/models": {
+      "get": {
+        "tags": [
+          "OpenAI Compatible API"
+        ],
+        "summary": "List Models",
+        "operationId": "listOpenAIModels",
+        "responses": {
+          "200": {
+            "description": "Model list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelList"
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": "gpt-5.5-pro",
+                      "object": "model",
+                      "created": 1777046400000,
+                      "owned_by": "openai",
+                      "slug": "openai/gpt-5.5-pro",
+                      "name": "GPT 5.5 Pro",
+                      "display_name": "GPT 5.5 Pro",
+                      "release_date": "2026-04-25",
+                      "context_length": 1050000,
+                      "input_modalities": [
+                        "text",
+                        "file",
+                        "image"
+                      ],
+                      "output_modalities": [
+                        "text"
+                      ],
+                      "capabilities": [
+                        "TG",
+                        "DR"
+                      ],
+                      "tags": [
+                        "text-generation",
+                        "reasoning",
+                        "web-search"
+                      ],
+                      "supported_parameters": [
+                        "include_reasoning",
+                        "max_tokens",
+                        "reasoning",
+                        "response_format",
+                        "seed",
+                        "structured_outputs",
+                        "tool_choice",
+                        "tools"
+                      ],
+                      "pricing": {
+                        "prompt": 30,
+                        "completion": 180,
+                        "web_search": 0.01
+                      },
+                      "description": "GPT-5.5 Pro is OpenAI's most advanced model, offering major improvements in reasoning, instruction following, and accuracy on complex, high-stakes workloads."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY` — create keys in the [ShuYou console](https://shuyou.ai/signin)."
+      }
+    },
+    "schemas": {
+      "ModelList": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "example": "list"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Model"
+            }
+          }
+        }
+      },
+      "Model": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Short model identifier",
+            "example": "gpt-5.5-pro"
+          },
+          "object": {
+            "type": "string",
+            "example": "model"
+          },
+          "created": {
+            "type": "integer",
+            "description": "Unix timestamp (milliseconds)",
+            "example": 1777046400000
+          },
+          "owned_by": {
+            "type": "string",
+            "description": "Provider name",
+            "example": "openai"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Model ID for API requests (`provider/model_name`)",
+            "example": "openai/gpt-5.5-pro"
+          },
+          "name": {
+            "type": "string",
+            "example": "GPT 5.5 Pro"
+          },
+          "display_name": {
+            "type": "string",
+            "example": "GPT 5.5 Pro"
+          },
+          "release_date": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-04-25"
+          },
+          "context_length": {
+            "type": "integer",
+            "description": "Maximum context length in tokens",
+            "example": 1050000
+          },
+          "input_modalities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Supported input types (e.g. text, image, video, audio, file)"
+          },
+          "output_modalities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Supported output types (e.g. text, image, video, audio)"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Capability codes (e.g. TG=text generation, DR=deep reasoning, IG=image generation, VG=video generation)"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Feature tags for filtering models"
+          },
+          "supported_parameters": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Request parameters supported by this model"
+          },
+          "pricing": {
+            "type": "object",
+            "description": "Pricing per unit (USD). Keys vary by model type (e.g. prompt, completion, image, second)",
+            "additionalProperties": {
+              "type": "number"
+            },
+            "example": {
+              "prompt": 30,
+              "completion": 180,
+              "web_search": 0.01
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable model description"
+          }
+        }
+      }
+    }
+  }
+}

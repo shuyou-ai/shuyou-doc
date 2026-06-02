@@ -1,0 +1,374 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Doubao Seedance 2.0 Fast 视频生成",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": [
+          "视频生成"
+        ],
+        "summary": "Doubao Seedance 2.0 Fast",
+        "operationId": "createDoubaoSeedance20FastVideoPrediction",
+        "description": "Doubao Seedance 2.0 Fast（`doubao-seedance-2.0-fast`）支持文生视频及参考素材引导生成。异步：用 `data.task_id` 查询预测任务，或配置顶层 `webhook`。",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DoubaoSeedance20FastVideoPredictionRequest"
+              },
+              "examples": {
+                "text_to_video": {
+                  "summary": "文生视频（最简）",
+                  "value": {
+                    "model": "doubao-seedance-2.0-fast",
+                    "function": "video",
+                    "input": {
+                      "prompt": "黄昏时分草原上雄狮的电影级镜头"
+                    }
+                  }
+                },
+                "text_to_video_full": {
+                  "summary": "文生视频（完整参数）",
+                  "value": {
+                    "model": "doubao-seedance-2.0-fast",
+                    "function": "video",
+                    "input": {
+                      "prompt": "未来都市天际线与飞行器的黄昏景象",
+                      "aspect_ratio": "16:9",
+                      "resolution": "720P",
+                      "duration": 15,
+                      "generate_audio": true
+                    }
+                  }
+                },
+                "first_last_frame": {
+                  "summary": "首尾帧",
+                  "value": {
+                    "model": "doubao-seedance-2.0-fast",
+                    "function": "video",
+                    "input": {
+                      "prompt": "在两帧之间平滑过渡",
+                      "aspect_ratio": "16:9",
+                      "resolution": "480P",
+                      "duration": 8,
+                      "first_frame_url": "https://example.com/first-frame.png",
+                      "last_frame_url": "https://example.com/last-frame.png"
+                    },
+                    "webhook": "https://your-domain.com/webhook/video-done"
+                  }
+                },
+                "with_references": {
+                  "summary": "参考素材",
+                  "value": {
+                    "model": "doubao-seedance-2.0-fast",
+                    "function": "video",
+                    "input": {
+                      "prompt": "角色在霓虹街道上行走，外观保持一致",
+                      "aspect_ratio": "9:16",
+                      "resolution": "720P",
+                      "duration": 10,
+                      "generate_audio": false,
+                      "reference_image_urls": [
+                        "https://example.com/character-ref.png"
+                      ],
+                      "reference_video_urls": [],
+                      "reference_audio_urls": []
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "异步任务已创建",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictionTaskResponse"
+                },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未认证",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "配额不足",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "无权限访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "DoubaoSeedance20FastVideoPredictionRequest": {
+        "type": "object",
+        "required": [
+          "model",
+          "function",
+          "input"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型 ID。本接口请使用 `doubao-seedance-2.0-fast`。",
+            "enum": [
+              "doubao-seedance-2.0-fast"
+            ],
+            "default": "doubao-seedance-2.0-fast",
+            "example": "doubao-seedance-2.0-fast"
+          },
+          "function": {
+            "type": "string",
+            "description": "任务类型。视频生成必须为 `video`。",
+            "enum": [
+              "video"
+            ],
+            "example": "video"
+          },
+          "input": {
+            "$ref": "#/components/schemas/DoubaoSeedance20FastVideoInput"
+          },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "可选。任务完成、失败或取消时的 HTTPS 回调地址（Predictions API 顶层字段）。"
+          }
+        }
+      },
+      "DoubaoSeedance20FastVideoInput": {
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "描述要生成视频的文本提示词。",
+            "maxLength": 1000,
+            "example": "黄昏时分草原上雄狮的电影级镜头"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "生成视频的画幅比例，默认 `16:9`。注意：实际仅支持 `16:9` 与 `9:16`，其他取值可能被拒绝。",
+            "enum": [
+              "16:9",
+              "9:16",
+              "1:1",
+              "3:4",
+              "4:3",
+              "21:9"
+            ],
+            "default": "16:9",
+            "example": "16:9"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "生成视频的分辨率档位，默认 `720P`。可选 `480P`、`720P`。",
+            "enum": [
+              "480P",
+              "720P"
+            ],
+            "default": "720P",
+            "example": "720P"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "生成视频时长（秒），默认 `15`。",
+            "enum": [
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "default": 15,
+            "example": 15
+          },
+          "generate_audio": {
+            "type": "boolean",
+            "description": "是否生成视频伴音，默认 `true`。",
+            "default": true,
+            "example": true
+          },
+          "first_frame_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "视频首帧图片 URL。"
+          },
+          "last_frame_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "视频尾帧图片 URL。"
+          },
+          "reference_image_urls": {
+            "type": "array",
+            "description": "参考图 URL 列表，最多 9 张。",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "maxItems": 9,
+            "default": []
+          },
+          "reference_video_urls": {
+            "type": "array",
+            "description": "参考视频 URL 列表，最多 3 个。",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "maxItems": 3,
+            "default": []
+          },
+          "reference_audio_urls": {
+            "type": "array",
+            "description": "参考音频 URL 列表，最多 3 个。",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "maxItems": 3,
+            "default": []
+          }
+        }
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "异步任务 ID，用于查询预测任务或关联 webhook。",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "任务当前状态，如 `processing`。",
+                "example": "processing"
+              }
+            },
+            "required": [
+              "task_id",
+              "task_status"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

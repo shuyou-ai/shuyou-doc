@@ -428,40 +428,57 @@ Platform APIs require a **Management API Key** for authentication (some endpoint
 Retrieve detailed information about a specific API call, including token usage, latency, and billing breakdown.
 
 ```
-GET https://api.shuyou.ai/v1/management/generation?id=<generation_id>
+GET https://api.shuyou.ai/v1/generation?id=<generation_id>
 ```
 
 Each API call returns a `generation_id`. Use that ID to query the full details of the call:
 
 ```bash
-curl https://api.shuyou.ai/v1/management/generation?id=gen_01abc123def456 \
+curl https://api.shuyou.ai/v1/generation?id=gen_01abc123def456 \
   -H "Authorization: Bearer $ShuYou_API_KEY"
 ```
 
-Example response (partial):
+Example response:
 
 ```json
 {
   "api": "chat.completions",
   "generationId": "gen_01abc123def456",
   "model": "openai/gpt-4o",
+  "createAt": "2026-03-26T06:00:00.000Z",
   "generationTime": 3200,
   "latency": 500,
-  "nativeTokens": {
-    "completion_tokens": 128,
-    "prompt_tokens": 32,
-    "total_tokens": 160
+  "usage": {
+    "prompt_tokens": 12,
+    "completion_tokens": 222,
+    "total_tokens": 234,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 206,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    },
+    "upstream_cost": 0.0004368,
+    "discount": 0.00004368,
+    "discount_percent": 0.9,
+    "cost": 0.00039312
   },
-  "usage": 0.0052
+  "streamed": true,
+  "finishReason": "stop"
 }
 ```
 
 <Tip title="💡 Billing Data Delay">
-Billing information (such as `usage` and `ratingResponses`) becomes available **3–5 minutes** after the request completes. Token usage metrics are returned synchronously with the request.
+Billing fields inside `usage` (such as `upstream_cost`, `discount`, and `cost`) may become available **3–5 minutes** after the request completes. Token usage metrics are returned synchronously with the request.
 </Tip>
 
 <Info title="📚 Full Documentation">
-For detailed parameter descriptions, see the [Get Generation API docs](/en/api-manual/task-management/get-generation).
+For detailed parameter descriptions, see the [Get Generation API docs](/en/api-reference/task-management/get-generation).
 </Info>
 
 ---
@@ -492,10 +509,6 @@ Example response:
   }
 }
 ```
-
-<Info title="📚 Full Documentation">
-For detailed parameter descriptions, see the [Get PAYG Balance API docs](/en/api-manual/platform-management/payg-balance).
-</Info>
 
 ---
 
@@ -539,10 +552,6 @@ Example response (partial):
 }
 ```
 
-<Info title="📚 Full Documentation">
-For detailed parameter descriptions, see the [Get Subscription Detail API docs](/en/api-manual/platform-management/subscription-detail).
-</Info>
-
 ---
 
 ### Query Flow Rate
@@ -570,10 +579,6 @@ Example response:
   }
 }
 ```
-
-<Info title="📚 Full Documentation">
-For detailed parameter descriptions, see the [Get Flow Rate API docs](/en/api-manual/platform-management/flow-rate).
-</Info>
 
 ---
 

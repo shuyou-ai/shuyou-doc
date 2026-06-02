@@ -1,0 +1,331 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GPT Image 2 Generation",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": ["Image Generation"],
+        "summary": "GPT Image 2 Generation",
+        "operationId": "createGptImage2Prediction",
+        "description": "GPT Image 2 (`gpt-image-2`) supports text-to-image, image-to-image, and image editing. Prefer official `input` fields (`size`, `n`, `quality`, …); ShuYou also accepts platform aliases (`aspect_ratio`, `num_images`, `output_format`) when official fields are omitted. Async mode: poll with Get a prediction using `data.task_id`, or use top-level `webhook`.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/GptImage2PredictionRequest" },
+              "examples": {
+                "text_to_image": {
+                  "summary": "Text to image (minimal)",
+                  "value": {
+                    "model": "gpt-image-2",
+                    "function": "image",
+                    "input": {
+                      "prompt": "A vivid, colorful sunset over the ocean"
+                    }
+                  }
+                },
+                "text_to_image_hd": {
+                  "summary": "Text to image (HD 16:9)",
+                  "value": {
+                    "model": "gpt-image-2",
+                    "function": "image",
+                    "input": {
+                      "prompt": "Cinematic wide shot of a futuristic city skyline at dusk",
+                      "size": "16:9",
+                      "resolution": "4K",
+                      "quality": "high",
+                      "n": 1
+                    }
+                  }
+                },
+                "text_to_image_pixel": {
+                  "summary": "Text to image (explicit pixels)",
+                  "value": {
+                    "model": "gpt-image-2",
+                    "function": "image",
+                    "input": {
+                      "prompt": "Minimalist logo design",
+                      "size": "1024x1024",
+                      "quality": "medium"
+                    }
+                  }
+                },
+                "image_edit": {
+                  "summary": "Image to image / edit",
+                  "value": {
+                    "model": "gpt-image-2",
+                    "function": "image",
+                    "input": {
+                      "prompt": "Add a cute kitten beside her",
+                      "size": "1:1",
+                      "resolution": "1K",
+                      "quality": "medium",
+                      "image_urls": ["https://example.com/input.png"]
+                    },
+                    "webhook": "https://your-domain.com/webhook/image-done"
+                  }
+                },
+                "image_inpaint": {
+                  "summary": "Inpaint (with mask)",
+                  "value": {
+                    "model": "gpt-image-2",
+                    "function": "image",
+                    "input": {
+                      "prompt": "Replace the sky with a starry night",
+                      "size": "1:1",
+                      "resolution": "1K",
+                      "quality": "medium",
+                      "image_urls": ["https://example.com/input.png"],
+                      "mask_url": "https://example.com/mask.png"
+                    }
+                  }
+                },
+                "batch_generation": {
+                  "summary": "Batch generation",
+                  "value": {
+                    "model": "gpt-image-2",
+                    "function": "image",
+                    "input": {
+                      "prompt": "Cute robot in pixel art style",
+                      "size": "1:1",
+                      "resolution": "2K",
+                      "quality": "high",
+                      "n": 4
+                    }
+                  }
+                },
+                "platform_params": {
+                  "summary": "ShuYou platform fields",
+                  "value": {
+                    "model": "gpt-image-2",
+                    "function": "image",
+                    "input": {
+                      "prompt": "A minimalist ShuYou AI logo",
+                      "aspect_ratio": "1:1",
+                      "resolution": "1K",
+                      "num_images": 1,
+                      "output_format": "png",
+                      "image_urls": []
+                    },
+                    "webhook": "https://api.shuyou.ai/api/callback"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Async task created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PredictionTaskResponse" },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "402": {
+            "description": "Insufficient quota",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "Model access denied",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "GptImage2PredictionRequest": {
+        "type": "object",
+        "required": ["model", "function", "input"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model ID. Use `gpt-image-2` for this endpoint.",
+            "enum": ["gpt-image-2"],
+            "default": "gpt-image-2",
+            "example": "gpt-image-2"
+          },
+          "function": {
+            "type": "string",
+            "description": "Task type. Must be `image` for image generation.",
+            "enum": ["image"],
+            "example": "image"
+          },
+          "input": { "$ref": "#/components/schemas/GptImage2Input" },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional HTTPS callback URL when the task completes, fails, or is cancelled (Predictions API)."
+          }
+        }
+      },
+      "GptImage2Input": {
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "Prompt describing the image to generate, or how to edit reference images. Max 32,000 Unicode code points.",
+            "maxLength": 32000,
+            "example": "A vivid, colorful sunset over the ocean"
+          },
+          "image_urls": {
+            "type": "array",
+            "description": "Reference image URLs for image-to-image or editing. Supports 1–16 images per request; each file up to 50MB; formats `.jpeg`, `.jpg`, `.png`, `.webp`. URLs must be directly accessible by the server. Reference images incur additional input token usage.",
+            "items": { "type": "string", "format": "uri" },
+            "minItems": 0,
+            "maxItems": 16,
+            "example": ["https://example.com/image1.png"]
+          },
+          "mask_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Inpaint mask URL (edit mode only; requires `image_urls`). PNG with alpha: transparent pixels = repaint region. Mask dimensions must exactly match the reference image. Ignored for text-to-image-only requests."
+          },
+          "size": {
+            "type": "string",
+            "description": "**Official (preferred).** Output size: aspect ratio (`1:1`, `16:9`, …), explicit pixels `WxH`, or `auto`. If both `size` and `aspect_ratio` are set, `size` takes precedence. Default `auto`.",
+            "default": "auto",
+            "example": "auto"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "Resolution tier when `size` is an aspect ratio: `1K` (~1 MP), `2K` (~4 MP), `4K` (~8.29 MP). Ignored for explicit pixel `size` or `auto`. Case-insensitive.",
+            "enum": ["1K", "2K", "4K"],
+            "default": "1K",
+            "example": "1K"
+          },
+          "quality": {
+            "type": "string",
+            "description": "Render quality (`low`, `medium`, `high`). Affects output tokens and cost. Default `medium`.",
+            "enum": ["low", "medium", "high"],
+            "default": "medium",
+            "example": "medium"
+          },
+          "n": {
+            "type": "integer",
+            "description": "**Official (preferred).** Number of images to generate (1–10). If both `n` and `num_images` are set, `n` takes precedence.",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 1,
+            "example": 1
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "**ShuYou platform.** Aspect ratio shorthand (e.g. `1:1`, `16:9`, `9:16`). Used when `size` is omitted; maps to the same ratio values as official `size`. Ignored if `size` is set.",
+            "example": "1:1"
+          },
+          "num_images": {
+            "type": "integer",
+            "description": "**ShuYou platform.** Number of images to generate. Used when `n` is omitted. Ignored if `n` is set.",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 1,
+            "example": 1
+          },
+          "output_format": {
+            "type": "string",
+            "description": "**ShuYou platform.** Output encoding, e.g. `png`, `jpeg`, `webp`. Optional; model or platform default applies when omitted.",
+            "example": "png"
+          }
+        }
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "Async task ID. Use with Get a prediction or webhook correlation.",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "Current task status, e.g. `processing`.",
+                "example": "processing"
+              }
+            },
+            "required": ["task_id", "task_status"]
+          }
+        },
+        "required": ["data"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

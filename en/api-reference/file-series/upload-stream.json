@@ -1,0 +1,126 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Upload File (Stream)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/files": {
+      "post": {
+        "tags": [
+          "File Series"
+        ],
+        "summary": "Upload File",
+        "operationId": "uploadFileStream",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/FileUploadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File uploaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileObject"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "FileUploadRequest": {
+        "type": "object",
+        "required": [
+          "file",
+          "purpose"
+        ],
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "description": "File to upload (PDF, images, etc. depending on purpose and model support)"
+          },
+          "purpose": {
+            "type": "string",
+            "description": "Intended use of the file",
+            "enum": [
+              "assistants",
+              "batch",
+              "fine-tune",
+              "vision",
+              "user_data"
+            ],
+            "example": "assistants"
+          }
+        }
+      },
+      "FileObject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "file_abc123"
+          },
+          "object": {
+            "type": "string",
+            "example": "file"
+          },
+          "bytes": {
+            "type": "integer",
+            "example": 120000
+          },
+          "created_at": {
+            "type": "integer",
+            "example": 1677610602
+          },
+          "filename": {
+            "type": "string",
+            "example": "document.pdf"
+          },
+          "purpose": {
+            "type": "string",
+            "example": "assistants"
+          },
+          "status": {
+            "type": "string",
+            "example": "processed"
+          }
+        }
+      }
+    }
+  }
+}

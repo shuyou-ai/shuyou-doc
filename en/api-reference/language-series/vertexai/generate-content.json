@@ -1,0 +1,494 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Generate Content", "version": "1.0.0" },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1beta/models/{model}:generateContent": {
+      "post": {
+        "tags": ["Google Vertex AI Compatible API"],
+        "summary": "Generate Content",
+        "operationId": "generateContent",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "example": "gemini-3.5-flash" },
+            "description": "Model ID in Google Native API format (e.g. `gemini-3.5-flash`, `gemini-2.5-flash`)."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/GenerateContentRequest" },
+              "examples": {
+                "simple_text": {
+                  "summary": "Single-turn text",
+                  "value": {
+                    "contents": [
+                      {
+                        "role": "user",
+                        "parts": [{ "text": "Please introduce yourself." }]
+                      }
+                    ]
+                  }
+                },
+                "multi_turn": {
+                  "summary": "Multi-turn conversation",
+                  "value": {
+                    "contents": [
+                      {
+                        "role": "user",
+                        "parts": [{ "text": "What is Python?" }]
+                      },
+                      {
+                        "role": "model",
+                        "parts": [
+                          {
+                            "text": "Python is a high-level programming language known for readability."
+                          }
+                        ]
+                      },
+                      {
+                        "role": "user",
+                        "parts": [{ "text": "What are its main advantages?" }]
+                      }
+                    ]
+                  }
+                },
+                "image_understanding": {
+                  "summary": "Image URL input",
+                  "value": {
+                    "contents": [
+                      {
+                        "role": "user",
+                        "parts": [
+                          {
+                            "text": "Describe the scene and main elements in this image."
+                          },
+                          {
+                            "fileData": {
+                              "mimeType": "image/jpeg",
+                              "fileUri": "https://example.com/image.jpg"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "with_generation_config": {
+                  "summary": "With generationConfig",
+                  "value": {
+                    "contents": [
+                      {
+                        "role": "user",
+                        "parts": [{ "text": "Write a short poem about the ocean." }]
+                      }
+                    ],
+                    "generationConfig": {
+                      "temperature": 0.7,
+                      "maxOutputTokens": 512,
+                      "topP": 0.9
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Content generated successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GenerateContentResponse" },
+                "example": {
+                  "candidates": [
+                    {
+                      "content": {
+                        "role": "model",
+                        "parts": [{ "text": "Hello! How can I help you today?" }]
+                      },
+                      "finishReason": "STOP",
+                      "index": 0
+                    }
+                  ],
+                  "usageMetadata": {
+                    "promptTokenCount": 12,
+                    "candidatesTokenCount": 18,
+                    "totalTokenCount": 30
+                  },
+                  "modelVersion": "gemini-3.5-flash",
+                  "responseId": "resp_example"
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid request" },
+          "401": { "description": "Unauthorized" },
+          "429": { "description": "Rate limit exceeded" }
+        }
+      }
+    },
+    "/v1beta/models/{model}:streamGenerateContent": {
+      "post": {
+        "tags": ["Google Vertex AI Compatible API"],
+        "summary": "Stream Generate Content",
+        "operationId": "streamGenerateContent",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "example": "gemini-3.5-flash" },
+            "description": "Model ID in Google Native API format (e.g. `gemini-3.5-flash`)."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/GenerateContentRequest" },
+              "example": {
+                "contents": [
+                  {
+                    "role": "user",
+                    "parts": [{ "text": "Tell me a short story." }]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Streaming chunks (SSE). Request body is identical to generateContent.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/StreamGenerateContentResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "GenerateContentRequest": {
+        "type": "object",
+        "required": ["contents"],
+        "properties": {
+          "contents": {
+            "type": "array",
+            "description": "Conversation contents. Supports multi-turn dialogue and multimodal input.",
+            "items": { "$ref": "#/components/schemas/Content" },
+            "minItems": 1
+          },
+          "systemInstruction": {
+            "$ref": "#/components/schemas/Content",
+            "description": "System instruction (optional). Use text parts only."
+          },
+          "generationConfig": { "$ref": "#/components/schemas/GenerationConfig" },
+          "tools": {
+            "type": "array",
+            "description": "Tools the model may call (function calling, search, code execution, etc.).",
+            "items": { "type": "object" }
+          },
+          "toolConfig": {
+            "type": "object",
+            "description": "Tool configuration shared across all tools in the request."
+          },
+          "safetySettings": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/SafetySetting" },
+            "description": "Per-request safety settings for candidates."
+          },
+          "cachedContent": {
+            "type": "string",
+            "description": "Cached content resource name, e.g. `cachedContents/{id}`."
+          }
+        }
+      },
+      "Content": {
+        "type": "object",
+        "required": ["parts"],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": ["user", "model"],
+            "default": "user",
+            "description": "`user` for human input; `model` for prior model turns."
+          },
+          "parts": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Part" },
+            "minItems": 1
+          }
+        }
+      },
+      "Part": {
+        "description": "Content part. Echo `thoughtSignature` from thinking models in the next turn when present.",
+        "oneOf": [
+          { "$ref": "#/components/schemas/TextPart" },
+          { "$ref": "#/components/schemas/InlineDataPart" },
+          { "$ref": "#/components/schemas/FileDataPart" },
+          { "$ref": "#/components/schemas/FunctionCallPart" },
+          { "$ref": "#/components/schemas/FunctionResponsePart" }
+        ]
+      },
+      "TextPart": {
+        "type": "object",
+        "required": ["text"],
+        "properties": {
+          "text": { "type": "string" },
+          "thought": { "type": "boolean", "description": "Whether this part is thought content." },
+          "thoughtSignature": {
+            "type": "string",
+            "description": "Must be echoed back on the next request when returned by thinking models."
+          }
+        }
+      },
+      "InlineDataPart": {
+        "type": "object",
+        "required": ["inlineData"],
+        "properties": {
+          "inlineData": {
+            "type": "object",
+            "required": ["mimeType", "data"],
+            "properties": {
+              "mimeType": {
+                "type": "string",
+                "description": "e.g. image/jpeg, image/png, application/pdf, audio/mp3, video/mp4"
+              },
+              "data": { "type": "string", "description": "Base64-encoded raw bytes." }
+            }
+          }
+        }
+      },
+      "FileDataPart": {
+        "type": "object",
+        "properties": {
+          "fileData": {
+            "type": "object",
+            "required": ["mimeType", "fileUri"],
+            "properties": {
+              "mimeType": { "type": "string", "example": "image/jpeg" },
+              "fileUri": {
+                "type": "string",
+                "format": "uri",
+                "description": "Publicly accessible file URL."
+              }
+            }
+          }
+        }
+      },
+      "FunctionCallPart": {
+        "type": "object",
+        "properties": {
+          "functionCall": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "args": { "type": "object" }
+            }
+          }
+        }
+      },
+      "FunctionResponsePart": {
+        "type": "object",
+        "properties": {
+          "functionResponse": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "response": { "type": "object" }
+            }
+          }
+        }
+      },
+      "GenerationConfig": {
+        "type": "object",
+        "description": "Generation parameters (sampling, length, structured output, modalities, thinking, etc.).",
+        "properties": {
+          "temperature": { "type": "number", "minimum": 0, "maximum": 2 },
+          "topP": { "type": "number", "minimum": 0, "maximum": 1 },
+          "topK": { "type": "integer", "minimum": 1 },
+          "candidateCount": { "type": "integer", "minimum": 1 },
+          "maxOutputTokens": { "type": "integer", "minimum": 1 },
+          "stopSequences": {
+            "type": "array",
+            "items": { "type": "string" },
+            "maxItems": 5
+          },
+          "presencePenalty": { "type": "number" },
+          "frequencyPenalty": { "type": "number" },
+          "seed": { "type": "integer" },
+          "responseMimeType": {
+            "type": "string",
+            "description": "e.g. text/plain, application/json",
+            "example": "application/json"
+          },
+          "responseSchema": {
+            "type": "object",
+            "description": "Schema for structured output (set responseMimeType to application/json)."
+          },
+          "responseJsonSchema": {
+            "type": "object",
+            "description": "JSON Schema alternative to responseSchema."
+          },
+          "responseLogprobs": { "type": "boolean" },
+          "logprobs": { "type": "integer", "minimum": 1, "maximum": 20 },
+          "responseModalities": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["TEXT", "IMAGE", "AUDIO"] },
+            "description": "Output modalities. IMAGE requires TEXT as well for image models."
+          },
+          "audioTimestamp": { "type": "boolean" },
+          "thinkingConfig": {
+            "type": "object",
+            "properties": {
+              "thinkingBudget": {
+                "type": "integer",
+                "description": "Thinking token budget (Gemini 2.5). Use -1 for dynamic."
+              },
+              "thinkingLevel": {
+                "type": "string",
+                "enum": [
+                  "THINKING_LEVEL_UNSPECIFIED",
+                  "MINIMAL",
+                  "LOW",
+                  "MEDIUM",
+                  "HIGH"
+                ],
+                "description": "Reasoning intensity (Gemini 3). Mutually exclusive with thinkingBudget."
+              },
+              "includeThoughts": {
+                "type": "boolean",
+                "description": "Return thought summary when available."
+              }
+            }
+          },
+          "mediaResolution": {
+            "type": "string",
+            "enum": [
+              "MEDIA_RESOLUTION_UNSPECIFIED",
+              "MEDIA_RESOLUTION_LOW",
+              "MEDIA_RESOLUTION_MEDIUM",
+              "MEDIA_RESOLUTION_HIGH",
+              "MEDIA_RESOLUTION_ULTRA_HIGH"
+            ]
+          },
+          "speechConfig": { "type": "object" },
+          "imageConfig": {
+            "type": "object",
+            "properties": {
+              "aspectRatio": {
+                "type": "string",
+                "enum": ["1:1", "2:3", "3:2", "3:4", "4:3", "9:16", "16:9", "21:9"]
+              },
+              "imageSize": { "type": "string", "enum": ["1K", "2K", "4K"] }
+            }
+          },
+          "enableAffectiveDialog": { "type": "boolean" }
+        }
+      },
+      "SafetySetting": {
+        "type": "object",
+        "required": ["category", "threshold"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "HARM_CATEGORY_HATE_SPEECH",
+              "HARM_CATEGORY_HARASSMENT",
+              "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "HARM_CATEGORY_DANGEROUS_CONTENT"
+            ]
+          },
+          "threshold": {
+            "type": "string",
+            "enum": [
+              "OFF",
+              "BLOCK_NONE",
+              "BLOCK_ONLY_HIGH",
+              "BLOCK_MEDIUM_AND_ABOVE",
+              "BLOCK_LOW_AND_ABOVE"
+            ]
+          },
+          "method": {
+            "type": "string",
+            "enum": ["SEVERITY", "PROBABILITY"]
+          }
+        }
+      },
+      "GenerateContentResponse": {
+        "type": "object",
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Candidate" }
+          },
+          "promptFeedback": { "type": "object" },
+          "usageMetadata": { "$ref": "#/components/schemas/UsageMetadata" },
+          "modelVersion": { "type": "string" },
+          "responseId": { "type": "string" }
+        }
+      },
+      "StreamGenerateContentResponse": {
+        "type": "object",
+        "description": "Streaming chunk. Intermediate chunks may omit finishReason; the last chunk includes full usageMetadata.",
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Candidate" }
+          },
+          "usageMetadata": { "$ref": "#/components/schemas/UsageMetadata" },
+          "modelVersion": { "type": "string" },
+          "responseId": { "type": "string" },
+          "createTime": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Candidate": {
+        "type": "object",
+        "properties": {
+          "content": { "$ref": "#/components/schemas/Content" },
+          "finishReason": {
+            "type": "string",
+            "enum": [
+              "STOP",
+              "MAX_TOKENS",
+              "SAFETY",
+              "RECITATION",
+              "OTHER",
+              "MALFORMED_FUNCTION_CALL"
+            ]
+          },
+          "index": { "type": "integer" },
+          "safetyRatings": { "type": "array", "items": { "type": "object" } }
+        }
+      },
+      "UsageMetadata": {
+        "type": "object",
+        "properties": {
+          "promptTokenCount": { "type": "integer" },
+          "candidatesTokenCount": { "type": "integer" },
+          "totalTokenCount": { "type": "integer" },
+          "thoughtsTokenCount": { "type": "integer" },
+          "cachedContentTokenCount": { "type": "integer" },
+          "trafficType": { "type": "string", "example": "ON_DEMAND" }
+        }
+      }
+    }
+  }
+}

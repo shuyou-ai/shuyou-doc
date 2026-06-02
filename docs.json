@@ -59,22 +59,21 @@
                   {
                     "group": "OpenAI Compatible API",
                     "pages": [
-                      "en/api-manual/language-series/openai/openai-list-models",
-                      "en/api-manual/language-series/openai/create-chat-completion",
-                      "en/api-manual/language-series/openai/openai-responses"
+                      "en/api-reference/language-series/openai/openai-list-models",
+                      "en/api-reference/language-series/openai/create-chat-completion",
+                      "en/api-reference/language-series/openai/openai-responses"
                     ]
                   },
                   {
                     "group": "Anthropic Compatible API",
                     "pages": [
-                      "en/api-manual/language-series/anthropic/create-messages"
+                      "en/api-reference/language-series/anthropic/create-messages"
                     ]
                   },
                   {
-                    "group": "Google Vertex AI Compatible API",
+                    "group": "Google Compatible API",
                     "pages": [
-                      "en/api-manual/language-series/vertexai/google-list-models",
-                      "en/api-manual/language-series/vertexai/generate-content"
+                      "en/api-reference/language-series/vertexai/generate-content"
                     ]
                   }
                 ]
@@ -83,11 +82,17 @@
                 "group": "Image Series",
                 "pages": [
                   {
-                    "group": "Gemini",
+                    "group": "OpenAI",
                     "pages": [
-                      "en/api-manual/image-series/gemini/gemini-flash-image-generate",
-                      "en/api-manual/image-series/gemini/gemini-flash-image-free-generate",
-                      "en/api-manual/image-series/gemini/gemini-pro-image-generate"
+                      "en/api-reference/image-series/openai/gpt-image-2-generate"
+                    ]
+                  },
+                  {
+                    "group": "Google Gemini",
+                    "pages": [
+                      "en/api-reference/image-series/gemini/gemini-3.1-flash-image-preview-generate",
+                      "en/api-reference/image-series/gemini/gemini-3-pro-image-preview-generate",
+                      "en/api-reference/image-series/gemini/gemini-2.5-flash-image-generate"
                     ]
                   }
                 ]
@@ -96,15 +101,19 @@
                 "group": "Video Series",
                 "pages": [
                   {
-                    "group": "Veo",
+                    "group": "Seedance",
                     "pages": [
-                      "en/api-manual/video-series/veo/veo-3-video-generate"
+                      "en/api-reference/video-series/seedance/doubao-seedance-2.0-video-generate",
+                      "en/api-reference/video-series/seedance/doubao-seedance-2.0-fast-video-generate"
                     ]
                   },
                   {
-                    "group": "Seedance",
+                    "group": "HappyHorse",
                     "pages": [
-                      "en/api-manual/video-series/seedance/seedance-2-video-generate"
+                      "en/api-reference/video-series/happyhorse/happyhorse-1.0-t2v-video-generate",
+                      "en/api-reference/video-series/happyhorse/happyhorse-1.0-r2v-video-generate",
+                      "en/api-reference/video-series/happyhorse/happyhorse-1.0-i2v-video-generate",
+                      "en/api-reference/video-series/happyhorse/happyhorse-1.0-video-edit-video-generate"
                     ]
                   }
                 ]
@@ -112,32 +121,24 @@
               {
                 "group": "File Series",
                 "pages": [
-                  "en/api-manual/file-series/overview",
-                  "en/api-manual/file-series/upload-stream",
-                  "en/api-manual/file-series/list-files",
-                  "en/api-manual/file-series/delete-file"
+                  "en/api-reference/file-series/overview",
+                  "en/api-reference/file-series/upload-stream",
+                  "en/api-reference/file-series/list-files",
+                  "en/api-reference/file-series/delete-file"
                 ]
               },
               {
                 "group": "Task Management",
                 "pages": [
-                  "en/api-manual/task-management/get-generation",
-                  "en/api-manual/task-management/create-prediction",
-                  "en/api-manual/task-management/get-prediction"
+                  "en/api-reference/task-management/get-generation",
+                  "en/api-reference/task-management/create-prediction",
+                  "en/api-reference/task-management/get-prediction"
                 ]
               },
               {
                 "group": "Account Management",
                 "pages": [
-                  "en/api-manual/account-management/get-credits"
-                ]
-              },
-              {
-                "group": "Platform Management",
-                "pages": [
-                  "en/api-manual/platform-management/payg-balance",
-                  "en/api-manual/platform-management/subscription-detail",
-                  "en/api-manual/platform-management/flow-rate"
+                  "en/api-reference/account-management/get-credits"
                 ]
               }
             ]
@@ -205,23 +206,22 @@
                   {
                     "group": "OpenAI 兼容 API",
                     "pages": [
-                      "zh/api-manual/language-series/openai/openai-list-models",
-                      "zh/api-manual/language-series/openai/create-chat-completion",
-                      "zh/api-manual/language-series/openai/openai-responses"
+                      "zh/api-reference/language-series/openai/openai-list-models",
+                      "zh/api-reference/language-series/openai/create-chat-completion",
+                      "zh/api-reference/language-series/openai/openai-responses"
                     ]
                   },
                   {
                     "group": "Anthropic 兼容 API",
                     "pages": [
-                      "zh/api-manual/language-series/anthropic/anthropic-list-models",
-                      "zh/api-manual/language-series/anthropic/create-messages"
+                      "zh/api-reference/language-series/anthropic/anthropic-list-models",
+                      "zh/api-reference/language-series/anthropic/create-messages"
                     ]
                   },
                   {
                     "group": "Google Vertex AI 兼容 API",
                     "pages": [
-                      "zh/api-manual/language-series/vertexai/google-list-models",
-                      "zh/api-manual/language-series/vertexai/generate-content"
+                      "zh/api-reference/language-series/vertexai/generate-content"
                     ]
                   }
                 ]
@@ -230,11 +230,17 @@
                 "group": "图像系列",
                 "pages": [
                   {
-                    "group": "Gemini",
+                    "group": "OpenAI",
                     "pages": [
-                      "zh/api-manual/image-series/gemini/gemini-flash-image-generate",
-                      "zh/api-manual/image-series/gemini/gemini-flash-image-free-generate",
-                      "zh/api-manual/image-series/gemini/gemini-pro-image-generate"
+                      "zh/api-reference/image-series/openai/gpt-image-2-generate"
+                    ]
+                  },
+                  {
+                    "group": "Google Gemini",
+                    "pages": [
+                      "zh/api-reference/image-series/gemini/gemini-3.1-flash-image-preview-generate",
+                      "zh/api-reference/image-series/gemini/gemini-3-pro-image-preview-generate",
+                      "zh/api-reference/image-series/gemini/gemini-2.5-flash-image-generate"
                     ]
                   }
                 ]
@@ -243,15 +249,19 @@
                 "group": "视频系列",
                 "pages": [
                   {
-                    "group": "Veo",
+                    "group": "Seedance",
                     "pages": [
-                      "zh/api-manual/video-series/veo/veo-3-video-generate"
+                      "zh/api-reference/video-series/seedance/doubao-seedance-2.0-video-generate",
+                      "zh/api-reference/video-series/seedance/doubao-seedance-2.0-fast-video-generate"
                     ]
                   },
                   {
-                    "group": "Seedance",
+                    "group": "HappyHorse",
                     "pages": [
-                      "zh/api-manual/video-series/seedance/seedance-2-video-generate"
+                      "zh/api-reference/video-series/happyhorse/happyhorse-1.0-t2v-video-generate",
+                      "zh/api-reference/video-series/happyhorse/happyhorse-1.0-r2v-video-generate",
+                      "zh/api-reference/video-series/happyhorse/happyhorse-1.0-i2v-video-generate",
+                      "zh/api-reference/video-series/happyhorse/happyhorse-1.0-video-edit-video-generate"
                     ]
                   }
                 ]
@@ -259,32 +269,24 @@
               {
                 "group": "文件系列",
                 "pages": [
-                  "zh/api-manual/file-series/overview",
-                  "zh/api-manual/file-series/upload-stream",
-                  "zh/api-manual/file-series/list-files",
-                  "zh/api-manual/file-series/delete-file"
+                  "zh/api-reference/file-series/overview",
+                  "zh/api-reference/file-series/upload-stream",
+                  "zh/api-reference/file-series/list-files",
+                  "zh/api-reference/file-series/delete-file"
                 ]
               },
               {
                 "group": "任务管理",
                 "pages": [
-                  "zh/api-manual/task-management/get-generation",
-                  "zh/api-manual/task-management/create-prediction",
-                  "zh/api-manual/task-management/get-prediction"
+                  "zh/api-reference/task-management/get-generation",
+                  "zh/api-reference/task-management/create-prediction",
+                  "zh/api-reference/task-management/get-prediction"
                 ]
               },
               {
                 "group": "账户管理",
                 "pages": [
-                  "zh/api-manual/account-management/get-credits"
-                ]
-              },
-              {
-                "group": "平台管理",
-                "pages": [
-                  "zh/api-manual/platform-management/payg-balance",
-                  "zh/api-manual/platform-management/subscription-detail",
-                  "zh/api-manual/platform-management/flow-rate"
+                  "zh/api-reference/account-management/get-credits"
                 ]
               }
             ]
@@ -344,36 +346,100 @@
   },
   "redirects": [
     {
-      "source": "/en/api/platform/:slug",
-      "destination": "/en/api-manual/platform-management/:slug"
+      "source": "/en/api-manual/:path*",
+      "destination": "/en/api-reference/:path*"
     },
     {
-      "source": "/zh/api/platform/:slug",
-      "destination": "/zh/api-manual/platform-management/:slug"
+      "source": "/zh/api-manual/:path*",
+      "destination": "/zh/api-reference/:path*"
     },
     {
       "source": "/en/api/openai/:slug",
-      "destination": "/en/api-manual/language-series/openai/:slug"
+      "destination": "/en/api-reference/language-series/openai/:slug"
     },
     {
       "source": "/zh/api/openai/:slug",
-      "destination": "/zh/api-manual/language-series/openai/:slug"
+      "destination": "/zh/api-reference/language-series/openai/:slug"
     },
     {
       "source": "/en/api/anthropic/:slug",
-      "destination": "/en/api-manual/language-series/anthropic/:slug"
+      "destination": "/en/api-reference/language-series/anthropic/:slug"
     },
     {
       "source": "/zh/api/anthropic/:slug",
-      "destination": "/zh/api-manual/language-series/anthropic/:slug"
+      "destination": "/zh/api-reference/language-series/anthropic/:slug"
+    },
+    {
+      "source": "/en/api-reference/language-series/vertexai/google-list-models",
+      "destination": "/en/api-reference/language-series/vertexai/generate-content"
+    },
+    {
+      "source": "/en/api-reference/language-series/vertexai/google-list-models-reference",
+      "destination": "/en/api-reference/language-series/vertexai/generate-content-reference"
+    },
+    {
+      "source": "/zh/api-reference/language-series/vertexai/google-list-models",
+      "destination": "/zh/api-reference/language-series/vertexai/generate-content"
+    },
+    {
+      "source": "/zh/api-reference/language-series/vertexai/google-list-models-reference",
+      "destination": "/zh/api-reference/language-series/vertexai/generate-content-reference"
+    },
+    {
+      "source": "/en/api/vertexai/google-list-models",
+      "destination": "/en/api-reference/language-series/vertexai/generate-content"
+    },
+    {
+      "source": "/zh/api/vertexai/google-list-models",
+      "destination": "/zh/api-reference/language-series/vertexai/generate-content"
     },
     {
       "source": "/en/api/vertexai/:slug",
-      "destination": "/en/api-manual/language-series/vertexai/:slug"
+      "destination": "/en/api-reference/language-series/vertexai/:slug"
     },
     {
       "source": "/zh/api/vertexai/:slug",
-      "destination": "/zh/api-manual/language-series/vertexai/:slug"
+      "destination": "/zh/api-reference/language-series/vertexai/:slug"
+    },
+    {
+      "source": "/en/api-reference/image-series/gemini/gemini-flash-image-generate",
+      "destination": "/en/api-reference/image-series/gemini/gemini-3.1-flash-image-preview-generate"
+    },
+    {
+      "source": "/en/api-reference/image-series/gemini/gemini-flash-image-free-generate",
+      "destination": "/en/api-reference/image-series/gemini/gemini-3.1-flash-image-preview-generate"
+    },
+    {
+      "source": "/en/api-reference/image-series/gemini/gemini-pro-image-generate",
+      "destination": "/en/api-reference/image-series/gemini/gemini-3.1-flash-image-preview-generate"
+    },
+    {
+      "source": "/zh/api-reference/image-series/gemini/gemini-flash-image-generate",
+      "destination": "/zh/api-reference/image-series/gemini/gemini-3.1-flash-image-preview-generate"
+    },
+    {
+      "source": "/zh/api-reference/image-series/gemini/gemini-flash-image-free-generate",
+      "destination": "/zh/api-reference/image-series/gemini/gemini-3.1-flash-image-preview-generate"
+    },
+    {
+      "source": "/zh/api-reference/image-series/gemini/gemini-pro-image-generate",
+      "destination": "/zh/api-reference/image-series/gemini/gemini-3.1-flash-image-preview-generate"
+    },
+    {
+      "source": "/en/api-reference/video-series/veo/veo-3-video-generate",
+      "destination": "/en/api-reference/video-series/seedance/doubao-seedance-2.0-video-generate"
+    },
+    {
+      "source": "/en/api-reference/video-series/seedance/seedance-2-video-generate",
+      "destination": "/en/api-reference/video-series/seedance/doubao-seedance-2.0-video-generate"
+    },
+    {
+      "source": "/zh/api-reference/video-series/veo/veo-3-video-generate",
+      "destination": "/zh/api-reference/video-series/seedance/doubao-seedance-2.0-video-generate"
+    },
+    {
+      "source": "/zh/api-reference/video-series/seedance/seedance-2-video-generate",
+      "destination": "/zh/api-reference/video-series/seedance/doubao-seedance-2.0-video-generate"
     }
   ],
   "footer": {

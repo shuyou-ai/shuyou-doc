@@ -1,0 +1,192 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Get Prediction",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/predictions/{prediction_id}": {
+      "get": {
+        "tags": [
+          "Task Management"
+        ],
+        "summary": "Get Prediction",
+        "operationId": "getPrediction",
+        "description": "Poll an asynchronous prediction task by `task_id` returned from [Create Prediction](/en/api-reference/task-management/create-prediction).",
+        "parameters": [
+          {
+            "name": "prediction_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Task ID (`data.task_id`) returned when the prediction was created.",
+            "example": "fa746cb19082452b82fea4f496f4065a"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Prediction detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPredictionResponse"
+                },
+                "example": {
+                  "code": "0",
+                  "usage": {
+                    "upstream_cost": 0.039,
+                    "discount": 0.00975,
+                    "discount_percent": 0.75,
+                    "cost": 0.02925
+                  },
+                  "data": {
+                    "task_id": "fa746cb19082452b82fea4f496f4065a",
+                    "task_status": "success",
+                    "output": [
+                      {
+                        "type": "image",
+                        "image": "https://cdn.shuyou.ai/model/20a60c33ba954d85a669ee0f24da8e38.png?e=1778427598&token=Lk3Kb36M3K8oq2d5pU6CaYyoud2Au-APFP-ThE8B:cZUtU2t4yclXCeW0X3j0gJ8Oc58="
+                      }
+                    ]
+                  },
+                  "request_id": "8bd6b5784a1e42b79bf172607f476f56"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Prediction not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "GetPredictionResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Response status code. `\"0\"` indicates success.",
+            "example": "0"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/PredictionUsage"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PredictionData"
+          },
+          "request_id": {
+            "type": "string",
+            "description": "Unique request identifier for support and debugging.",
+            "example": "8bd6b5784a1e42b79bf172607f476f56"
+          }
+        },
+        "required": [
+          "code",
+          "data",
+          "request_id"
+        ]
+      },
+      "PredictionUsage": {
+        "type": "object",
+        "description": "Billing summary for the prediction. May be omitted while the task is still processing.",
+        "properties": {
+          "upstream_cost": {
+            "type": "number",
+            "format": "double",
+            "description": "Upstream cost before discount, in USD.",
+            "example": 0.039
+          },
+          "discount": {
+            "type": "number",
+            "format": "double",
+            "description": "Discount amount in USD.",
+            "example": 0.00975
+          },
+          "discount_percent": {
+            "type": "number",
+            "format": "double",
+            "description": "Discount rate as a decimal (e.g. `0.75` = 75% off).",
+            "example": 0.75
+          },
+          "cost": {
+            "type": "number",
+            "format": "double",
+            "description": "Final billed cost in USD after discount.",
+            "example": 0.02925
+          }
+        }
+      },
+      "PredictionData": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "Async task ID.",
+            "example": "fa746cb19082452b82fea4f496f4065a"
+          },
+          "task_status": {
+            "type": "string",
+            "description": "Task status, e.g. `processing`, `success`, or `failed`.",
+            "example": "success"
+          },
+          "output": {
+            "type": "array",
+            "description": "Generated outputs when the task succeeds. Item shape depends on `type` (e.g. image URL for `image`).",
+            "items": {
+              "$ref": "#/components/schemas/PredictionOutputItem"
+            }
+          }
+        },
+        "required": [
+          "task_id",
+          "task_status"
+        ]
+      },
+      "PredictionOutputItem": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Output media type, e.g. `image` or `video`.",
+            "example": "image"
+          },
+          "image": {
+            "type": "string",
+            "format": "uri",
+            "description": "Image URL when `type` is `image`. URLs may be time-limited.",
+            "example": "https://cdn.shuyou.ai/model/20a60c33ba954d85a669ee0f24da8e38.png?e=1778427598&token=Lk3Kb36M3K8oq2d5pU6CaYyoud2Au-APFP-ThE8B:cZUtU2t4yclXCeW0X3j0gJ8Oc58="
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}

@@ -1,0 +1,268 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Create Prediction",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": [
+          "Task Management"
+        ],
+        "summary": "Create Prediction",
+        "operationId": "createPrediction",
+        "description": "Submit an asynchronous prediction task for image, video, or audio generation. All capabilities share the same top-level request shape; the `input` object varies by `function`. Poll [Get a prediction](/en/api-reference/task-management/get-prediction) using `data.task_id`, or configure top-level `webhook`.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictionRequest"
+              },
+              "examples": {
+                "image": {
+                  "summary": "Image generation",
+                  "value": {
+                    "model": "gemini-2.5-flash-image",
+                    "function": "image",
+                    "input": {
+                      "prompt": "Generate a ShuYou AI logo",
+                      "aspect_ratio": "1:1",
+                      "resolution": "1K",
+                      "image_urls": [],
+                      "num_images": 1,
+                      "output_format": "png"
+                    },
+                    "webhook": "https://api.shuyou.ai/api/callback"
+                  }
+                },
+                "video": {
+                  "summary": "Video generation",
+                  "value": {
+                    "model": "veo-3.1-lite-generate-preview",
+                    "function": "video",
+                    "input": {
+                      "prompt": "A cinematic shot of a majestic lion in the savannah.",
+                      "aspect_ratio": "16:9",
+                      "resolution": "720P",
+                      "duration": "4"
+                    },
+                    "webhook": "https://api.shuyou.ai/api/callback"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Async task created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictionTaskResponse"
+                },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "402": {
+            "description": "Insufficient quota"
+          },
+          "403": {
+            "description": "Model access denied"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "PredictionRequest": {
+        "type": "object",
+        "required": [
+          "model",
+          "function",
+          "input"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model ID as shown on each model page (may follow `<provider>/<model-name>`).",
+            "example": "gemini-2.5-flash-image"
+          },
+          "function": {
+            "type": "string",
+            "description": "Task type: `image`, `video`, or `audio`.",
+            "enum": [
+              "image",
+              "video",
+              "audio"
+            ],
+            "example": "image"
+          },
+          "input": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ImagePredictionInput"
+              },
+              {
+                "$ref": "#/components/schemas/VideoPredictionInput"
+              },
+              {
+                "$ref": "#/components/schemas/AudioPredictionInput"
+              }
+            ],
+            "description": "Input parameters for the selected `function`. See model pages for supported fields."
+          },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional HTTPS callback URL when task status or results update.",
+            "example": "https://api.shuyou.ai/api/callback"
+          }
+        }
+      },
+      "ImagePredictionInput": {
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "Text prompt describing the image to generate.",
+            "example": "Generate a ShuYou AI logo"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "Aspect ratio such as `1:1`, `16:9`, or `9:16`. Supported values depend on the model.",
+            "example": "1:1"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "Output resolution tier such as `1K` or `2K`. Supported values depend on the model.",
+            "example": "1K"
+          },
+          "image_urls": {
+            "type": "array",
+            "description": "Reference or input image URLs for image-to-image or style reference. Pass `[]` when not needed.",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "default": []
+          },
+          "num_images": {
+            "type": "integer",
+            "description": "Number of images to generate. Default `1`. Actual limit depends on model and quota.",
+            "default": 1,
+            "example": 1
+          },
+          "output_format": {
+            "type": "string",
+            "description": "Output encoding such as `png`, `jpeg`, or `webp`. Uses platform or model default when omitted.",
+            "example": "png"
+          }
+        },
+        "additionalProperties": true
+      },
+      "VideoPredictionInput": {
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "Text prompt describing video content and camera motion.",
+            "example": "A cinematic shot of a majestic lion in the savannah."
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "Aspect ratio such as `16:9`, `9:16`, or `1:1`. Supported values depend on the model.",
+            "example": "16:9"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "Output resolution tier such as `720P` or `1080P`. Supported values depend on the model.",
+            "example": "720P"
+          },
+          "duration": {
+            "type": "string",
+            "description": "Video duration, usually passed as a string seconds value or model-specific enum (e.g. `\"4\"` for 4 seconds).",
+            "example": "4"
+          }
+        },
+        "additionalProperties": true
+      },
+      "AudioPredictionInput": {
+        "type": "object",
+        "description": "Audio input fields (voice, speed, sample rate, etc.) vary by model. See the corresponding model page.",
+        "additionalProperties": true
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "Async task ID. Use with Get a prediction or webhook correlation.",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "Current task status, e.g. `processing`.",
+                "example": "processing"
+              }
+            },
+            "required": [
+              "task_id",
+              "task_status"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      }
+    }
+  }
+}

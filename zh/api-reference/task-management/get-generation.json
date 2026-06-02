@@ -1,0 +1,257 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "查询 Generation",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/generation": {
+      "get": {
+        "tags": [
+          "任务管理"
+        ],
+        "summary": "查询 Generation",
+        "operationId": "getGenerationDetail",
+        "description": "通过 `generation_id` 查询单次调用的元数据、Token 用量、耗时与计费明细。",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "推理或异步任务返回的 Generation ID。",
+            "example": "gen_01abc123def456"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Generation 详情",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerationDetail"
+                },
+                "example": {
+                  "api": "chat.completions",
+                  "generationId": "gen_01abc123def456",
+                  "model": "openai/gpt-4o",
+                  "createAt": "2026-03-26T06:00:00.000Z",
+                  "generationTime": 3200,
+                  "latency": 500,
+                  "usage": {
+                    "prompt_tokens": 12,
+                    "completion_tokens": 222,
+                    "total_tokens": 234,
+                    "prompt_tokens_details": {
+                      "cached_tokens": 0,
+                      "cache_write_tokens": 0,
+                      "audio_tokens": 0,
+                      "video_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                      "reasoning_tokens": 206,
+                      "image_tokens": 0,
+                      "audio_tokens": 0
+                    },
+                    "upstream_cost": 0.0004368,
+                    "discount": 4.368e-05,
+                    "discount_percent": 0.9,
+                    "cost": 0.00039312
+                  },
+                  "streamed": true,
+                  "finishReason": "stop"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数错误"
+          },
+          "401": {
+            "description": "未认证"
+          },
+          "404": {
+            "description": "Generation 不存在"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "GenerationDetail": {
+        "type": "object",
+        "properties": {
+          "api": {
+            "type": "string",
+            "description": "本次调用的 API 路由或协议标识。",
+            "example": "chat.completions"
+          },
+          "generationId": {
+            "type": "string",
+            "description": "唯一 Generation ID。",
+            "example": "gen_01abc123def456"
+          },
+          "model": {
+            "type": "string",
+            "description": "请求使用的模型 slug。",
+            "example": "openai/gpt-4o"
+          },
+          "createAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Generation 创建的 UTC 时间戳。",
+            "example": "2026-03-26T06:00:00.000Z"
+          },
+          "generationTime": {
+            "type": "integer",
+            "description": "总生成耗时（毫秒）。",
+            "example": 3200
+          },
+          "latency": {
+            "type": "integer",
+            "description": "首 token 或初始响应延迟（毫秒）。",
+            "example": 500
+          },
+          "usage": {
+            "$ref": "#/components/schemas/GenerationUsage"
+          },
+          "streamed": {
+            "type": "boolean",
+            "description": "是否为流式响应。",
+            "example": true
+          },
+          "finishReason": {
+            "type": "string",
+            "description": "完成原因，例如 `stop`。",
+            "example": "stop"
+          }
+        },
+        "required": [
+          "api",
+          "generationId",
+          "model",
+          "createAt",
+          "generationTime",
+          "latency",
+          "usage",
+          "streamed",
+          "finishReason"
+        ]
+      },
+      "GenerationUsage": {
+        "type": "object",
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer",
+            "example": 12
+          },
+          "completion_tokens": {
+            "type": "integer",
+            "example": 222
+          },
+          "total_tokens": {
+            "type": "integer",
+            "example": 234
+          },
+          "prompt_tokens_details": {
+            "$ref": "#/components/schemas/PromptTokensDetails"
+          },
+          "completion_tokens_details": {
+            "$ref": "#/components/schemas/CompletionTokensDetails"
+          },
+          "upstream_cost": {
+            "type": "number",
+            "format": "double",
+            "description": "折扣前上游成本（USD）。",
+            "example": 0.0004368
+          },
+          "discount": {
+            "type": "number",
+            "format": "double",
+            "description": "折扣金额（USD）。",
+            "example": 4.368e-05
+          },
+          "discount_percent": {
+            "type": "number",
+            "format": "double",
+            "description": "折扣比例（小数，如 `0.9` 表示 9 折）。",
+            "example": 0.9
+          },
+          "cost": {
+            "type": "number",
+            "format": "double",
+            "description": "折扣后的最终计费金额（USD）。",
+            "example": 0.00039312
+          }
+        },
+        "required": [
+          "prompt_tokens",
+          "completion_tokens",
+          "total_tokens",
+          "upstream_cost",
+          "discount",
+          "discount_percent",
+          "cost"
+        ]
+      },
+      "PromptTokensDetails": {
+        "type": "object",
+        "properties": {
+          "cached_tokens": {
+            "type": "integer",
+            "example": 0
+          },
+          "cache_write_tokens": {
+            "type": "integer",
+            "example": 0
+          },
+          "audio_tokens": {
+            "type": "integer",
+            "example": 0
+          },
+          "video_tokens": {
+            "type": "integer",
+            "example": 0
+          }
+        }
+      },
+      "CompletionTokensDetails": {
+        "type": "object",
+        "properties": {
+          "reasoning_tokens": {
+            "type": "integer",
+            "example": 206
+          },
+          "image_tokens": {
+            "type": "integer",
+            "example": 0
+          },
+          "audio_tokens": {
+            "type": "integer",
+            "example": 0
+          }
+        }
+      }
+    }
+  }
+}

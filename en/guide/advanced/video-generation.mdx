@@ -18,17 +18,24 @@ Video generation models can automatically produce high-quality video content fro
 
 ## API reference
 
-- [Veo 3.1 Video Generation](/en/api-manual/video-series/veo/veo-3-video-generate) — interactive `generateContent` playground
-- [Seedance 2 Video Generation](/en/api-manual/video-series/seedance/seedance-2-video-generate)
-- Async jobs: [Create Prediction](/en/api-manual/task-management/create-prediction) / [Get Prediction](/en/api-manual/task-management/get-prediction)
+- [Doubao Seedance 2.0](/en/api-reference/video-series/seedance/doubao-seedance-2.0-video-generate) — `POST /v1/predictions` (`function: video`)
+- [Doubao Seedance 2.0 Fast](/en/api-reference/video-series/seedance/doubao-seedance-2.0-fast-video-generate) — `POST /v1/predictions` (`function: video`)
+- [HappyHorse 1.0 T2V](/en/api-reference/video-series/happyhorse/happyhorse-1.0-t2v-video-generate) — `POST /v1/predictions` (`function: video`)
+- [HappyHorse 1.0 R2V](/en/api-reference/video-series/happyhorse/happyhorse-1.0-r2v-video-generate) — `POST /v1/predictions` (`function: video`)
+- [HappyHorse 1.0 I2V](/en/api-reference/video-series/happyhorse/happyhorse-1.0-i2v-video-generate) — `POST /v1/predictions` (`function: video`)
+- [HappyHorse 1.0 Video Edit](/en/api-reference/video-series/happyhorse/happyhorse-1.0-video-edit-video-generate) — `POST /v1/predictions` (`function: video`)
+- Task status: [Get a prediction](/en/api-reference/task-management/get-prediction)
 
 ## Supported Models
 
-The currently supported video generation models include (continuously updated):
+The currently supported video generation models in the API reference include (continuously updated):
 
-- `google/veo-3.1-generate-001` — Google Veo 3.1, supports high-quality video generation
-- `volcengine/doubao-seedance-1.5-pro` — ByteDance Seedance 1.5 Pro
-- `volcengine/doubao-seedance-2` — ByteDance Seedance 2, the latest-generation video generation model
+- `doubao-seedance-2.0` — ByteDance Seedance 2.0
+- `doubao-seedance-2.0-fast` — ByteDance Seedance 2.0 Fast
+- `happyhorse-1.0-t2v` — HappyHorse 1.0 T2V
+- `happyhorse-1.0-r2v` — HappyHorse 1.0 R2V
+- `happyhorse-1.0-i2v` — HappyHorse 1.0 I2V
+- `happyhorse-1.0-video-edit` — HappyHorse 1.0 Video Edit
 
 <Tip title="📚 More Models">
 Visit the [ShuYou model list](https://shuyou.ai/models) to search and view all available video generation models.

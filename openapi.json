@@ -542,30 +542,21 @@
         }
       }
     },
-    "/v1/publishers/{provider}/models/{model}:generateContent": {
+    "/v1beta/models/{model}:generateContent": {
       "post": {
         "summary": "Generate Content",
         "operationId": "generateContent",
         "tags": [
-          "Google Vertex AI Compatible API"
+          "Google Compatible API"
         ],
         "parameters": [
-          {
-            "name": "provider",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "google"
-            }
-          },
           {
             "name": "model",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "example": "gemini-2.0-flash"
+              "example": "gemini-3.5-flash"
             }
           }
         ],
@@ -594,30 +585,21 @@
         }
       }
     },
-    "/v1/publishers/{provider}/models/{model}:streamGenerateContent": {
+    "/v1beta/models/{model}:streamGenerateContent": {
       "post": {
         "summary": "Stream Generate Content",
         "operationId": "streamGenerateContent",
         "tags": [
-          "Google Vertex AI Compatible API"
+          "Google Compatible API"
         ],
         "parameters": [
-          {
-            "name": "provider",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "google"
-            }
-          },
           {
             "name": "model",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "example": "gemini-2.0-flash"
+              "example": "gemini-3.5-flash"
             }
           },
           {
@@ -660,7 +642,7 @@
         "summary": "List Google Models",
         "operationId": "listGoogleModels",
         "tags": [
-          "Google Vertex AI Compatible API"
+          "Google Compatible API"
         ],
         "responses": {
           "200": {
@@ -692,19 +674,47 @@
                 "type": "object",
                 "required": [
                   "model",
+                  "function",
                   "input"
                 ],
                 "properties": {
                   "model": {
                     "type": "string",
-                    "example": "replicate/black-forest-labs/flux-schnell"
+                    "example": "gemini-2.5-flash-image"
+                  },
+                  "function": {
+                    "type": "string",
+                    "enum": [
+                      "image",
+                      "video",
+                      "audio"
+                    ],
+                    "example": "image"
                   },
                   "input": {
                     "type": "object",
                     "additionalProperties": true
+                  },
+                  "webhook": {
+                    "type": "string",
+                    "format": "uri",
+                    "example": "https://api.shuyou.ai/api/callback"
                   }
                 },
                 "additionalProperties": true
+              },
+              "example": {
+                "model": "gemini-2.5-flash-image",
+                "function": "image",
+                "input": {
+                  "prompt": "Generate a ShuYou AI logo",
+                  "aspect_ratio": "1:1",
+                  "resolution": "1K",
+                  "image_urls": [],
+                  "num_images": 1,
+                  "output_format": "png"
+                },
+                "webhook": "https://api.shuyou.ai/api/callback"
               }
             }
           }
@@ -717,6 +727,12 @@
                 "schema": {
                   "type": "object",
                   "additionalProperties": true
+                },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
                 }
               }
             }
@@ -738,7 +754,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "example": "pred_abc123"
+              "example": "fa746cb19082452b82fea4f496f4065a"
             }
           }
         ],
@@ -750,6 +766,26 @@
                 "schema": {
                   "type": "object",
                   "additionalProperties": true
+                },
+                "example": {
+                  "code": "0",
+                  "usage": {
+                    "upstream_cost": 0.039,
+                    "discount": 0.00975,
+                    "discount_percent": 0.75,
+                    "cost": 0.02925
+                  },
+                  "data": {
+                    "task_id": "fa746cb19082452b82fea4f496f4065a",
+                    "task_status": "success",
+                    "output": [
+                      {
+                        "type": "image",
+                        "image": "https://cdn.shuyou.ai/model/20a60c33ba954d85a669ee0f24da8e38.png?e=1778427598&token=Lk3Kb36M3K8oq2d5pU6CaYyoud2Au-APFP-ThE8B:cZUtU2t4yclXCeW0X3j0gJ8Oc58="
+                      }
+                    ]
+                  },
+                  "request_id": "8bd6b5784a1e42b79bf172607f476f56"
                 }
               }
             }
@@ -772,6 +808,13 @@
                 "schema": {
                   "type": "object",
                   "additionalProperties": true
+                },
+                "example": {
+                  "data": {
+                    "total_credits": 100,
+                    "total_usage": 25,
+                    "balance": 75
+                  }
                 }
               }
             }
@@ -806,6 +849,36 @@
                 "schema": {
                   "type": "object",
                   "additionalProperties": true
+                },
+                "example": {
+                  "api": "chat.completions",
+                  "generationId": "gen_01abc123def456",
+                  "model": "openai/gpt-4o",
+                  "createAt": "2026-03-26T06:00:00.000Z",
+                  "generationTime": 3200,
+                  "latency": 500,
+                  "usage": {
+                    "prompt_tokens": 12,
+                    "completion_tokens": 222,
+                    "total_tokens": 234,
+                    "prompt_tokens_details": {
+                      "cached_tokens": 0,
+                      "cache_write_tokens": 0,
+                      "audio_tokens": 0,
+                      "video_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                      "reasoning_tokens": 206,
+                      "image_tokens": 0,
+                      "audio_tokens": 0
+                    },
+                    "upstream_cost": 0.0004368,
+                    "discount": 0.00004368,
+                    "discount_percent": 0.9,
+                    "cost": 0.00039312
+                  },
+                  "streamed": true,
+                  "finishReason": "stop"
                 }
               }
             }

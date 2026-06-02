@@ -1,0 +1,129 @@
+---
+title: 创建预测任务
+description: 通过 POST /v1/predictions 提交异步图片、视频或音频预测任务。
+openapi: zh/api-reference/task-management/create-prediction.json POST /v1/predictions
+---
+
+## 通用请求体结构
+
+所有能力共用下列顶层字段；`input` 的形状随 `function` 变化。
+
+| 字段 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `model` | string | 是 | 模型 ID，如各模型详情页所示（可与平台约定的 `<供应商>/<模型名>` 形式一致）。 |
+| `function` | string | 是 | 任务类型：`image`（图片）、`video`（视频）、`audio`（音频）。 |
+| `input` | object | 是 | 与当前 `function` 对应的输入参数，见下文各节。 |
+| `webhook` | string | 否 | 任务状态或结果更新时，服务端回调的 HTTPS URL（如 `https://api.shuyou.ai/api/callback`）。 |
+
+## 一、图片生成（`function: image`）
+
+用于文生图、参考图生图等场景。下列字段位于请求体中的 `input` 对象内。
+
+<ParamField body="input.prompt" type="string" required>
+  图像生成的文本描述（提示词）。
+</ParamField>
+
+<ParamField body="input.aspect_ratio" type="string">
+  画幅比例，如 `1:1`、`16:9`、`9:16` 等。具体取值以所选模型文档为准。
+</ParamField>
+
+<ParamField body="input.resolution" type="string">
+  输出分辨率档位，如 `1K`、`2K` 等。具体取值以所选模型文档为准。
+</ParamField>
+
+<ParamField body="input.image_urls" type="array">
+  参考图或输入图 URL 列表（字符串数组），用于图生图或风格参考；不需要时可传空数组 `[]`。
+</ParamField>
+
+<ParamField body="input.num_images" type="integer">
+  生成图片张数；默认为 `1`。实际上限取决于模型与配额。
+</ParamField>
+
+<ParamField body="input.output_format" type="string">
+  输出编码格式，如 `png`、`jpeg`、`webp` 等；未传时由平台或模型使用默认格式。
+</ParamField>
+
+<Tip>
+  不同 `model` 对上述字段的支持范围可能不同，请以模型详情页为准；未支持的字段可能被忽略或返回参数错误。
+</Tip>
+
+<RequestExample>
+
+```json 图片请求
+{
+  "model": "gemini-2.5-flash-image",
+  "function": "image",
+  "input": {
+    "prompt": "生成一个 ShuYou AI logo",
+    "aspect_ratio": "1:1",
+    "resolution": "1K",
+    "image_urls": [],
+    "num_images": 1,
+    "output_format": "png"
+  },
+  "webhook": "https://api.shuyou.ai/api/callback"
+}
+```
+
+</RequestExample>
+
+## 二、视频生成（`function: video`）
+
+用于文生视频等场景。下列字段位于请求体中的 `input` 对象内；不同 `model` 支持的取值范围可能不同（如分辨率档位、可选时长），请以模型详情页为准。
+
+<ParamField body="input.prompt" type="string" required>
+  视频内容与镜头的文本描述（提示词）。
+</ParamField>
+
+<ParamField body="input.aspect_ratio" type="string">
+  画幅比例，如 `16:9`、`9:16`、`1:1` 等。具体取值以所选模型文档为准。
+</ParamField>
+
+<ParamField body="input.resolution" type="string">
+  输出视频分辨率档位，如 `720P`、`1080P` 等。具体取值以所选模型文档为准。
+</ParamField>
+
+<ParamField body="input.duration" type="string">
+  生成视频时长，一般以字符串形式传入秒数或模型约定的枚举（例如 `"4"` 表示 4 秒）。支持的档位因模型而异。
+</ParamField>
+
+<Tip>
+  若某字段对当前 `model` 无效，可能被忽略或触发参数校验错误；扩展字段（如首帧图 URL）以各模型文档为准。
+</Tip>
+
+<RequestExample>
+
+```json 视频请求
+{
+  "model": "veo-3.1-lite-generate-preview",
+  "function": "video",
+  "input": {
+    "prompt": "A cinematic shot of a majestic lion in the savannah.",
+    "aspect_ratio": "16:9",
+    "resolution": "720P",
+    "duration": "4"
+  },
+  "webhook": "https://api.shuyou.ai/api/callback"
+}
+```
+
+</RequestExample>
+
+## 三、音频生成（`function: audio`）
+
+音频能力的 `input` 字段（如文本转语音的音色、语速、采样率等）因模型而异。本节参数说明与示例将在后续版本补充；接入时请优先查阅对应 `model` 的详情页或控制台说明。
+
+<ResponseExample>
+
+```json 响应
+{
+  "data": {
+    "task_id": "2c4d50261173430290971a2395a3b607",
+    "task_status": "processing"
+  }
+}
+```
+
+</ResponseExample>
+
+使用 `data.task_id` 调用 [Get a prediction](/zh/api-reference/task-management/get-prediction) 查询任务状态。

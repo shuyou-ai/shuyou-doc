@@ -1,0 +1,236 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Get Generation",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/generation": {
+      "get": {
+        "tags": [
+          "Task Management"
+        ],
+        "summary": "Get Generation",
+        "operationId": "getGenerationDetail",
+        "description": "Query generation metadata, token usage, latency, and billing details by `generation_id`.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Generation ID returned from inference or async jobs.",
+            "example": "gen_01abc123def456"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Generation detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerationDetail"
+                },
+                "example": {
+                  "api": "chat.completions",
+                  "generationId": "gen_01abc123def456",
+                  "model": "openai/gpt-4o",
+                  "createAt": "2026-03-26T06:00:00.000Z",
+                  "generationTime": 3200,
+                  "latency": 500,
+                  "usage": {
+                    "prompt_tokens": 12,
+                    "completion_tokens": 222,
+                    "total_tokens": 234,
+                    "prompt_tokens_details": {
+                      "cached_tokens": 0,
+                      "cache_write_tokens": 0,
+                      "audio_tokens": 0,
+                      "video_tokens": 0
+                    },
+                    "completion_tokens_details": {
+                      "reasoning_tokens": 206,
+                      "image_tokens": 0,
+                      "audio_tokens": 0
+                    },
+                    "upstream_cost": 0.0004368,
+                    "discount": 0.00004368,
+                    "discount_percent": 0.9,
+                    "cost": 0.00039312
+                  },
+                  "streamed": true,
+                  "finishReason": "stop"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Generation not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "GenerationDetail": {
+        "type": "object",
+        "properties": {
+          "api": {
+            "type": "string",
+            "description": "API route or protocol identifier for the generation.",
+            "example": "chat.completions"
+          },
+          "generationId": {
+            "type": "string",
+            "description": "Unique generation ID.",
+            "example": "gen_01abc123def456"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model slug used for the request.",
+            "example": "openai/gpt-4o"
+          },
+          "createAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "UTC timestamp when the generation was created.",
+            "example": "2026-03-26T06:00:00.000Z"
+          },
+          "generationTime": {
+            "type": "integer",
+            "description": "Total generation time in milliseconds.",
+            "example": 3200
+          },
+          "latency": {
+            "type": "integer",
+            "description": "Time to first token or initial response latency in milliseconds.",
+            "example": 500
+          },
+          "usage": {
+            "$ref": "#/components/schemas/GenerationUsage"
+          },
+          "streamed": {
+            "type": "boolean",
+            "description": "Whether the response was streamed.",
+            "example": true
+          },
+          "finishReason": {
+            "type": "string",
+            "description": "Completion finish reason, e.g. `stop`.",
+            "example": "stop"
+          }
+        },
+        "required": [
+          "api",
+          "generationId",
+          "model",
+          "createAt",
+          "generationTime",
+          "latency",
+          "usage",
+          "streamed",
+          "finishReason"
+        ]
+      },
+      "GenerationUsage": {
+        "type": "object",
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer",
+            "example": 12
+          },
+          "completion_tokens": {
+            "type": "integer",
+            "example": 222
+          },
+          "total_tokens": {
+            "type": "integer",
+            "example": 234
+          },
+          "prompt_tokens_details": {
+            "$ref": "#/components/schemas/PromptTokensDetails"
+          },
+          "completion_tokens_details": {
+            "$ref": "#/components/schemas/CompletionTokensDetails"
+          },
+          "upstream_cost": {
+            "type": "number",
+            "format": "double",
+            "description": "Upstream cost before discount, in USD.",
+            "example": 0.0004368
+          },
+          "discount": {
+            "type": "number",
+            "format": "double",
+            "description": "Discount amount in USD.",
+            "example": 0.00004368
+          },
+          "discount_percent": {
+            "type": "number",
+            "format": "double",
+            "description": "Discount rate as a decimal (e.g. `0.9` = 90% off).",
+            "example": 0.9
+          },
+          "cost": {
+            "type": "number",
+            "format": "double",
+            "description": "Final billed cost in USD after discount.",
+            "example": 0.00039312
+          }
+        },
+        "required": [
+          "prompt_tokens",
+          "completion_tokens",
+          "total_tokens",
+          "upstream_cost",
+          "discount",
+          "discount_percent",
+          "cost"
+        ]
+      },
+      "PromptTokensDetails": {
+        "type": "object",
+        "properties": {
+          "cached_tokens": { "type": "integer", "example": 0 },
+          "cache_write_tokens": { "type": "integer", "example": 0 },
+          "audio_tokens": { "type": "integer", "example": 0 },
+          "video_tokens": { "type": "integer", "example": 0 }
+        }
+      },
+      "CompletionTokensDetails": {
+        "type": "object",
+        "properties": {
+          "reasoning_tokens": { "type": "integer", "example": 206 },
+          "image_tokens": { "type": "integer", "example": 0 },
+          "audio_tokens": { "type": "integer", "example": 0 }
+        }
+      }
+    }
+  }
+}

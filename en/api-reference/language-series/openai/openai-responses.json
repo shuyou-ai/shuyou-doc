@@ -1,0 +1,661 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Create a Response", "version": "1.0.0" },
+  "servers": [{ "url": "https://api.shuyou.ai" }],
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/v1/responses": {
+      "post": {
+        "tags": ["OpenAI Compatible API"],
+        "summary": "Create a Response",
+        "operationId": "createResponse",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateResponseRequest" },
+              "examples": {
+                "simple": {
+                  "summary": "Text input",
+                  "value": {
+                    "model": "openai/gpt-5.5-pro",
+                    "input": "Hello!"
+                  }
+                },
+                "instructions": {
+                  "summary": "With instructions",
+                  "value": {
+                    "model": "openai/gpt-5.5-pro",
+                    "instructions": "You are a helpful assistant.",
+                    "input": "Hello!"
+                  }
+                },
+                "messages": {
+                  "summary": "Message items",
+                  "value": {
+                    "model": "openai/gpt-5.5-pro",
+                    "input": [
+                      {
+                        "type": "message",
+                        "role": "developer",
+                        "content": "You are a helpful assistant."
+                      },
+                      {
+                        "type": "message",
+                        "role": "user",
+                        "content": [{ "type": "input_text", "text": "Hello!" }]
+                      }
+                    ]
+                  }
+                },
+                "stream": {
+                  "summary": "Streaming",
+                  "value": {
+                    "model": "openai/gpt-5.5-pro",
+                    "input": "Hello!",
+                    "stream": true
+                  }
+                },
+                "tools": {
+                  "summary": "Function tool",
+                  "value": {
+                    "model": "openai/gpt-5.5-pro",
+                    "input": "What is the weather in Boston?",
+                    "tools": [
+                      {
+                        "type": "function",
+                        "name": "get_current_weather",
+                        "description": "Get the current weather in a given location",
+                        "parameters": {
+                          "type": "object",
+                          "properties": {
+                            "location": { "type": "string" }
+                          },
+                          "required": ["location"]
+                        }
+                      }
+                    ],
+                    "tool_choice": "auto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response object, or SSE stream when `stream` is true",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Response" },
+                "example": {
+                  "id": "resp_example",
+                  "object": "response",
+                  "created_at": 1741569952,
+                  "status": "completed",
+                  "model": "openai/gpt-5.5-pro",
+                  "output": [
+                    {
+                      "type": "message",
+                      "id": "msg_example",
+                      "role": "assistant",
+                      "status": "completed",
+                      "content": [
+                        {
+                          "type": "output_text",
+                          "text": "Hello! How can I help you today?",
+                          "annotations": []
+                        }
+                      ]
+                    }
+                  ],
+                  "usage": {
+                    "input_tokens": 19,
+                    "output_tokens": 10,
+                    "total_tokens": 29
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid request" },
+          "401": { "description": "Unauthorized" },
+          "429": { "description": "Rate limit exceeded" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "CreateResponseRequest": {
+        "type": "object",
+        "required": ["model"],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model ID (`provider/model_name`). Use the `slug` from List Models.",
+            "example": "openai/gpt-5.5-pro"
+          },
+          "input": {
+            "oneOf": [
+              { "type": "string", "description": "Plain-text input (equivalent to a single user message)." },
+              {
+                "type": "array",
+                "description": "List of input items (messages, tool calls/outputs, item references, etc.).",
+                "items": { "$ref": "#/components/schemas/ResponseInputItem" }
+              }
+            ]
+          },
+          "instructions": {
+            "type": "string",
+            "description": "System/developer instructions. Not carried over when using `previous_response_id`."
+          },
+          "previous_response_id": {
+            "type": "string",
+            "description": "ID of the previous response for multi-turn conversations. Cannot be used with `conversation`."
+          },
+          "conversation": {
+            "oneOf": [
+              { "type": "string", "description": "Conversation ID." },
+              {
+                "type": "object",
+                "required": ["id"],
+                "properties": { "id": { "type": "string" } }
+              }
+            ],
+            "description": "Associates this response with a conversation."
+          },
+          "prompt": {
+            "type": "object",
+            "description": "Reference a prompt template and variables.",
+            "required": ["id"],
+            "properties": {
+              "id": { "type": "string" },
+              "version": { "type": "string" },
+              "variables": { "type": "object", "additionalProperties": true }
+            }
+          },
+          "include": {
+            "type": "array",
+            "description": "Additional output data to include in the response.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "web_search_call.action.sources",
+                "computer_call_output.output.image_url",
+                "message.input_image.image_url",
+                "message.output_text.logprobs",
+                "reasoning.encrypted_content"
+              ]
+            }
+          },
+          "max_output_tokens": {
+            "type": "integer",
+            "description": "Upper bound for generated tokens, including visible output and reasoning tokens."
+          },
+          "max_tool_calls": {
+            "type": "integer",
+            "description": "Maximum total built-in tool calls processed in this response."
+          },
+          "parallel_tool_calls": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether to allow parallel tool calls."
+          },
+          "reasoning": {
+            "type": "object",
+            "description": "Reasoning model configuration.",
+            "properties": {
+              "effort": {
+                "type": "string",
+                "enum": ["none", "minimal", "low", "medium", "high", "xhigh"]
+              },
+              "summary": {
+                "type": "string",
+                "enum": ["auto", "concise", "detailed"]
+              }
+            }
+          },
+          "text": {
+            "type": "object",
+            "description": "Text output configuration (plain text or structured JSON).",
+            "properties": {
+              "format": {
+                "oneOf": [
+                  { "type": "object", "required": ["type"], "properties": { "type": { "enum": ["text"] } } },
+                  { "type": "object", "required": ["type"], "properties": { "type": { "enum": ["json_object"] } } },
+                  {
+                    "type": "object",
+                    "required": ["type", "name", "schema"],
+                    "properties": {
+                      "type": { "enum": ["json_schema"] },
+                      "name": { "type": "string" },
+                      "schema": { "type": "object" },
+                      "description": { "type": "string" },
+                      "strict": { "type": "boolean" }
+                    }
+                  }
+                ]
+              },
+              "verbosity": {
+                "type": "string",
+                "enum": ["low", "medium", "high"]
+              }
+            }
+          },
+          "temperature": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2,
+            "default": 1
+          },
+          "top_p": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          },
+          "top_logprobs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 20
+          },
+          "truncation": {
+            "type": "string",
+            "enum": ["auto", "disabled"],
+            "default": "disabled",
+            "description": "Context truncation when input exceeds the context window."
+          },
+          "tools": {
+            "type": "array",
+            "description": "Tools the model may call. ShuYou does not support `file_search`, `code_interpreter`, or `image_generation` tools.",
+            "items": { "$ref": "#/components/schemas/ResponseTool" }
+          },
+          "tool_choice": {
+            "oneOf": [
+              { "type": "string", "enum": ["none", "auto", "required"] },
+              { "$ref": "#/components/schemas/ResponseToolChoiceObject" }
+            ]
+          },
+          "store": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether to store the response for later retrieval."
+          },
+          "stream": {
+            "type": "boolean",
+            "default": false,
+            "description": "Stream the response via server-sent events."
+          },
+          "stream_options": {
+            "type": "object",
+            "properties": {
+              "include_obfuscation": { "type": "boolean" },
+              "include_usage": { "type": "boolean" }
+            }
+          },
+          "prompt_cache_key": {
+            "type": "string",
+            "description": "Cache key for similar requests (replaces legacy `user`)."
+          },
+          "prompt_cache_retention": {
+            "type": "string",
+            "enum": ["in_memory", "24h"]
+          },
+          "safety_identifier": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Stable hashed user identifier for abuse detection."
+          },
+          "provider": {
+            "type": "object",
+            "description": "ShuYou: multi-provider routing.",
+            "properties": {
+              "routing": { "$ref": "#/components/schemas/ProviderRouting" },
+              "fallback": { "type": "string" }
+            },
+            "required": ["routing"]
+          },
+          "model_routing_config": {
+            "type": "object",
+            "description": "ShuYou: model selection within a provider.",
+            "properties": {
+              "available_models": { "type": "array", "items": { "type": "string" } },
+              "preference": { "type": "string" },
+              "task_info": {
+                "type": "object",
+                "properties": {
+                  "task_type": { "type": "string", "enum": ["chat", "completion", "embedding"] },
+                  "complexity": { "type": "string", "enum": ["low", "medium", "high"] }
+                }
+              }
+            },
+            "required": ["available_models"]
+          }
+        }
+      },
+      "ResponseInputItem": {
+        "oneOf": [
+          { "$ref": "#/components/schemas/InputMessage" },
+          { "$ref": "#/components/schemas/FunctionCallItem" },
+          { "$ref": "#/components/schemas/FunctionCallOutputItem" },
+          { "$ref": "#/components/schemas/CustomToolCallItem" },
+          { "$ref": "#/components/schemas/CustomToolCallOutputItem" },
+          { "$ref": "#/components/schemas/ItemReference" }
+        ]
+      },
+      "InputMessage": {
+        "type": "object",
+        "required": ["role", "content"],
+        "properties": {
+          "type": { "type": "string", "enum": ["message"], "default": "message" },
+          "role": {
+            "type": "string",
+            "enum": ["user", "assistant", "system", "developer"]
+          },
+          "content": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/ResponseInputContentPart" }
+              }
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["in_progress", "completed", "incomplete"]
+          },
+          "phase": {
+            "type": "string",
+            "enum": ["commentary", "final_answer"],
+            "description": "Assistant message phase (preserve in follow-up requests)."
+          }
+        }
+      },
+      "ResponseInputContentPart": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["type", "text"],
+            "properties": {
+              "type": { "enum": ["input_text"] },
+              "text": { "type": "string" }
+            }
+          },
+          {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": { "enum": ["input_image"] },
+              "image_url": { "type": "string" },
+              "file_id": { "type": "string" },
+              "detail": { "type": "string", "enum": ["low", "high", "auto", "original"] }
+            }
+          },
+          {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": { "enum": ["input_file"] },
+              "file_id": { "type": "string" },
+              "file_data": { "type": "string" },
+              "file_url": { "type": "string" },
+              "filename": { "type": "string" },
+              "detail": { "type": "string", "enum": ["low", "high"] }
+            }
+          }
+        ]
+      },
+      "FunctionCallItem": {
+        "type": "object",
+        "required": ["type", "call_id", "name", "arguments"],
+        "properties": {
+          "type": { "enum": ["function_call"] },
+          "call_id": { "type": "string" },
+          "name": { "type": "string" },
+          "arguments": { "type": "string" },
+          "id": { "type": "string" },
+          "status": { "type": "string", "enum": ["in_progress", "completed", "incomplete"] }
+        }
+      },
+      "FunctionCallOutputItem": {
+        "type": "object",
+        "required": ["type", "call_id", "output"],
+        "properties": {
+          "type": { "enum": ["function_call_output"] },
+          "call_id": { "type": "string" },
+          "output": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "$ref": "#/components/schemas/ResponseInputContentPart" } }
+            ]
+          },
+          "id": { "type": "string" },
+          "status": { "type": "string", "enum": ["in_progress", "completed", "incomplete"] }
+        }
+      },
+      "CustomToolCallItem": {
+        "type": "object",
+        "required": ["type", "call_id", "name", "input"],
+        "properties": {
+          "type": { "enum": ["custom_tool_call"] },
+          "call_id": { "type": "string" },
+          "name": { "type": "string" },
+          "input": { "type": "string" },
+          "id": { "type": "string" }
+        }
+      },
+      "CustomToolCallOutputItem": {
+        "type": "object",
+        "required": ["type", "call_id", "output"],
+        "properties": {
+          "type": { "enum": ["custom_tool_call_output"] },
+          "call_id": { "type": "string" },
+          "output": { "type": "string" },
+          "id": { "type": "string" }
+        }
+      },
+      "ItemReference": {
+        "type": "object",
+        "required": ["type", "id"],
+        "properties": {
+          "type": { "enum": ["item_reference"] },
+          "id": { "type": "string" }
+        }
+      },
+      "ResponseTool": {
+        "oneOf": [
+          { "$ref": "#/components/schemas/FunctionTool" },
+          { "$ref": "#/components/schemas/WebSearchTool" },
+          { "$ref": "#/components/schemas/WebSearchPreviewTool" },
+          { "$ref": "#/components/schemas/ComputerUsePreviewTool" },
+          { "$ref": "#/components/schemas/ApplyPatchTool" },
+          { "$ref": "#/components/schemas/McpTool" },
+          { "$ref": "#/components/schemas/ShellTool" },
+          { "$ref": "#/components/schemas/LocalShellTool" },
+          { "$ref": "#/components/schemas/CustomTool" }
+        ]
+      },
+      "FunctionTool": {
+        "type": "object",
+        "required": ["type", "name", "parameters"],
+        "properties": {
+          "type": { "enum": ["function"] },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "parameters": { "type": "object" },
+          "strict": { "type": "boolean", "default": true }
+        }
+      },
+      "WebSearchTool": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": { "enum": ["web_search", "web_search_2025_08_26"] },
+          "search_context_size": { "type": "string", "enum": ["low", "medium", "high"] },
+          "filters": {
+            "type": "object",
+            "properties": {
+              "allowed_domains": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "user_location": { "$ref": "#/components/schemas/UserLocation" }
+        }
+      },
+      "WebSearchPreviewTool": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": { "enum": ["web_search_preview", "web_search_preview_2025_03_11"] },
+          "search_context_size": { "type": "string", "enum": ["low", "medium", "high"] },
+          "user_location": { "$ref": "#/components/schemas/UserLocation" }
+        }
+      },
+      "ComputerUsePreviewTool": {
+        "type": "object",
+        "required": ["type", "display_width", "display_height", "environment"],
+        "properties": {
+          "type": { "enum": ["computer_use_preview"] },
+          "display_width": { "type": "integer" },
+          "display_height": { "type": "integer" },
+          "environment": {
+            "type": "string",
+            "enum": ["windows", "mac", "linux", "ubuntu", "browser"]
+          }
+        }
+      },
+      "ApplyPatchTool": {
+        "type": "object",
+        "required": ["type"],
+        "properties": { "type": { "enum": ["apply_patch"] } }
+      },
+      "McpTool": {
+        "type": "object",
+        "required": ["type", "server_label"],
+        "properties": {
+          "type": { "enum": ["mcp"] },
+          "server_label": { "type": "string" },
+          "server_url": { "type": "string" },
+          "authorization": { "type": "string" },
+          "allowed_tools": {
+            "oneOf": [
+              { "type": "array", "items": { "type": "string" } },
+              {
+                "type": "object",
+                "properties": {
+                  "read_only": { "type": "boolean" },
+                  "tool_names": { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            ]
+          },
+          "require_approval": {
+            "oneOf": [
+              { "type": "string", "enum": ["always", "never"] },
+              { "type": "object" }
+            ]
+          }
+        }
+      },
+      "ShellTool": {
+        "type": "object",
+        "required": ["type"],
+        "properties": { "type": { "enum": ["shell"] } }
+      },
+      "LocalShellTool": {
+        "type": "object",
+        "required": ["type"],
+        "properties": { "type": { "enum": ["local_shell"] } }
+      },
+      "CustomTool": {
+        "type": "object",
+        "required": ["type", "name"],
+        "properties": {
+          "type": { "enum": ["custom"] },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "format": { "type": "object" }
+        }
+      },
+      "UserLocation": {
+        "type": "object",
+        "properties": {
+          "type": { "enum": ["approximate"] },
+          "city": { "type": "string" },
+          "country": { "type": "string" },
+          "region": { "type": "string" },
+          "timezone": { "type": "string" }
+        }
+      },
+      "ResponseToolChoiceObject": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "function",
+              "mcp",
+              "custom",
+              "web_search_preview",
+              "computer_use_preview",
+              "apply_patch",
+              "shell",
+              "allowed_tools"
+            ]
+          },
+          "name": { "type": "string" },
+          "server_label": { "type": "string" },
+          "mode": { "type": "string", "enum": ["auto", "required"] },
+          "tools": { "type": "array", "items": { "type": "object" } }
+        }
+      },
+      "ProviderRouting": {
+        "type": "object",
+        "required": ["type", "providers"],
+        "properties": {
+          "type": { "type": "string", "enum": ["priority", "round_robin", "least_latency"] },
+          "primary_factor": { "type": "string", "enum": ["cost", "speed", "quality"] },
+          "providers": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "Response": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "object": { "type": "string", "enum": ["response"] },
+          "created_at": { "type": "integer" },
+          "status": {
+            "type": "string",
+            "enum": ["completed", "failed", "in_progress", "incomplete", "cancelled", "queued"]
+          },
+          "model": { "type": "string" },
+          "output": {
+            "type": "array",
+            "items": { "type": "object", "additionalProperties": true }
+          },
+          "usage": { "$ref": "#/components/schemas/ResponseUsage" },
+          "error": { "type": "object" },
+          "incomplete_details": { "type": "object" }
+        }
+      },
+      "ResponseUsage": {
+        "type": "object",
+        "properties": {
+          "input_tokens": { "type": "integer" },
+          "output_tokens": { "type": "integer" },
+          "total_tokens": { "type": "integer" },
+          "input_tokens_details": { "type": "object" },
+          "output_tokens_details": { "type": "object" }
+        }
+      }
+    }
+  }
+}

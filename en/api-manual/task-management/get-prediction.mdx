@@ -1,9 +1,0 @@
----
-title: Get Prediction
-description: Poll an asynchronous prediction job by ID.
-openapi: en/api-manual/task-management/get-prediction.json GET /v1/predictions/{prediction_id}
----
-
-> - Poll after [Create Prediction](/en/api-manual/task-management/create-prediction)
-> - When `status` is `succeeded`, read generated assets from `output`
-> - Save output URLs promptly; retention depends on the upstream provider

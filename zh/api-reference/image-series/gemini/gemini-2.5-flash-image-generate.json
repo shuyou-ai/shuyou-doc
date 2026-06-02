@@ -1,0 +1,318 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Gemini 2.5 Flash Image 图像生成（Nano Banana）",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.shuyou.ai"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "tags": [
+          "图像生成"
+        ],
+        "summary": "Gemini 2.5 Flash Image 图像生成（Nano Banana）",
+        "operationId": "createGemini25FlashImagePrediction",
+        "description": "Nano Banana（`gemini-2.5-flash-image`）支持文生图、图生图、图像编辑。使用 `input.aspect_ratio` 等文档所列字段（本模型无 `resolution` 参数）。异步：用 `data.task_id` 查询预测任务，或配置顶层 `webhook`。图像链接 24 小时有效。",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Gemini25FlashImagePredictionRequest"
+              },
+              "examples": {
+                "text_to_image": {
+                  "summary": "文生图（最简）",
+                  "value": {
+                    "model": "gemini-2.5-flash-image",
+                    "function": "image",
+                    "input": {
+                      "prompt": "一只猫在草地上玩耍"
+                    }
+                  }
+                },
+                "text_to_image_sized": {
+                  "summary": "文生图（aspect_ratio）",
+                  "value": {
+                    "model": "gemini-2.5-flash-image",
+                    "function": "image",
+                    "input": {
+                      "prompt": "黄昏时分未来都市天际线的电影级广角镜头",
+                      "aspect_ratio": "16:9"
+                    }
+                  }
+                },
+                "image_edit": {
+                  "summary": "图生图 / 图像编辑",
+                  "value": {
+                    "model": "gemini-2.5-flash-image",
+                    "function": "image",
+                    "input": {
+                      "prompt": "将场景改为水彩风格",
+                      "aspect_ratio": "1:1",
+                      "image_urls": [
+                        "https://example.com/reference.png"
+                      ]
+                    },
+                    "webhook": "https://your-domain.com/webhook/image-done"
+                  }
+                },
+                "with_output_format": {
+                  "summary": "含 output_format",
+                  "value": {
+                    "model": "gemini-2.5-flash-image",
+                    "function": "image",
+                    "input": {
+                      "prompt": "生成一个 ShuYou AI logo，简约风格",
+                      "aspect_ratio": "1:1",
+                      "num_images": 1,
+                      "output_format": "png",
+                      "image_urls": []
+                    },
+                    "webhook": "https://api.shuyou.ai/api/callback"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "异步任务已创建",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictionTaskResponse"
+                },
+                "example": {
+                  "data": {
+                    "task_id": "2c4d50261173430290971a2395a3b607",
+                    "task_status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "未认证",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "配额不足",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "无权限访问",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "请求频率超限",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "服务器内部错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`Authorization: Bearer YOUR_API_KEY`"
+      }
+    },
+    "schemas": {
+      "Gemini25FlashImagePredictionRequest": {
+        "type": "object",
+        "required": [
+          "model",
+          "function",
+          "input"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型 ID。本接口请使用 `gemini-2.5-flash-image`（别名 Nano Banana）。",
+            "enum": [
+              "gemini-2.5-flash-image"
+            ],
+            "default": "gemini-2.5-flash-image",
+            "example": "gemini-2.5-flash-image"
+          },
+          "function": {
+            "type": "string",
+            "description": "任务类型。图像生成必须为 `image`。",
+            "enum": [
+              "image"
+            ],
+            "example": "image"
+          },
+          "input": {
+            "$ref": "#/components/schemas/Gemini25FlashImageInput"
+          },
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "description": "可选。任务完成、失败或取消时的 HTTPS 回调地址（Predictions API 顶层字段）。"
+          }
+        }
+      },
+      "Gemini25FlashImageInput": {
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "提示词，描述要生成的图像或如何编辑参考图。最多 2000 token。",
+            "maxLength": 2000,
+            "example": "一只猫在草地上玩耍"
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "description": "生成图像的宽高比，默认值为 `auto`。",
+            "enum": [
+              "auto",
+              "1:1",
+              "2:3",
+              "3:2",
+              "4:3",
+              "3:4",
+              "16:9",
+              "9:16"
+            ],
+            "default": "auto",
+            "example": "auto"
+          },
+          "image_urls": {
+            "type": "array",
+            "description": "参考图 URL，用于图生图与编辑。单次最多 14 张，单张不超过 20MB；支持 `.jpeg`、`.jpg`、`.png`、`.webp`。",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "minItems": 0,
+            "maxItems": 14,
+            "example": [
+              "https://example.com/image1.png"
+            ]
+          },
+          "num_images": {
+            "type": "integer",
+            "description": "生成图片张数（模型支持批量时）。",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 1,
+            "example": 1
+          },
+          "output_format": {
+            "type": "string",
+            "description": "输出格式，如 `png`、`jpeg`、`webp`。",
+            "example": "png"
+          }
+        }
+      },
+      "PredictionTaskResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "description": "异步任务 ID，用于查询预测任务或关联 webhook。",
+                "example": "2c4d50261173430290971a2395a3b607"
+              },
+              "task_status": {
+                "type": "string",
+                "description": "任务当前状态，如 `processing`。",
+                "example": "processing"
+              }
+            },
+            "required": [
+              "task_id",
+              "task_status"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
